@@ -1,0 +1,35 @@
+.div-card-header {
+  height: 130px; 
+  text-align: center;
+  line-height: 130px;
+}
+
+.div-card-header-pendente {
+  background-color: #FF8C00;
+}
+
+.div-card-header-preparando {
+  background-color: blue;
+}
+
+.div-card-header-concluido {
+  background-color: green;
+}
+
+.div-card-header-cancelado {
+  background-color: red;
+}
+
+.span-card-header {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+}
+
+.div-card-produtos {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}

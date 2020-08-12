@@ -1,0 +1,141 @@
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#lblCardapio {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(112, 123, 129);
+  position: relative;
+  left: 5px;
+}
+
+#spanNomeCardapio {
+  color: rgb(112, 123, 129);
+  font-weight: bold;
+  padding-left: 10px;
+}
+
+.container-cardapio {
+  height: 100%;
+  width:100%;
+}
+
+.container-content-cardapio {
+  height: 85%;
+  width:100%;
+  margin-top: 40px;
+}
+
+.header-cardapio {
+  width: 100%;
+  padding-bottom: 10px;
+}
+
+.content-cardapio {
+  height: 100%;
+  width: 95%; 
+  margin: 0px auto; 
+  padding: 15px;
+  border-radius: 10px !important;
+  background-color: white;
+}
+
+.container-txt-busca {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.txt-busca {
+  width: 100%; 
+  margin-bottom: 10px;
+  border: 1px solid #d6d6d6 !important;
+}
+
+.MuiFilledInput-root {
+  background-color: white !important;
+}
+
+.MuiFilledInput-underline:before {
+  content: none !important;
+}
+
+.MuiFilledInput-underline:after {
+  content: none !important;
+}
+
+.MuiFormLabel-root.Mui-focused {
+  color: rgba(0, 0, 0, 0.54) !important;
+}
+
+.container-lista-cardapios {
+  height: 60px; 
+  width: 100%; 
+  border-bottom: 1px solid #d6d6d6;
+  position: relative;
+  cursor: pointer;
+}
+
+.status-item {
+  display: inline-block;
+  height: 100%;
+  width: 0.4%;
+}
+
+.status-ativo {
+  background-color: green;
+}
+
+.status-inativo {
+  background-color: red;
+}
+
+.content-lista-cardapios {
+  height: 100%;
+  width: 99.6%;
+  float: right;
+}
+
+.content-lista-cardapios:hover {
+  background-color: #D8D8D8;
+  transition-delay: 0.5s;
+  transition: 0.5s all; 
+}
+
+.label-item-cardapio {
+  margin: auto; 
+  width: 95%; 
+  padding: 19px 0 0 5px; 
+  display: inline-block;
+  position: relative;
+}
+
+.btns-item-cardapio {
+  margin: auto; 
+  width: 5%; 
+  display: inline-block;
+  position: relative;
+  bottom: 38%;
+}
+
+.btn-add-cardapio {
+  float: right; 
+  position: relative; 
+  left: -90px;
+  top: -95px;
+  background-color: rgb(183, 28, 28) !important;
+  color: white !important;
+}
+
+.btn-remover-cardapio {
+  position: absolute !important; 
+  right: 10px;
+  box-shadow: 0 0 0 0 !important;
+  background-color: transparent !important;
+}

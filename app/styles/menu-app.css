@@ -1,0 +1,20 @@
+.app-bar {
+    background-color:#008ECC !important;
+}
+
+.menu-item {
+    color:white !important;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu-item:hover {
+    color:white;
+    padding-bottom: 5px;
+    border-bottom: 2px solid white;
+    background-color: transparent !important;
+}
+
+.icon-menu {
+    margin-left: -12px;
+    margin-right: 20px;
+}

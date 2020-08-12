@@ -1,0 +1,14 @@
+.container {
+    height: 100%;
+    width: 100%;
+    background: url("../../images/home_background.jpg");
+    background-repeat:no-repeat;
+    background-size:cover;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+    /*background-color: rgba(0, 0, 0, 0.5);*/
+    position: absolute;
+}

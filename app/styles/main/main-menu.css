@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+}
+
+ul {
+  margin: 0 auto;
+  list-style-type: none;
+  font-weight: bold;
+  height: 100px;
+  width: 85%;
+  padding: 20px 0 0 0;
+}
+
+li {
+  height:100%;
+}
+
+li div {
+  display:table-cell;
+  vertical-align : middle;
+}
+
+li a {
+  position: relative;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.96rem;
+  line-height: 2rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin: 0px 30px;
+}
+
+li a:hover:not(#logo):not(#main) {
+  padding-bottom: 5px;
+  border-bottom: 2px solid white;
+}
+
+#main {
+  padding-bottom: 5px;
+  border-bottom: 2px solid white;
+}
+
+#main:hover {
+  padding-bottom: 6px;
+  border-bottom: 2px solid white;
+}

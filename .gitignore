@@ -1,0 +1,8 @@
+.vscode/
+
+node_modules/
+
+public/bundle.js
+public/images/
+
+package-lock.json
