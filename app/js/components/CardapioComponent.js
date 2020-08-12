@@ -156,7 +156,7 @@ class CardapioComponent extends Component {
         this.abrirDialogConfirmacaoRemocaoCardapio = this.abrirDialogConfirmacaoRemocaoCardapio.bind(this);
         this.fecharDialogRemocaoCardapio = this.fecharDialogRemocaoCardapio.bind(this);
         this.removerCardapio = this.removerCardapio.bind(this);
-        this.itemCardapio = this.itemCardapio.bind(this);
+        this.criarItemCardapio = this.criarItemCardapio.bind(this);
     }
     
     abrirDialogConfirmacaoRemocaoCardapio(idCardapio) {
@@ -197,7 +197,7 @@ class CardapioComponent extends Component {
         })
     }
 
-    itemCardapio(cardapio) {
+    criarItemCardapio(cardapio) {
         return (
             <div className='container-lista-cardapios'>
                 <div className={cardapio.ativo ? 'status-item status-ativo' : 'status-item status-inativo'}/>
@@ -217,7 +217,7 @@ class CardapioComponent extends Component {
 
     renderizarCardapios() {
         let cardapiosParaRenderizar = this.state.filtrando ? this.state.cardapiosFiltrados : cardapios;
-        return cardapiosParaRenderizar.map(c => this.itemCardapio(c));
+        return cardapiosParaRenderizar.map(c => this.criarItemCardapio(c))
     }
 
     render() {
@@ -236,9 +236,11 @@ class CardapioComponent extends Component {
                         <div className='container-txt-busca'>
                             <TextField id='txt-busca' label='Busca' type='search' variant='filled' className='txt-busca' onChange={(event) => this.filtrarCardapios(event)} />
                         </div>
-                        {  this.renderizarCardapios() }
+                        <div className='container-itens-cardapio'>
+                            {  this.renderizarCardapios() }
+                        </div>
                     </div>
-                    <div>
+                    <div className='div-btn-add-cardapio'>
                         <Fab className='btn-add-cardapio' aria-label="add" onClick={() => this.abrirDialogConfirmacaoRemocaoCardapio('bla')}>
                             <AddIcon />
                         </Fab>
