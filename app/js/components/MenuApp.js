@@ -150,8 +150,8 @@ class MenuApp extends Component {
             </IconButton>
           </div>
           <Divider />
-          <List>
-            <ListItem button key={'1'}>
+          <List style={{width: '100%'}}>
+            <ListItem button onClick={() => this.navegar('/pedidos')}>
               <ListItemIcon> <img src={pedidosIcone} width='25px' /> </ListItemIcon>
               <ListItemText primary={'Pedidos'} />
             </ListItem>
@@ -159,12 +159,12 @@ class MenuApp extends Component {
               <ListItemIcon> <img src={cardapioIcone} width='22px' /> </ListItemIcon>
               <ListItemText primary={'Cardapios'} />
             </ListItem>
-            <ListItem button key={'3'}>
+            <ListItem button onClick={() => this.navegar('/configuracoes')}>
               <ListItemIcon> <img src={configIcone} width='27px' /> </ListItemIcon>
               <ListItemText primary={'Configurações'} />
             </ListItem>
             <Divider />
-            <ListItem button key='Sair'>
+            <ListItem button onClick={() => this.navegar('/logout')}>
                 <ListItemIcon> <img src={sairIcone} width='25px' /> </ListItemIcon>
                 <ListItemText primary={'Sair'} />
             </ListItem>

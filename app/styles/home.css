@@ -44,13 +44,16 @@
 }
 
 .home-menu-container {
-    padding-bottom: 20px;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }
 
 .home-charts-container {
     height: 400px;
     width: 85%;
-    margin: 0 auto;
 }
 
 .title-charts {
@@ -60,13 +63,17 @@
 }
 
 .home-content-container {
-    height:89%; 
+    position: fixed;
+    bottom: 0;
+    left: 1%;
+    right: 1%;
+    height: 90%;
     width: 95%;
-    margin:0px auto;
+    margin: 0 auto;
 }
 
 .list-pedidos-container {
-    height: 60%; 
+    height: 50%; 
     width: 100%;
     margin: 0px auto; 
     padding-left: 45px;
@@ -77,9 +84,11 @@
 
 .list-pedidos-content {
     display: inline-block;
-    padding-right: 10px;
-    padding-top: 15px; 
+    padding-top: 15px;
     margin: 0px auto;
+    width: 210px;
+    max-width: 210px;
+    margin-right: 5px;
 }
 
 .div-informativos {
@@ -109,22 +118,11 @@
 
 .home-card {
     background-color: white; 
-    height: 31%;
+    height: 41%;
     width: 49.5%;
-    padding-bottom: 20px 20px 20px 20px;
+    padding: 20px;
     margin-top: 10px;
     display: inline-block;
-    border-radius: 15px;
-}
-
-.div-home-cards {
-    width: 46.5%;
-    padding: 20px 0 0 0;
-    height: 65px;
-    position: absolute;
-    z-index: 1;
-    background-color: white;
-    padding-left: 45px;
     border-radius: 15px;
 }
 

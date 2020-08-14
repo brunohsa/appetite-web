@@ -42,6 +42,12 @@ let pedidos = [
         quantidade: 2,
         valor: 10.00,
         observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'Coca-Cola',
+        quantidade: 1,
+        valor: 2.50
       }
     ],
     cliente: {
@@ -135,14 +141,10 @@ class Home extends Component {
                 </div>
               </div>
               <div className='home-card'>
-                <div className='div-home-cards'>
-                  <span className='lbl-card'> Mais Vendidos </span>
-                </div>
+                <span className='lbl-card'> Mais Vendidos </span>  
               </div>
               <div className='home-card' style={{float: 'right'}}>
-                <div className='div-home-cards'>
-                  <span className='lbl-card'> Melhores Avalidados </span>
-                </div>
+                <span className='lbl-card'> Melhores Avalidados </span>
               </div>
             </div>
             { 

@@ -38,7 +38,7 @@ class CardPedido extends Component {
       }
 
       return (
-        <Card style={{width: '335px'}}>
+        <Card id='card-pedido'>
           <CardActionArea>
             <div className={`div-card-header ${getEstiloHeader(pedido.status)}`}>
               <span className='span-card-header'>#{pedido.numero}</span>
