@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
-import '../../../styles/configuracao.css';
+import '../../../styles/configuracoes/configuracao.css';
 
 class DadosFornecedor extends Component {
 
@@ -22,6 +22,7 @@ class DadosFornecedor extends Component {
               id="outlined-disabled"
               value={valor}
               variant="outlined"
+              className='input-forms-config'
             />
           </div>
         </div>

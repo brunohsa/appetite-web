@@ -4,9 +4,9 @@ import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import iconeRemover from '../../../images/icons/remover.png';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import '../../../styles/horario-funcionamento.css';
+import '../../../styles/configuracoes/horario-funcionamento.css';
 
 const diasDaSemana = [
   {
@@ -73,11 +73,16 @@ class HorarioFuncionamento extends Component {
     super(props)
 
     this.state = {
+      horariosFuncionamento: horariosFuncionamento
     }
+
+    this.adicionarNovoHorario = this.adicionarNovoHorario.bind(this)
   }
 
   getMapaHorariosFuncionamento() {
     let mapa = new Map()
+    let { horariosFuncionamento } = this.state
+    
     horariosFuncionamento.map(hf => {
       let key = hf.inicio + '-' + hf.termino
       let horasFunc = mapa.get(key)
@@ -107,52 +112,81 @@ class HorarioFuncionamento extends Component {
     return horariosFuncionamento
   }
 
-  criarLinhaDiasDaSemana(horariosFuncionamento) {
+  removerHorariosFuncionamento(horarioFun) {
+    let hrsFuncionamento = this.state.horariosFuncionamento
+    horarioFun.dias.map(d => {
+      hrsFuncionamento.forEach((hf, index) => {
+        if(hf.dia == d && (hf.inicio == horarioFun.inicio && hf.termino == horarioFun.termino)) {
+          hrsFuncionamento.splice(index, 1)
+          this.setState({
+            horariosFuncionamento: horariosFuncionamento
+          })
+        }
+      })
+    }) 
+  }
+
+  criarLinhaDiasDaSemana(horarioFuncionamento) {
     return (
       <tr>
-        <td>
+        <td className='divider-tabela'>
           { 
             diasDaSemana.map(ds =>
               {
-                let marcharCheck = horariosFuncionamento.dias.includes(ds.id)
+                let marcarCheck = horarioFuncionamento.dias.includes(ds.id)
                 return  <div style={{display: 'inline-block'}}>
                           <span> {ds.titulo} </span>
                           { 
-                            marcharCheck ? <Checkbox defaultChecked color="default" /> 
-                                         : <Checkbox color="default" /> 
+                            marcarCheck ? <Checkbox defaultChecked color="default" /> 
+                                        : <Checkbox color="default" /> 
                           }
                         </div>
               }
             )
           }
         </td>
-        <td>
-          <TextField id="time" type="time" defaultValue="00:00" value={horariosFuncionamento.inicio} />
+        <td className='divider-tabela'>
+          <TextField id="time" type="time" defaultValue="00:00" value={horarioFuncionamento.inicio} />
         </td>
-        <td>
-          <TextField id="time" type="time" defaultValue="00:00" value={horariosFuncionamento.termino}/>
+        <td className='divider-tabela'>
+          <TextField id="time" type="time" defaultValue="00:00" value={horarioFuncionamento.termino} />
         </td>
-        <td className= 'border-right-none' id='td-remover'>
-          <Button autoFocus> <img src={iconeRemover} width='25px' /> </Button>
+        <td className= 'divider-tabela border-right-none' id='td-remover'>
+          <Button autoFocus onClick={() => this.removerHorariosFuncionamento(horarioFuncionamento)}> 
+            <DeleteIcon style={{color: '#383838'}} />
+          </Button>
         </td>
       </tr>
     )
   }
 
+  adicionarNovoHorario() {
+    let hrsFunc = this.state.horariosFuncionamento
+    hrsFunc.push({
+      dias: '',
+      inicio: '00:00',
+      termino: '00:00'
+    })
+
+    this.setState({
+      horariosFuncionamento: hrsFunc
+    })
+  }
+
   render() {
     return (
       <div>
-        <table style={{width: '100%'}}>
+        <table>
           <tr>
-            <td className='border-right-none coluna-tabela'> Dias </td>
-            <td className='border-right-none coluna-tabela'> Início </td>
-            <td className='border-right-none coluna-tabela'> Término </td>
-            <td className='border-right-none coluna-tabela'/>
+            <td className='divider-tabela border-right-none coluna-tabela'> Dias </td>
+            <td className='divider-tabela border-right-none coluna-tabela'> Início </td>
+            <td className='divider-tabela border-right-none coluna-tabela'> Término </td>
+            <td className='divider-tabela border-right-none coluna-tabela'/>
           </tr>
           { this.preencherListaHorariosFuncionamento()}
         </table>
         <div className='div-btn-adicionar-horario'>
-          <Button id='btn-adicionar' autoFocus> + Adicionar </Button>
+          <Button id='btn-adicionar' onClick={this.adicionarNovoHorario} autoFocus> + Adicionar </Button>
         </div>
       </div>
     )

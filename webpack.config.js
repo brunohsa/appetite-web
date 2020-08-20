@@ -8,9 +8,10 @@ module.exports = {
     devServer: {
         inline: true,
         contentBase: './public',
-        host: '0.0.0.0',
+        host: 'localhost',
         port: 3000,
-        historyApiFallback: true
+        historyApiFallback: true,
+        writeToDisk: true
     },
     module: {
         rules: [

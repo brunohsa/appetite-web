@@ -7,7 +7,29 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import '../../../styles/horario-especial.css';
+import TabelaModelo from '../../modelos/TabelaModelo'
+
+import Tabela from '../common/Tabela'
+
+import '../../../styles/configuracoes/horario-especial.css';
+
+const linhas = [
+  { 
+    id: 1,
+    dataCadastro: '14/08/2020', 
+    dataEspecial: '04/11/2020',
+    abertura: '12:00',
+    fechamento: '16:00'
+  },
+  { 
+    id: 2,
+    dataCadastro: '12/08/2020', 
+    dataEspecial: '25/12/2020',
+    abertura: '12:00',
+    fechamento: '16:00'
+  }
+];
+
 
 class HorarioEspecial extends Component {
 
@@ -15,92 +37,124 @@ class HorarioEspecial extends Component {
     super(props)
 
     this.state = {
-      data: new Date()
+      dataAdicao: new Date(),
+      dataCadastroFiltro: null,
+      dataEspecialFiltro: null,
+      horarioAbertura: '00:00',
+      horarioFechamento: '00:00',
+      linhas: linhas
     }
 
     this.handleDateChange = this.handleDateChange.bind(this)
+    this.criarHeaderBusca = this.criarHeaderBusca.bind(this)
+    this.adicionarHorarioEspecial = this.adicionarHorarioEspecial.bind(this)
+    this.getTabelaModelo = this.getTabelaModelo.bind(this)
   }
 
-  handleDateChange(data) {
+  handleDateChange(valor, state) {
     this.setState({
-      data: data
+      [state]: valor
     })
+  }
+
+  criarDatePicker(id, titulo, valor, nomeCampoState) {
+    return (
+      <KeyboardDatePicker
+        id={id}
+        label={titulo}
+        format="dd/MM/yyyy"
+        value={valor}
+        onChange={(data) => this.handleDateChange(data, nomeCampoState)}
+        KeyboardButtonProps={{'aria-label': 'change date'}}
+        okLabel='Confirmar'
+        cancelLabel='Fechar'
+      />
+    )
+  }
+
+  criarHeaderBusca() {
+    let { dataCadastroFiltro, dataEspecialFiltro } = this.state
+  
+    return (
+      <div style={{width: '100%'}}>
+        <div style={{display: 'inline-block', width: '50%'}}>
+          <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
+              <div style={{display: 'inline-block', paddingRight: '30px'}}>
+                {  this.criarDatePicker("data-cadastro-filtro", "Data de cadastro", dataCadastroFiltro, 'dataCadastroFiltro' ) }
+              </div>
+              <div style={{display: 'inline-block'}}>
+                { this.criarDatePicker("data-especial-filtro", "Data especialo", dataEspecialFiltro, 'dataEspecialFiltro' ) }
+              </div>
+          </MuiPickersUtilsProvider>
+        </div>
+        <div className='div-filtrar-horario-especial'>
+          <Button id='btn-filtrar-horario-especial' autoFocus> Filtrar </Button>
+        </div>
+      </div>
+    )
+  }
+
+  adicionarHorarioEspecial() {
+    let novoRegistro = {
+      id: 3,
+      dataCadastro: new Date().toLocaleDateString("pt-BR"), 
+      dataEspecial: this.state.dataAdicao.toLocaleDateString("pt-BR"),
+      abertura: this.state.horarioAbertura,
+      fechamento: this.state.horarioFechamento
+    }
+    
+    let linhasAtualizadas = this.state.linhas
+    linhasAtualizadas.push(novoRegistro)
+    this.setState({  
+      linhas: linhasAtualizadas
+    })
+  }
+
+  getTabelaModelo() {    
+    let colunas = [
+      { id: 'dataCadastro', titulo: 'Data de Cadastro' },
+      { id: 'dataEspecial',  titulo: 'Data Especial' },
+      { id: 'abertura', titulo: 'Abertura' },
+      { id: 'fechamento',  titulo: 'Fechamento' }
+    ];
+
+    let linhas = this.state.linhas.map(linha => 
+      (
+        { id: linha.id,
+          valores: [linha.dataCadastro, linha.dataEspecial, linha.abertura, linha.fechamento]
+        }
+      )
+    )
+
+    return new TabelaModelo(colunas, linhas)
   }
 
   render() {
 
-    function criarHeaderBusca() {
-      return (
-        <div style={{width: '100%'}}>
-          <div style={{display: 'inline-block', width: '50%'}}>
-            <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
-                <div style={{display: 'inline-block', paddingRight: '30px'}}>
-                  <KeyboardDatePicker
-                    id="date-picker-filtro-data-cadastro"
-                    label="Data de cadastro"
-                    format="dd/MM/yyyy"
-                    value={null}
-                    //onChange={this.handleDateChange}
-                    KeyboardButtonProps={{'aria-label': 'change date'}}
-                    okLabel='Confirmar'
-                    cancelLabel='Fechar'
-                  />
-                </div>
-                <div style={{display: 'inline-block'}}>
-                  <KeyboardDatePicker
-                    id="date-picker-buscar"
-                    label="Data especial"
-                    format="dd/MM/yyyy"
-                    value={null}
-                    //onChange={this.handleDateChange}
-                    KeyboardButtonProps={{'aria-label': 'change date'}}
-                    okLabel='Confirmar'
-                    cancelLabel='Fechar'
-                  />
-                </div>
-            </MuiPickersUtilsProvider>
-          </div>
-          <div className='div-filtrar-horario-especial'>
-            <Button id='btn-filtrar-horario-especial' autoFocus> Filtrar </Button>
-          </div>
-        </div>
-      )
-    }
+    let { horarioAbertura, horarioFechamento } = this.state
 
     return (
       <div className='container-hora-especial'>
-        <div style={{width:'90%', margin: '0 auto', marginBottom: '10px'}}>
+        <div style={{width:'95%', margin: '0 auto', marginBottom: '10px'}}>
           <div className='div-data'>
             <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                id="date-picker-dialog"
-                label="Data"
-                format="dd/MM/yyyy"
-                value={this.state.data}
-                onChange={this.handleDateChange}
-                KeyboardButtonProps={{'aria-label': 'change date'}}
-                okLabel='Confirmar'
-                cancelLabel='Fechar'
-              />
+              { this.criarDatePicker("data-adicionar", "Data", this.state.dataAdicao, 'dataAdicao' ) }
             </MuiPickersUtilsProvider>
           </div>
           <div className='container-horas'>
             <div className='div-horas-inicio-termino'> 
-              <TextField id="time" type="time" label='Início' defaultValue="00:00"/> 
+              <TextField id='horario-abertura' type="time" label='Abertura' value={horarioAbertura} onChange={(event) => this.handleDateChange(event.target.value, 'horarioAbertura')}/> 
             </div>
             <div className='div-horas-inicio-termino'> 
-              <TextField id="time" type="time" label='Termino' defaultValue="00:00"/> 
+              <TextField id='horario-fechamento' type='time' label='Fechamento' value={horarioFechamento} onChange={(event) => this.handleDateChange(event.target.value, 'horarioFechamento')}/> 
             </div>
           </div>
           <div className='div-btn-adicionar-horario-especial'>
-            <Button id='btn-adicionar-horario-especial' autoFocus> + Adicionar </Button>
+            <Button id='btn-adicionar-horario-especial' autoFocus onClick={this.adicionarHorarioEspecial}> + Adicionar </Button>
           </div>
-        </div>
-        <div style={{border: '1px solid #d6d6d6', width: '90%', margin: '0 auto', padding: '10px'}}>
-            { criarHeaderBusca() }
-            <div style={{height: '200px', width: '100%'}}>
-              <div style={{textAlign: 'center', paddingTop: '100px'}}> AQUI VAI TER UMA TABELA </div>
-            </div>
+        </div>    
+        <div style={{width: '95%', margin: '0 auto'}}>
+          <Tabela headerToolbar={this.criarHeaderBusca} linhas={this.state.linhas} tabelaModelo={this.getTabelaModelo()}/>
         </div>
       </div>
     )

@@ -26,18 +26,17 @@
 
 .div-data {
     display: inline-block;
-    width: 35%;
+    padding-right: 20px;
 }
 
 .container-horas {
     display: inline-block;
-    width: 35%;
 }
 
 .div-horas-inicio-termino {
     display: inline-block;
     position: relative;
-    width: 50%;
+    padding-right: 20px;
 }
 
 .div-btn-adicionar-horario-especial {

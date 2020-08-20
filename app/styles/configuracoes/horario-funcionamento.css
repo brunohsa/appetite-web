@@ -4,11 +4,6 @@ table {
     color: #505050;
 }
 
-td {
-    border-right: 1px solid #d6d6d6;
-    border-bottom: 1px solid #d6d6d6;
-}
-
 #btn-adicionar {
     float: right;
     background-color: rgb(183, 28, 28);
@@ -18,13 +13,13 @@ td {
     color: white;
 }
 
-.border-right-none {
-    border-right: none;
-}
-
 .divider-tabela {
     border-right: 1px solid #d6d6d6;
     border-bottom: 1px solid #d6d6d6;
+}
+
+.border-right-none {
+    border-right: none;
 }
 
 .coluna-tabela {

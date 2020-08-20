@@ -5,7 +5,7 @@ import EnderecoFornecedor from './configuracao/EnderecoFornecedor'
 import HorarioFuncionamento from './configuracao/HorarioFuncionamento'
 import HorarioEspecial from './configuracao/HorarioEspecial'
 
-import '../../styles/configuracao.css';
+import '../../styles/configuracoes/configuracao.css';
 
 class ConfiguracaoComponent extends Component {
   

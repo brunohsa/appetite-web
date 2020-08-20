@@ -1,8 +1,8 @@
 import React, {Component}from 'react';
 
 import MenuApp from '../components/MenuApp';
-import CardPedido from '../components/CardPedido';
-import DetalhesPedido from '../components/DetalhesPedido';
+import CardPedido from '../components/common/CardPedido';
+import DetalhesPedido from '../components/common/DetalhesPedido';
 
 import '../../styles/home.css';
 

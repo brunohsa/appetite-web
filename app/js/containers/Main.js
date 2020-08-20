@@ -14,12 +14,14 @@ class Main extends Component {
         <div className='content'>
 
           <div>
-            <ul style={{height: '80px', width: '100%',backgroundColor: '#b71c1c', textAlign: 'center'}}>
-                <li style = {{float: 'right'}}>
-                  <div> <a id='main' href='/login'>Entrar</a> </div>
+            <ul className='ul-menu-principal'>
+                <li id='li-entrar' className='li'>
+                  <div id='div-entrar'> <a id='link-entrar' href='/login'>Entrar</a> </div>
                 </li>
-                <li>
-                  <div style={{color: 'white', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase', fontSize: '24px', paddingLeft: '20px'}}> Appetite </div>
+                <li className='li'>
+                  <div style={{color: 'white', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase', fontSize: '24px', paddingLeft: '20px'}}> 
+                    Appetite 
+                  </div>
                 </li>
             </ul>
           </div>

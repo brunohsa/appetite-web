@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 
-import '../../styles/detalhes-pedido.css';
-import voltarIcone from '../../images/icons/voltar.png';
-import observacaoIcone from '../../images/icons/observacao.png';
+import '../../../styles/common/detalhes-pedido.css';
+import voltarIcone from '../../../images/icons/voltar.png';
+import observacaoIcone from '../../../images/icons/observacao.png';
 
 class DetalhesPedido extends Component {
 

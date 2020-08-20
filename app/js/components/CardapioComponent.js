@@ -11,6 +11,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 
 import iconeRemover from '../../images/icons/remover.png';
+
+import CadastrarCardapioDialog from './cardapio/CadastrarCardapioDialog'
+
 import '../../styles/cardapio.css';
 
 let cardapios = [
@@ -150,13 +153,17 @@ class CardapioComponent extends Component {
             abrirPopup: false,
             nomeCardapioRemocao: null,
             filtrando: false,
-            cardapiosFiltrados: []
+            cardapiosFiltrados: [],
+            abrirDialogCadastro: false
         }
 
         this.abrirDialogConfirmacaoRemocaoCardapio = this.abrirDialogConfirmacaoRemocaoCardapio.bind(this);
         this.fecharDialogRemocaoCardapio = this.fecharDialogRemocaoCardapio.bind(this);
         this.removerCardapio = this.removerCardapio.bind(this);
         this.criarItemCardapio = this.criarItemCardapio.bind(this);
+        this.criarDialogRemocaoCardapio = this.criarDialogRemocaoCardapio.bind(this);
+        this.abrirDialogCadastro = this.abrirDialogCadastro.bind(this);
+        this.fecharDialogCadastro = this.fecharDialogCadastro.bind(this);
     }
     
     abrirDialogConfirmacaoRemocaoCardapio(idCardapio) {
@@ -220,6 +227,36 @@ class CardapioComponent extends Component {
         return cardapiosParaRenderizar.map(c => this.criarItemCardapio(c))
     }
 
+    criarDialogRemocaoCardapio() {
+        return (
+            <Dialog onClose={this.fecharDialogRemocaoCardapio} aria-labelledby="customized-dialog-title" open={this.state.abrirPopup}>
+                <DialogTitle id="customized-dialog-title" onClose={this.fecharDialogRemocaoCardapio}> Informativo </DialogTitle>
+                <DialogContent dividers>
+                    <Typography gutterBottom>
+                        Deseja realmente remover o cardápio <span style={{fontWeight: 'bold'}}> {this.state.nomeCardapioRemocao} </span> ? <br/>
+                        Isto removerá todas as categorias e produtos que existem neste cardápio !
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={this.fecharDialogRemocaoCardapio} color="inherit"> Fechar </Button>
+                    <Button autoFocus onClick={this.removerCardapio} color="Secondary"> Remover </Button>
+                </DialogActions>
+            </Dialog>
+        )
+    }
+
+    abrirDialogCadastro() {
+        this.setState({
+            abrirDialogCadastro: true
+        })
+    }
+
+    fecharDialogCadastro() {
+        this.setState({
+            abrirDialogCadastro: false
+        })
+    }
+
     render() {
         let state = this.state;
     
@@ -241,23 +278,12 @@ class CardapioComponent extends Component {
                         </div>
                     </div>
                     <div className='div-btn-add-cardapio'>
-                        <Fab className='btn-add-cardapio' aria-label="add" onClick={() => this.abrirDialogConfirmacaoRemocaoCardapio('bla')}>
+                        <Fab className='btn-add-cardapio' aria-label="add" onClick={this.abrirDialogCadastro}>
                             <AddIcon />
                         </Fab>
                     </div>
-                    <Dialog onClose={this.fecharDialogRemocaoCardapio} aria-labelledby="customized-dialog-title" open={state.abrirPopup}>
-                        <DialogTitle id="customized-dialog-title" onClose={this.fecharDialogRemocaoCardapio}> Informativo </DialogTitle>
-                        <DialogContent dividers>
-                            <Typography gutterBottom>
-                                Deseja realmente remover o cardápio <span style={{fontWeight: 'bold'}}> {state.nomeCardapioRemocao} </span> ? <br/>
-                                Isto removerá todas as categorias e produtos que existem neste cardápio !
-                            </Typography>
-                        </DialogContent>
-                        <DialogActions>
-                            <Button autoFocus onClick={this.fecharDialogRemocaoCardapio} color="inherit"> Fechar </Button>
-                            <Button autoFocus onClick={this.removerCardapio} color="Secondary"> Remover </Button>
-                        </DialogActions>
-                    </Dialog>
+                    { this.criarDialogRemocaoCardapio() }
+                    <CadastrarCardapioDialog abrirDialog={state.abrirDialogCadastro} fecharDialog={this.fecharDialogCadastro} />
                 </div>
             </div>
         )
