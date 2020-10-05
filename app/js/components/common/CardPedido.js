@@ -22,7 +22,7 @@ class CardPedido extends Component {
   }
 
   render() {
-      const { pedido } = this.props
+      const { pedido, habilitarAcoes } = this.props
 
       function getEstiloHeader(status) {
         switch(status) {
@@ -43,15 +43,17 @@ class CardPedido extends Component {
             <div className={`div-card-header ${getEstiloHeader(pedido.status)}`}>
               <span className='span-card-header'>#{pedido.numero}</span>
             </div>
-            <CardContent>
+            <CardContent style={{padding: '5px 16px 5px 16px'}}>
               <Typography gutterBottom variant="h5" component="h2">
-                {pedido.cliente.nome}
+                <div className='ellipsis-texts'>
+                  {pedido.cliente.nome}
+                </div>
               </Typography>
               <Typography variant="body2" color="textSecondary" component="p">
                 <div>
                   <span> Hora: 12:25 </span>
                 </div>
-                <div className='div-card-produtos'>
+                <div className='ellipsis-texts'>
                   <span> Produto(s): {pedido.produtos.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2)} </span> 
                 </div>
                 <div>
@@ -61,8 +63,8 @@ class CardPedido extends Component {
             </CardContent>
           </CardActionArea>
           {
-            false ?
-              <CardActions>
+            habilitarAcoes ?
+              <CardActions style={{padding: '0px 0px 2px 8px'}}>
                 <Button size="small" color="inherit"> Concluir </Button>
                 <Button size="small" color="inherit"> Cancelar </Button>
               </CardActions>

@@ -1,0 +1,23 @@
+.titulo-pedidos {
+  font-size: 22px;
+}
+
+.container-pedidos {
+  width: 92%;
+  margin: 0px auto;
+  padding-top: 10px;
+}
+
+.container-pedidos-conteudo {
+  margin-top: 10px;
+}
+
+.list-pedidos-content {
+  display: inline-block;
+  padding-top: 15px;
+  margin: 0px auto;
+  width: 210px;
+  max-width: 210px;
+  margin-right: 5px;
+  padding-left: 10px;
+}

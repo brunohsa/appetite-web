@@ -31,6 +31,7 @@
 }
 
 #header-home {
+    padding-top: 20px;
     padding-bottom: 15px;
 }
 
@@ -67,13 +68,13 @@
     bottom: 0;
     left: 1%;
     right: 1%;
-    height: 90%;
+    height: 92%;
     width: 95%;
     margin: 0 auto;
 }
 
 .list-pedidos-container {
-    height: 50%; 
+    height: 48%; 
     width: 100%;
     margin: 0px auto; 
     padding-left: 45px;
@@ -92,7 +93,7 @@
 }
 
 .div-informativos {
-    width: 90%;
+    width: 92%;
     padding: 20px 0 0 0;
     height: 65px;
     position: absolute;

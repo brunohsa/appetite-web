@@ -154,7 +154,7 @@ class HorarioEspecial extends Component {
           </div>
         </div>    
         <div style={{width: '95%', margin: '0 auto'}}>
-          <Tabela headerToolbar={this.criarHeaderBusca} linhas={this.state.linhas} tabelaModelo={this.getTabelaModelo()}/>
+          <Tabela habilitarCheckBox={true} headerToolbar={this.criarHeaderBusca} linhas={this.state.linhas} tabelaModelo={this.getTabelaModelo()}/>
         </div>
       </div>
     )

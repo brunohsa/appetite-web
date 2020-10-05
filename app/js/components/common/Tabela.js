@@ -1,4 +1,4 @@
-import React, {Component}from 'react';
+import React, {Component} from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -58,10 +58,6 @@ class Tabela extends Component {
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this)
     this.handleSelectAllClick = this.handleSelectAllClick.bind(this)
     this.handleClick = this.handleClick.bind(this)
-  }
-
-  createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein }
   }
 
   handleRequestSort(event, property) {
@@ -142,7 +138,7 @@ class Tabela extends Component {
   getComparator(order, orderBy) {
     return order === 'desc'
       ? (a, b) => this.descendingComparator(a, b, orderBy)
-      : (a, b) => -this.descendingComparator(a, b, orderBy);
+      : (a, b) => - this.descendingComparator(a, b, orderBy);
   }
   
   stableSort(array, comparator) {
@@ -157,14 +153,17 @@ class Tabela extends Component {
 
   render() {
       let { selected, order, orderBy, page, rowsPerPage } = this.state
-      let { classes, headerToolbar, tabelaModelo } = this.props
+      let { classes, headerToolbar, tabelaModelo, habilitarCheckBox } = this.props
 
       let linhas =  tabelaModelo.linhas
 
       return (
         <div className={classes.root}>
           <Paper className={classes.paper}>
-            <EnhancedTableToolbar numSelected={selected.length} headerToolbar={headerToolbar} />
+            {
+              headerToolbar ? 
+              <EnhancedTableToolbar numSelected={selected.length} headerToolbar={headerToolbar} /> : null
+            }
             <TableContainer>
               <Table
                 className={classes.table}
@@ -180,6 +179,7 @@ class Tabela extends Component {
                   onRequestSort={this.handleRequestSort}
                   rowCount={linhas.length}
                   tabelaModelo={tabelaModelo}
+                  habilitarCheckBox={habilitarCheckBox}
                 />
                 <TableBody>
                   { this.stableSort(linhas, this.getComparator(order, orderBy))
@@ -198,23 +198,27 @@ class Tabela extends Component {
                           key={linha.id}
                           selected={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              inputProps={{'aria-labelledby': labelId }}
-                            />
-                          </TableCell>
-                            {
-                              linha.valores.map(valor => {
-                                return (<TableCell align="center">{valor}</TableCell>)
-                              })
-                            }
+                          { 
+                            habilitarCheckBox ? 
+                            <TableCell padding="checkbox">
+                              <Checkbox
+                                checked={isItemSelected}
+                                inputProps={{'aria-labelledby': labelId }}
+                              />
+                            </TableCell>
+                            : null
+                          }
+                          {
+                            linha.valores.map(valor => {
+                              return (<TableCell align="center">{valor}</TableCell>)
+                            })
+                          }
                         </TableRow>
                       );
                     })}
                   {
                     this.getLinhasVazias() > 0 &&
-                      <TableRow style={{ height: 53 * this.getLinhasVazias() }}>
+                      <TableRow style={{ height: 170 }}>
                         <TableCell colSpan={6} />
                       </TableRow>
                   }
@@ -229,6 +233,7 @@ class Tabela extends Component {
               page={page}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
+              nextPageLabel="Reihen pro Seite:"
             />
           </Paper>
         </div>
@@ -250,5 +255,6 @@ Tabela.propTypes = {
       id: PropTypes.string.isRequired,
       valores: PropTypes.array.isRequired
     }),
-  })
+  }),
+  habilitarCheckBox: PropTypes.bool
 }

@@ -1,6 +1,6 @@
 .container-configuracoes {
     width: 100%;
-    height: 90%;
+    height: 92%;
     margin: 0 auto;
     overflow: auto;
     padding-top: 10px;
@@ -12,22 +12,8 @@
     padding-top: 10px;
 }
 
-.titulo-configuracao {
-    color: rgb(112, 123, 129);
-    position: relative;
-    font-size: 16px;
-}
-
 .conteudo-config {
-    padding: 15px;
-    border-radius: 10px !important;
-    background-color: white;
     margin-top: 10px;
-}
-
-.titulo-conteudo-cofig {
-    color: rgb(112, 123, 129);
-    font-size: 15px;
 }
 
 .div-conteudo-config {

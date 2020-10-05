@@ -40,7 +40,7 @@ class EnhancedTableHead extends Component {
   }
 
   render() {
-    let { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,  tabelaModelo } = this.props
+    let { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort,  tabelaModelo, habilitarCheckBox } = this.props
   
     let colunas = tabelaModelo.colunas
 
@@ -75,14 +75,18 @@ class EnhancedTableHead extends Component {
     return ( 
       <TableHead>
         <TableRow>
-          <TableCell padding="checkbox">
-            <Checkbox
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-              inputProps={{ 'aria-label': 'select all desserts' }}
-            />
-          </TableCell>
+          {
+            habilitarCheckBox ? 
+            <TableCell padding="checkbox">
+              <Checkbox
+                indeterminate={numSelected > 0 && numSelected < rowCount}
+                checked={rowCount > 0 && numSelected === rowCount}
+                onChange={onSelectAllClick}
+                inputProps={{ 'aria-label': 'select all desserts' }}
+              />
+            </TableCell> 
+            : null
+          }
           {
             colunas.map((coluna) => criarColunas(coluna))
           }
@@ -102,5 +106,6 @@ EnhancedTableHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
-  tabelaModelo: PropTypes.object.isRequired
+  tabelaModelo: PropTypes.object.isRequired,
+  habilitarCheckBox: PropTypes.bool
 }

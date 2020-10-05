@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 import '../../../styles/configuracoes/configuracao.css';
+import '../../../styles/common.css';
 
 class EnderecoFornecedor extends Component {
 
@@ -15,7 +16,7 @@ class EnderecoFornecedor extends Component {
     function criarConteudoVisualizar(nomeCampo, valor) { 
       return (
         <div className='container-form-config' style={{marginBottom: '10px'}}>
-          <span className='titulo-conteudo-cofig'> {nomeCampo} </span>
+          <span className='texto'> {nomeCampo} </span>
           <div className='div-conteudo-config'>
             <TextField
                 disabled

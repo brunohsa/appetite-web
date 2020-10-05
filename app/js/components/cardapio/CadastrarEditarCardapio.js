@@ -15,6 +15,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 
 import '../../../styles/cardapio/cadastrar-editar-cardapio.css';
+import '../../../styles/common.css';
 
 import AdicionarCategoriaHeader from './AdicionarCategoriaHeader'
 
@@ -56,11 +57,6 @@ const styles = theme => ({
   focusVisible: {},
 });
 
-const options = [
-  'Adicionar produto',
-  'Editar nome da categoria'
-];
-
 class CadastrarEditarCardapio extends Component {
 
   constructor(props) {
@@ -69,12 +65,19 @@ class CadastrarEditarCardapio extends Component {
     this.state = {
       anchorEl: null,
       subcategoria: null,
-      ativarCardapio: false
+      ativarCardapio: false,
+      editarProduto: false
     }
 
     this.abrirMenuCategoria = this.abrirMenuCategoria.bind(this)
     this.fecharMenuCategoria = this.fecharMenuCategoria.bind(this)
     this.checkAtivarCardapio = this.checkAtivarCardapio.bind(this)
+  }
+
+  handlerChange(event, valor, state) {
+    this.setState({
+      [state]: valor
+    })    
   }
 
   checkAtivarCardapio(event) {
@@ -138,19 +141,19 @@ class CadastrarEditarCardapio extends Component {
             }
           }}
         >
-          {
-            options.map((option) => (
-              <MenuItem key={option} selected={option === 'Pyxis'} onClick={this.fecharMenuCategoria}>
-                {option}
-              </MenuItem>
-            ))
-          }
+          <MenuItem key={'1'} onClick={this.fecharMenuCategoria}>
+            Adicionar produto
+          </MenuItem>
+          <MenuItem key={'2'} onClick={this.fecharMenuCategoria}>
+            Editar nome da categoria
+          </MenuItem>
         </Menu>
       </div>
     )
   }
 
   renderizarProdutosCategoria() {
+    let { editarProduto } = this.state
     return (
       <div className='div-conteudo-produtos-categoria'>
           <div className='div-imagem-produto-cardapio'>
@@ -158,16 +161,18 @@ class CadastrarEditarCardapio extends Component {
           </div>
           <div className='div-informacoes-produto-cardapio'>
             <div className='div-nome-produto-categoria'>
-              <span className='titulo-span'> Nome do produto </span>
+              <span className='titulo'> Nome do produto </span>
             </div>
             <div className='div-texts-valor-estoque-produto'>
               <TextField
+                disabled={!editarProduto}
                 label='Valor'
                 id="txt-valor"
                 value={'R$ 25.00'}
                 variant="outlined"
               />
               <TextField
+                disabled={!editarProduto}
                 style={{marginLeft: '20px'}}
                 label='Estoque'
                 id="txt-estoque"
@@ -177,7 +182,7 @@ class CadastrarEditarCardapio extends Component {
             </div>
           </div>
           <div className='div-botoes-produto-cardapio'>
-            <Button autoFocus>
+            <Button autoFocus onClick={() => this.handlerChange(null, true, 'editarProduto')}>
               <EditIcon id='icone-editar-produto-cardapio' />
             </Button>
             <Button autoFocus> 
@@ -188,42 +193,48 @@ class CadastrarEditarCardapio extends Component {
     )
   }
 
-  render() {
+  informacoesDoCardapio() {
     let { classes } = this.props
     let { ativarCardapio } = this.state
     return (
       <div>
-        <div>
-          <div className='div-informacoes-cardapio'>
-            <span className='titulo-span'> Informações do cardápio </span>
-          </div>
-          <div className='conteudo-informacoes-cardapio'>
-            <div className='div-nome-cardapio'>
-                <TextField
-                  label='Nome do cardápio'
-                  id="txt-nome-cardapio"
-                  value={null}
-                  variant="outlined"
-                />
-            </div>
-            <div className='div-check-cardapio-ativo'>
-              <span className='titulo-span'> Ativar Cardápio </span>
-              <Switch
-                checked={ativarCardapio}
-                onChange={(event) => this.checkAtivarCardapio(event)}
-                classes={{
-                  root: classes.root,
-                  switchBase: classes.switchBase,
-                  thumb: classes.thumb,
-                  track: classes.track,
-                  checked: classes.checked,
-                }}
+        <div className='div-informacoes-cardapio'>
+          <span className='titulo'> Informações do cardápio </span>
+        </div>
+        <div className='container-conteudos' style={{paddingTop: '5px'}}>
+          <div className='div-nome-cardapio'>
+              <TextField
+                label='Nome do cardápio'
+                id="txt-nome-cardapio"
+                value={null}
+                variant="outlined"
               />
-            </div>
+          </div>
+          <div className='div-check-cardapio-ativo'>
+            <span id='lblAtivarCardapio' className='texto'> Ativar Cardápio </span>
+            <Switch
+              checked={ativarCardapio}
+              onChange={(event) => this.checkAtivarCardapio(event)}
+              classes={{
+                root: classes.root,
+                switchBase: classes.switchBase,
+                thumb: classes.thumb,
+                track: classes.track,
+                checked: classes.checked,
+              }}
+            />
           </div>
         </div>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div className='container-cadastrar-editar-cardapio'>
+        { this.informacoesDoCardapio() }
         <AdicionarCategoriaHeader />
-        { this.renderizarCategoria() }
+        {  this.renderizarCategoria() }
       </div>
     )
   }

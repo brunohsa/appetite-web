@@ -17,20 +17,13 @@
   max-width: 200px;
 }
 
+.container-cadastrar-editar-cardapio {
+  width: 92%;
+  margin: 0px auto;
+}
+
 .div-informacoes-cardapio {
   padding-bottom: 5px;
-}
-
-.titulo-span {
-  font-size: 16px;
-  color: #383838;
-  font-weight: bold;
-}
-
-.conteudo-informacoes-cardapio {
-  border-radius: 10px;
-  border: 1px solid rgb(214, 214, 214);
-  padding: 0px 0px 10px 10px;
 }
 
 .div-nome-cardapio {
@@ -65,6 +58,7 @@
 .div-conteudo-produtos-categoria {
   height: 100px;
   border-bottom: 1px solid rgb(214, 214, 214);
+  background-color: white;
 }
 
 .div-nome-produto-categoria {

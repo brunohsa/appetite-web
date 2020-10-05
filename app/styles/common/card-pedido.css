@@ -31,7 +31,7 @@
   color: white;
 }
 
-.div-card-produtos {
+.ellipsis-texts{
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

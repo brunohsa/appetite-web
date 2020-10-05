@@ -3,6 +3,9 @@ import React, {Component}from 'react';
 import MenuApp from '../components/MenuApp';
 import CardPedido from '../components/common/CardPedido';
 import DetalhesPedido from '../components/common/DetalhesPedido';
+import Tabela from '../components/common/Tabela';
+
+import TabelaModelo from '../modelos/TabelaModelo'
 
 import '../../styles/home.css';
 
@@ -68,6 +71,23 @@ let pedidos = [
       }
     ],
     cliente: {
+      nome: 'Beatriz francisco de Carvalho',
+      telefone: '(19) 98356-2724'
+    }
+  },
+  {
+    id: '1234',
+    numero: '00000003',
+    status: 'CONCLUIDO',
+    produtos: [
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00
+      }
+    ],
+    cliente: {
       nome: 'Beatriz Carvalho',
       telefone: '(19) 98356-2724'
     }
@@ -77,6 +97,76 @@ let pedidos = [
     numero: '00000004',
     status: 'CANCELADO',
     produtos: [
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
+      {
+        id: '5dcc9cae11ca5339e8b762d5',
+        nome: 'X-Tudo',
+        quantidade: 2,
+        valor: 10.00,
+        observacao: 'Sem Tomate'
+      },
       {
         id: '5dcc9cae11ca5339e8b762d5',
         nome: 'X-Tudo',
@@ -116,6 +206,30 @@ class Home extends Component {
       })
     }
 
+    getTabelaModeloMaisVendidos() {    
+      let colunas = [
+        { id: 'posicao', titulo: 'Posição' },
+        { id: 'produto', titulo: 'Produto' },
+        { id: 'qtdVenda',  titulo: 'Vendidos' }
+      ];
+  
+      let linhas =[]
+  
+      return new TabelaModelo(colunas, linhas)
+    }
+
+    getTabelaModeloMelhoresAvaliados() {    
+      let colunas = [
+        { id: 'posicao', titulo: 'Posição' },
+        { id: 'produto', titulo: 'Produto' },
+        { id: 'nota',  titulo: 'Nota' }
+      ];
+  
+      let linhas =[]
+  
+      return new TabelaModelo(colunas, linhas)
+    }
+
     render() {
         return (
           <div id='home-container'>
@@ -141,10 +255,16 @@ class Home extends Component {
                 </div>
               </div>
               <div className='home-card'>
-                <span className='lbl-card'> Mais Vendidos </span>  
+                <span className='lbl-card'> Mais Vendidos </span>
+                <div style={{paddingTop: '10px'}}>
+                  <Tabela linhas={[]}  tabelaModelo={this.getTabelaModeloMaisVendidos()}/>
+                </div>
               </div>
               <div className='home-card' style={{float: 'right'}}>
                 <span className='lbl-card'> Melhores Avalidados </span>
+                <div style={{paddingTop: '10px'}} >
+                  <Tabela linhas={[]}  tabelaModelo={this.getTabelaModeloMelhoresAvaliados()}/>
+                </div>
               </div>
             </div>
             { 

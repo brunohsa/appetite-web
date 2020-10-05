@@ -10,11 +10,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 
+import { withRouter } from "react-router-dom";
+
 import iconeRemover from '../../images/icons/remover.png';
 
 import CadastrarCardapioDialog from './cardapio/CadastrarCardapioDialog'
 
 import '../../styles/cardapio.css';
+import '../../styles/common.css';
 
 let cardapios = [
     {
@@ -184,7 +187,7 @@ class CardapioComponent extends Component {
     }
 
     editarVisualizarCardapio(id) {
-        alert('editar/visualizar cardapio com o id ' + id);
+        this.props.history.push('/cardapios-editar/' + id);
     }
     
     filtrarCardapios(event) {
@@ -210,7 +213,7 @@ class CardapioComponent extends Component {
                 <div className={cardapio.ativo ? 'status-item status-ativo' : 'status-item status-inativo'}/>
                 <div className='content-lista-cardapios'>
                     <div className='label-item-cardapio' onClick={() => this.editarVisualizarCardapio(cardapio.nome)}> 
-                        <span id='spanNomeCardapio'> { cardapio.nome } </span> 
+                        <span id='spanNomeCardapio' className='titulo'> { cardapio.nome } </span> 
                     </div>
                     <div className='btns-item-cardapio'> 
                         <Button className='btn-remover-cardapio' variant="contained" onClick={() => this.abrirDialogConfirmacaoRemocaoCardapio(cardapio.nome)}>
@@ -266,9 +269,9 @@ class CardapioComponent extends Component {
                     <MenuApp />
                 </div>
                 <div className='container-content-cardapio'>
-                    <div className='content-cardapio'>
+                    <div className='container-conteudos content-cardapio'>
                         <div className='header-cardapio'>
-                            <label id="lblCardapio"> Cardápios </label>
+                            <label id="lblCardapio" className='titulo'> Cardápios </label>
                         </div>
                         <div className='container-txt-busca'>
                             <TextField id='txt-busca' label='Busca' type='search' variant='filled' className='txt-busca' onChange={(event) => this.filtrarCardapios(event)} />
@@ -289,4 +292,4 @@ class CardapioComponent extends Component {
         )
     }
 }
-export default CardapioComponent
+export default withRouter(CardapioComponent)

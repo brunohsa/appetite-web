@@ -114,6 +114,8 @@ class MenuApp extends Component {
     let { classes, theme } = this.props;
     let open = this.state.open
     
+    let usuarioLogado = true
+
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -122,15 +124,19 @@ class MenuApp extends Component {
           className={clsx(classes.appBar, {[classes.appBarShift]: open})}
         >
           <Toolbar style={{backgroundColor: 'rgb(183, 28, 28)', height: '80px'}}>
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={() => this.handleDrawerOpen()}
-              edge="start"
-              className={clsx(classes.menuButton, open && classes.hide)}
-            >
-              <MenuIcon />
-            </IconButton>
+            {
+              usuarioLogado ? 
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={() => this.handleDrawerOpen()}
+                  edge="start"
+                  className={clsx(classes.menuButton, open && classes.hide)}
+                >
+                  <MenuIcon />
+                </IconButton>
+                : null
+            }
             <Typography variant="h6" color="inherit" style={{ flexGrow: '1'}}> Appetite </Typography>
           </Toolbar>
         </AppBar>
@@ -155,7 +161,7 @@ class MenuApp extends Component {
               <ListItemIcon> <img src={pedidosIcone} width='25px' /> </ListItemIcon>
               <ListItemText primary={'Pedidos'} />
             </ListItem>
-            <ListItem button onClick={() => this.navegar('/cardapio')}>
+            <ListItem button onClick={() => this.navegar('/cardapios')}>
               <ListItemIcon> <img src={cardapioIcone} width='22px' /> </ListItemIcon>
               <ListItemText primary={'Cardapios'} />
             </ListItem>

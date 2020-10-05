@@ -12,6 +12,7 @@ import FormControl from '@material-ui/core/FormControl';
 
 import '../../../styles/cardapio/cadastrar-editar-cardapio.css';
 import '../../../styles/cardapio/adicionar-categoria-header.css';
+import '../../../styles/common.css';
 
 const styles = theme => ({
   formControl: {
@@ -98,9 +99,9 @@ class AdicionarCategoriaHeader extends Component {
     return (
       <div id='adicionar-categoria-container'>
           <div style={{paddingBottom: '5px'}}>
-            <span className='titulo-span'> Adicionar Categoria </span>
+            <span className='titulo'> Adicionar Categoria </span>
           </div>
-          <div className='container-adicionar-categoria'>
+          <div className='container-conteudos'>
             <div style={{display: 'inline-block'}}>
               <div style={{display: 'inline-block'}}>
                 <TextField

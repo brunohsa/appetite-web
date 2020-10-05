@@ -6,6 +6,7 @@ import HorarioFuncionamento from './configuracao/HorarioFuncionamento'
 import HorarioEspecial from './configuracao/HorarioEspecial'
 
 import '../../styles/configuracoes/configuracao.css';
+import '../../styles/common.css';
 
 class ConfiguracaoComponent extends Component {
   
@@ -18,8 +19,8 @@ class ConfiguracaoComponent extends Component {
     function criarConteudo(titulo, componente) { 
       return (
         <div className='container-conteudo'>
-          <span className='titulo-configuracao'> {titulo} </span>
-          <div className='conteudo-config'>
+          <span className='titulo'> {titulo} </span>
+          <div className='container-conteudos conteudo-config'>
             { componente }
           </div>
         </div>
