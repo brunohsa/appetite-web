@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import '../../../styles/common/card-pedido.css';
 
 const statusPedido = {
-  PENDENTE: 'PENDENTE',
+  PENDENTE_PREPARACAO: 'PENDENTE_PREPARACAO',
   PREPARANDO: 'PREPARANDO',
   CONCLUIDO: 'CONCLUIDO',
   CANCELADO: 'CANCELADO'
@@ -26,7 +26,7 @@ class CardPedido extends Component {
 
       function getEstiloHeader(status) {
         switch(status) {
-          case statusPedido.PENDENTE:
+          case statusPedido.PENDENTE_PREPARACAO:
             return 'div-card-header-pendente'
           case statusPedido.PREPARANDO:
             return 'div-card-header-preparando'
@@ -54,7 +54,7 @@ class CardPedido extends Component {
                   <span> Hora: 12:25 </span>
                 </div>
                 <div className='ellipsis-texts'>
-                  <span> Produto(s): {pedido.produtos.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2)} </span> 
+                  <span> Produto(s): {pedido.itens.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2)} </span> 
                 </div>
                 <div>
                   <span> Status: <b> {pedido.status} </b> </span>

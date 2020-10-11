@@ -16,7 +16,6 @@ class DetalhesPedido extends Component {
     }
 
     render() {
-        let state = this.state;
         let { pedido, fecharDetalhesDoPedido } = this.props;
     
         function criarCardItensPedido(prod) {
@@ -32,7 +31,7 @@ class DetalhesPedido extends Component {
                             <div> <span className='lbl-conteudo-card'> {prod.nome} </span> </div>
                         </div>
                         <div id='coluna-valor' className='coluna-itens'>
-                            <span className='lbl-detalhes-pedido'> Valor </span>
+                            <span className='lbl-detalhes-pedido'> Valor Unitário </span>
                             <div> <span className='lbl-conteudo-card'> R$ {prod.valor} </span> </div>
                         </div>
                     </div>
@@ -67,7 +66,7 @@ class DetalhesPedido extends Component {
                         <div className='divisor'>
                             <span className='lbl-detalhes-pedido lbl-titulo-item'> Data </span>
                             <div>
-                                <span className='lbl-conteudo-item'> 11/08/2020 12:35 </span>
+                                <span className='lbl-conteudo-item'> {pedido.data_pedido} </span>
                             </div>
                         </div>
                         <div className='divisor'>
@@ -85,7 +84,15 @@ class DetalhesPedido extends Component {
                         <div className='divisor'>
                             <span className='lbl-detalhes-pedido lbl-titulo-item'> Itens </span>
                             <div className='lista-itens-detalhes-pedidos'>
-                                { pedido.produtos.map(prod => criarCardItensPedido(prod)) }
+                                { pedido.itens.map(prod => criarCardItensPedido(prod)) }
+                            </div>
+                            <div style={{paddingTop: '15px'}}>
+                                <div className='lbl-detalhes-pedido lbl-titulo-item' style={{display: 'inline-block', width: '86.5%'}}>
+                                    <span id='lbl-valor-total'> Valor Total </span>
+                                </div>
+                                <div style={{display: 'inline-block'}}> 
+                                    <span className='lbl-conteudo-item'> R$ {pedido.valor_total} </span>
+                                </div>
                             </div>
                         </div>
                     </div>

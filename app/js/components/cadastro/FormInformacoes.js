@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import { connect } from 'react-redux'
 
 const MENSAGEM_ERRO_CAMPO_OBRIGATORIO = '* Campo Obrigatório'
 
@@ -27,6 +30,14 @@ class FormInformacoes extends Component {
     if(!this.camposValidos()) {
       return
     }
+    
+    let informacoes = {
+      razaoSocial: this.state.razaoSocial,
+      nomeFantasia: this.state.nomeFantasia,
+      cnpj: this.state.cnpj,
+      telefone: this.state.telefone
+    }
+    this.props.informacoesFornecedor(informacoes)
     this.props.proximo();  
   }
 
@@ -105,6 +116,7 @@ class FormInformacoes extends Component {
         </div>
 
         <div style={{display: 'flex', justifyContent: 'center', position: 'relative', top: '50px'}}>
+          <Button variant="contained" style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={()=> this.props.voltar()} className={props.class}> Voltar </Button>
           <Button variant="contained" style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={() => this.proximo()} className={props.class}> Próximo </Button>
         </div>
     </div>
@@ -112,4 +124,17 @@ class FormInformacoes extends Component {
   }
 }
 
-export default FormInformacoes
+const mapStateToProps = (state) => {
+  return {
+      fornecedor: state.fornecedor
+  }
+}
+
+export default connect(mapStateToProps)(FormInformacoes)
+
+FormInformacoes.propTypes = {
+  informacoesFornecedor: PropTypes.func.isRequired,
+  voltar: PropTypes.func.isRequired,
+  proximo: PropTypes.func.isRequired,
+  class: PropTypes.string.isRequired
+}

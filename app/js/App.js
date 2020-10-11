@@ -14,18 +14,22 @@ import '../styles/app.css';
 
 class App extends Component {
 
-  constructor(props) {
-    super(props)
-  }
+constructor(props) {
+  super(props)
+}
+
+checkAuthentication() {
+  return localStorage.getItem('token');
+}
 
 render() {
     return (
       <div id="app">
         <Switch>
-          <Route exact path='/' component={Main}/>
-          <Route path='/home' component={Home}/>
-          <Route path='/login' component={Login}/>
-          <Route path='/cadastro' component={Cadastro}/>
+          <Route exact path='/' render={() => this.checkAuthentication() ? <Redirect to='/home'/> : <Main /> }/>
+          <Route path='/home' render={() => this.checkAuthentication() ? <Home /> : <Redirect to='/login'/> }/>
+          <Route path='/login' render={() => this.checkAuthentication() ? <Redirect to='/home'/> : <Login /> }/>
+          <Route path='/cadastro' render={() => this.checkAuthentication() ? <Redirect to='/home'/> : <Cadastro /> }/>
           <Route path='/cardapios' component={Cardapio}/>
           <Route path='/configuracoes' component={Configuracao}/>
           <Route path='/cardapios-editar/:cardapioId' component={(routerProps) => <EditarCardapio cardapioId={routerProps.match.params.cardapioId} />}/>

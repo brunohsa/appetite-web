@@ -19,7 +19,7 @@ class Main extends Component {
                   <div id='div-entrar'> <a id='link-entrar' href='/login'>Entrar</a> </div>
                 </li>
                 <li className='li'>
-                  <div style={{color: 'white', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase', fontSize: '24px', paddingLeft: '20px'}}> 
+                  <div style={{color: 'white', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase', fontSize: '24px', paddingLeft: '20px', float: 'left'}}>
                     Appetite 
                   </div>
                 </li>

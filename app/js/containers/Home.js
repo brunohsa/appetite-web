@@ -1,186 +1,17 @@
 import React, {Component}from 'react';
 
+import { connect } from 'react-redux'
+
 import MenuApp from '../components/MenuApp';
 import CardPedido from '../components/common/CardPedido';
 import DetalhesPedido from '../components/common/DetalhesPedido';
 import Tabela from '../components/common/Tabela';
 
+import carrinhoAPI from '../redux/api/carrinhoAPI'
+
 import TabelaModelo from '../modelos/TabelaModelo'
 
 import '../../styles/home.css';
-
-let pedidos = [
-  {
-    id: '1234',
-    numero: '00000001',
-    status: 'PENDENTE',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'Coca-Cola',
-        quantidade: 1,
-        valor: 2.50
-      }
-    ],
-    cliente: {
-      nome: 'Bruno Araujo',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000002',
-    status: 'PREPARANDO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'Coca-Cola',
-        quantidade: 1,
-        valor: 2.50
-      }
-    ],
-    cliente: {
-      nome: 'Bruno Araujo',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000003',
-    status: 'CONCLUIDO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00
-      }
-    ],
-    cliente: {
-      nome: 'Beatriz francisco de Carvalho',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000003',
-    status: 'CONCLUIDO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00
-      }
-    ],
-    cliente: {
-      nome: 'Beatriz Carvalho',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000004',
-    status: 'CANCELADO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      }
-    ],
-    cliente: {
-      nome: 'Beatriz Carvalho',
-      telefone: '(19) 98356-2724'
-    }
-  }
-]
 
 class Home extends Component {
 
@@ -191,6 +22,10 @@ class Home extends Component {
           abrirDetalhes: false,
           pedido: null
       }
+    }
+
+    componentDidMount() {
+      this.props.buscarUltimosPedidos()
     }
 
     abrirDetalhesDoPedido(pedido) {
@@ -231,6 +66,9 @@ class Home extends Component {
     }
 
     render() {
+
+        let { pedidos } = this.props.carrinho
+
         return (
           <div id='home-container'>
             <div className='home-menu-container'>
@@ -246,11 +84,12 @@ class Home extends Component {
                 </div>
                 <div id='lista-de-pedidos'>
                   { 
-                    pedidos.map(pedido => 
+                    pedidos ?
+                      pedidos.map(pedido => 
                       <div id={pedido.id} className='list-pedidos-content' onClick={() => this.abrirDetalhesDoPedido(pedido)}> 
                         <CardPedido pedido={pedido} /> 
                       </div>
-                    )
+                    ) : null
                   }
                 </div>
               </div>
@@ -275,4 +114,19 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+      carrinho: state.carrinho,
+      erro: state.erro
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      buscarUltimosPedidos: () => {
+          dispatch(carrinhoAPI.buscarUltimosPedidos());
+      }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

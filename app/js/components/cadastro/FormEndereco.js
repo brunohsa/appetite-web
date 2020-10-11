@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+import { connect } from 'react-redux'
 
 const MENSAGEM_ERRO_CAMPO_OBRIGATORIO = '* Campo Obrigatório'
 
@@ -37,6 +40,15 @@ class FormEndereco extends Component {
     if(!this.camposValidos()) {
       return
     }
+    let endereco = {
+      cep: this.state.cep,
+      endereco: this.state.endereco,
+      numero: this.state.numero,
+      bairro: this.state.bairro,
+      estado: this.state.estado,
+      cidade: this.state.cidade
+    }
+    this.props.enderecoFornecedor(endereco)
     this.props.proximo();  
   }
 
@@ -124,6 +136,7 @@ class FormEndereco extends Component {
         </div>
 
         <div style={{display: 'flex', justifyContent: 'center', position: 'relative', top: '50px'}}>
+          <Button variant="contained" style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={()=> this.props.voltar()} className={props.class}> Voltar </Button>
           <Button variant="contained"style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={()=> this.proximo()} className={props.class}> Finalizar </Button>
         </div>
     </div>
@@ -131,4 +144,17 @@ class FormEndereco extends Component {
   }
 }
 
-export default FormEndereco
+const mapStateToProps = (state) => {
+  return {
+      fornecedor: state.fornecedor
+  }
+}
+
+export default connect(mapStateToProps)(FormEndereco)
+
+FormEndereco.propTypes = {
+  enderecoFornecedor: PropTypes.func.isRequired,
+  voltar: PropTypes.func.isRequired,
+  proximo: PropTypes.func.isRequired,
+  class: PropTypes.string.isRequired
+}

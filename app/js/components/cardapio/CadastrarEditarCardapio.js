@@ -12,12 +12,43 @@ import Switch from '@material-ui/core/Switch';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import CheckIcon from '@material-ui/icons/Check';
 
 import '../../../styles/cardapio/cadastrar-editar-cardapio.css';
 import '../../../styles/common.css';
 
-import AdicionarCategoriaHeader from './AdicionarCategoriaHeader'
+let cardapio = {
+  id: '1',
+  nome: 'Cardapio',
+  ativo: true,
+  categorias: [
+    {
+      id: '1234',
+      nome: 'Lanches',
+      produtos: [
+        {
+          id: '1234',
+          nome: 'X-Tudo',
+          imagem: 'https://img.itdg.com.br/tdg/images/recipes/000/076/733/239570/239570_original.jpg?mode=crop&width=710&height=400',
+          valor: 30.00,
+          estoque: 10
+        }
+      ]
+    },
+    {
+      id: '1234',
+      nome: 'Bebidas',
+      produtos: [
+        {
+          id: '1234',
+          nome: 'Coca-Cola',
+          imagem: 'https://f.i.uol.com.br/fotografia/2018/08/21/15348230475b7b8a8778a2e_1534823047_3x2_md.jpg',
+          valor: 3.00,
+          estoque: 100
+        }
+      ]
+    }
+  ]
+}
 
 const styles = theme => ({
   root: {
@@ -65,13 +96,15 @@ class CadastrarEditarCardapio extends Component {
     this.state = {
       anchorEl: null,
       subcategoria: null,
-      ativarCardapio: false,
-      editarProduto: false
+      ativarCardapio: cardapio.ativo,
+      editarProduto: false,
+      cardapio: cardapio
     }
 
     this.abrirMenuCategoria = this.abrirMenuCategoria.bind(this)
     this.fecharMenuCategoria = this.fecharMenuCategoria.bind(this)
     this.checkAtivarCardapio = this.checkAtivarCardapio.bind(this)
+    this.adicionarNovaCategoria = this.adicionarNovaCategoria.bind(this)
   }
 
   handlerChange(event, valor, state) {
@@ -98,23 +131,27 @@ class CadastrarEditarCardapio extends Component {
     })
   }
 
-  renderizarCategoria() {
-    return (
-      <div className='div-conteudo-categoria'>
-        <div className='div-header-categoria'>
-          <div className='div-nome-categoria'>
-            <span className='span-nome-categoria'> Nome da categoria </span>
-          </div>
-          { this.renderizarMenuCategoria() }
-        </div>
-        <div className='div-produtos-categoria'>
-          { this.renderizarProdutosCategoria() }
-        </div>
-      </div>
-    )
+  adicionarNovaCategoria() {
+    let novaCategoriaNomeDefault = 'Nova Categoria'
+
+    let cardapio = this.state.cardapio
+    let quantidadeNovasCategorias = cardapio.categorias.filter(c => c.nome.includes(novaCategoriaNomeDefault)).length
+    let nomeNovaCategoria = `${novaCategoriaNomeDefault} ${quantidadeNovasCategorias > 0 ? quantidadeNovasCategorias : ''}`
+    cardapio.categorias.push({
+      id: null,
+      nome: nomeNovaCategoria,
+      valor: 0,
+      estoque: 0,
+      produtos: []
+    })
+
+    this.setState({
+      anchorEl: null,
+      cardapio: cardapio
+    })
   }
 
-  renderizarMenuCategoria() {
+  renderizarMenuCategorias() {
     let { anchorEl } = this.state
 
     return (
@@ -141,34 +178,106 @@ class CadastrarEditarCardapio extends Component {
             }
           }}
         >
-          <MenuItem key={'1'} onClick={this.fecharMenuCategoria}>
-            Adicionar produto
-          </MenuItem>
-          <MenuItem key={'2'} onClick={this.fecharMenuCategoria}>
-            Editar nome da categoria
-          </MenuItem>
+          <MenuItem key={'1'} onClick={this.adicionarNovaCategoria}> Adicionar Categoria </MenuItem>
         </Menu>
       </div>
     )
   }
 
-  renderizarProdutosCategoria() {
+  
+  renderizarMenuCategoria() {
+    let { anchorEl } = this.state
+
+    return (
+      <div className='div-menu-categoria'>
+        <IconButton
+          style={{color: 'white'}}
+          aria-label="more"
+          aria-controls="long-menu"
+          aria-haspopup="true"
+          onClick={this.abrirMenuCategoria}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={this.fecharMenuCategoria}
+          PaperProps={{ style: { maxHeight: 48 * 4.5, maxWidth: '250px'}}}
+        >
+          <MenuItem key={'1'} onClick={this.fecharMenuCategoria}> Adicionar Produto </MenuItem>
+          <MenuItem key={'2'} onClick={this.fecharMenuCategoria}> Excluir </MenuItem>
+        </Menu>
+      </div>
+    )
+  }
+
+  renderizarCategorias() {
+    return (
+      <div className='div-conteudo-categoria'>
+        <div className='div-header-categoria'>
+          <div className='titulo-header-categoria'>
+            <span className='span-nome-categoria'> Categorias </span>
+          </div>
+          { this.renderizarMenuCategorias() }
+        </div>
+        {  this.state.cardapio.categorias.map(categoria => this.renderizarCategoria(categoria)) }
+      </div>
+    )
+  }
+
+  renderizarCategoria(categoria) {
+    return (
+      <div className='container-categoria'>
+        <div className='header-categoria'>
+          <div style={{display: 'inline-block', width: '90%'}}>
+            <span className='titulo-categoria'> { categoria.nome } </span>
+          </div>
+          { this.renderizarMenuCategoria() }
+        </div>
+        <div className='div-produtos-categoria'>
+            { 
+              categoria.produtos && categoria.produtos.length > 0 
+              ? categoria.produtos.map(produto => this.renderizarProduto(produto)) 
+              : this.renderizarCategoriaSemProdutos()
+            }
+        </div>
+      </div>
+    )
+  }
+
+  renderizarCategoriaSemProdutos() {
+    return (
+      <div className='container-categoria-sem-produto'>
+        <span className='texto'> A categoria ainda não possui nenhum produto cadastrado </span>
+      </div>
+    )
+  }
+
+  renderizarProduto(produto) {
     let { editarProduto } = this.state
     return (
       <div className='div-conteudo-produtos-categoria'>
+      
           <div className='div-imagem-produto-cardapio'>
-            <img id='img-produto-cardapio' src='https://f.i.uol.com.br/fotografia/2018/08/21/15348230475b7b8a8778a2e_1534823047_3x2_md.jpg'/>
+              <label for="inputImagemProduto" style={{cursor: 'pointer'}}>
+                <img id='img-produto-cardapio' src={produto.imagem}/>
+              </label>
+              <input id="inputImagemProduto" type="file" accept="image/jpeg"/>
           </div>
+
           <div className='div-informacoes-produto-cardapio'>
             <div className='div-nome-produto-categoria'>
-              <span className='titulo'> Nome do produto </span>
+              <span className='titulo'> { produto.nome } </span>
             </div>
             <div className='div-texts-valor-estoque-produto'>
               <TextField
                 disabled={!editarProduto}
                 label='Valor'
                 id="txt-valor"
-                value={'R$ 25.00'}
+                value={`R$ ${produto.valor}`}
                 variant="outlined"
               />
               <TextField
@@ -176,7 +285,7 @@ class CadastrarEditarCardapio extends Component {
                 style={{marginLeft: '20px'}}
                 label='Estoque'
                 id="txt-estoque"
-                value={null}
+                value={produto.estoque}
                 variant="outlined"
               />
             </div>
@@ -206,12 +315,12 @@ class CadastrarEditarCardapio extends Component {
               <TextField
                 label='Nome do cardápio'
                 id="txt-nome-cardapio"
-                value={null}
+                value={cardapio.nome}
                 variant="outlined"
               />
           </div>
           <div className='div-check-cardapio-ativo'>
-            <span id='lblAtivarCardapio' className='texto'> Ativar Cardápio </span>
+            <span id='lblAtivarCardapio' className='texto'> Ativo </span>
             <Switch
               checked={ativarCardapio}
               onChange={(event) => this.checkAtivarCardapio(event)}
@@ -233,8 +342,7 @@ class CadastrarEditarCardapio extends Component {
     return (
       <div className='container-cadastrar-editar-cardapio'>
         { this.informacoesDoCardapio() }
-        <AdicionarCategoriaHeader />
-        {  this.renderizarCategoria() }
+        { this.renderizarCategorias() }
       </div>
     )
   }

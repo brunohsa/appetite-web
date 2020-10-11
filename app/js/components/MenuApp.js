@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import clsx from 'clsx';
+
 import { withStyles, withTheme } from '@material-ui/core/styles';
+
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -15,7 +17,9 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
 import { withRouter } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import cardapioIcone from '../../images/icons/cardapio.png';
 import configIcone from '../../images/icons/configuracoes.png';
@@ -110,11 +114,17 @@ class MenuApp extends Component {
     this.props.history.push(path);
   }
 
+  //REMOVER
+  sair() {
+    localStorage.removeItem('token')
+    this.navegar('/')
+  }
+
   render() {
     let { classes, theme } = this.props;
     let open = this.state.open
     
-    let usuarioLogado = true
+    let usuarioLogado = localStorage.getItem('token')
 
     return (
       <div className={classes.root}>
@@ -137,7 +147,9 @@ class MenuApp extends Component {
                 </IconButton>
                 : null
             }
-            <Typography variant="h6" color="inherit" style={{ flexGrow: '1'}}> Appetite </Typography>
+            <Typography variant="h6" color="inherit" style={{ flexGrow: '1'}}> 
+              <Link to="/" style={{fontFamily: 'Arial, Helvetica, sans-serif', color: 'white', textDecoration: 'none'}}> Appetite </Link> 
+            </Typography>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -170,10 +182,14 @@ class MenuApp extends Component {
               <ListItemText primary={'Configurações'} />
             </ListItem>
             <Divider />
-            <ListItem button onClick={() => this.navegar('/logout')}>
-                <ListItemIcon> <img src={sairIcone} width='25px' /> </ListItemIcon>
-                <ListItemText primary={'Sair'} />
-            </ListItem>
+
+            {
+              //<ListItem button onClick={() => this.navegar('/logout')}>
+                <ListItem button onClick={() => this.sair()}>
+                  <ListItemIcon> <img src={sairIcone} width='25px' /> </ListItemIcon>
+                  <ListItemText primary={'Sair'} />
+              </ListItem>
+            }
           </List>
         </Drawer>
       </div>

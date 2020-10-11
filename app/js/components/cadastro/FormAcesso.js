@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+
+import { connect } from 'react-redux'
 
 const REGEX_CAMPO_EMAIL = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 const REGEX_SENHA_FORTE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
@@ -37,6 +41,12 @@ class FormAcesso extends Component {
     if(!this.camposValidos()) {
       return
     }
+    
+    let login = {
+      email: this.state.email, 
+      senha: this.state.senha
+    }
+    this.props.loginFornecedor(login)
     this.props.proximo();  
   }
 
@@ -138,4 +148,17 @@ class FormAcesso extends Component {
   }
 }
 
-export default FormAcesso
+const mapStateToProps = (state) => {
+  return {
+      fornecedor: state.fornecedor
+  }
+}
+
+export default connect(mapStateToProps)(FormAcesso)
+
+FormAcesso.propTypes = {
+  loginFornecedor: PropTypes.func.isRequired,
+  voltar: PropTypes.func.isRequired,
+  proximo: PropTypes.func.isRequired,
+  class: PropTypes.string.isRequired
+}

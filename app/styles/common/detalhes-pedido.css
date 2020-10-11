@@ -100,6 +100,7 @@
 .coluna-itens {
     position: relative;
     display: inline-block;
+    text-align: center;
 }
 
 .card-itens-pedido {
