@@ -2,8 +2,6 @@ import fornecedorActions from '../actions/creators/fornecedorActionCreators'
 import requisicoesAjax from './requisicoesAjax'
 import configs from '../configuracoes';
 
-const AUTENTICACAO_BASE_URL = 'autenticacao/api/v1'
-
 let fornecedorAPI = {
 
     salvarFornecedor(login, informacoes) {
@@ -22,7 +20,7 @@ let fornecedorAPI = {
             return response
         }
 
-        let url = `${configs.URL_BASE_MS_AUTENTICACAO}${AUTENTICACAO_BASE_URL}/usuarios/cadastrar/fornecedor`
+        let url = `${configs.URL_MS_AUTENTICACAO}v1/usuarios/cadastrar/fornecedor`
         return requisicoesAjax.postSemToken(body, url, acao)
     }
 }

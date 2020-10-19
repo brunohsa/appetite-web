@@ -8,14 +8,6 @@ body {
   margin: 0;
 }
 
-#lblCardapio {
-  font-size: 20px;
-}
-
-#spanNomeCardapio {
-  padding-left: 10px;
-}
-
 .container-cardapio {
   height: 100%;
   width:100%;
@@ -111,7 +103,7 @@ body {
   width: 5%; 
   display: inline-block;
   position: relative;
-  bottom: 38%;
+  bottom: 50%;
 }
 
 .div-btn-add-cardapio {
@@ -138,4 +130,5 @@ body {
 
 .container-itens-cardapio {
   overflow: auto;
+  height: 88%;
 }

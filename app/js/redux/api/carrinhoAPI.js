@@ -10,7 +10,7 @@ const statusPedidos = {
     CONCLUIDO: 'CONCLUIDO'
 }
 
-const PEDIDOS_FORNECEDORES_BASE_URL = 'carrinho/api/v1/pedidos/fornecedores'
+const PEDIDOS_FORNECEDORES_BASE_URL = 'v1/pedidos/fornecedores'
 
 let carrinhoAPI = {
 

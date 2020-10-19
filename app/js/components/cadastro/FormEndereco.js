@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
+import MaskedInput from 'react-text-mask';
+
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -52,6 +55,22 @@ class FormEndereco extends Component {
     this.props.proximo();  
   }
 
+  TextMaskCEP(props) {
+    const { inputRef, ...other } = props;
+  
+    return (
+      <MaskedInput
+        {...other}
+        ref={(ref) => {
+          inputRef(ref ? ref.inputElement : null);
+        }}
+        mask={[/[1-9]/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/]}
+        placeholderChar={"\u2000"}
+        showMask
+      />
+    );
+  }
+
   camposValidos() {
     let erros = {
       cep: this.validarCampoObrigatorio(this.state.cep),
@@ -79,13 +98,13 @@ class FormEndereco extends Component {
       <div>
         <div>
           <TextField id="txtCEP" 
-                     label="CEP" 
-                     type='Number' 
+                     label="CEP"
                      value={state.cep} 
                      onChange={(event) => this.handlerChange('cep', event)} 
                      error={erros.cep != ''} 
                      helperText={erros.cep}
-                     style={{width: '55%'}}/>
+                     style={{width: '55%'}}
+                     InputProps={{ inputComponent: this.TextMaskCEP}}/>
         </div>
         <div style={{paddingTop:'10px'}}>
           <TextField id="txtEndereco" 

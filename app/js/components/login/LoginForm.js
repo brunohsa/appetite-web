@@ -34,10 +34,9 @@ class LoginForm extends Component {
     }
     
     doLogin() {
-        if(!this.camposValidos()) {
-            return
+        if(this.camposValidos()) {
+            this.props.fazerLogin(this.state.email, this.state.senha);
         }
-        this.props.fazerLogin(this.state.email, this.state.senha);
     }
 
     camposValidos() {

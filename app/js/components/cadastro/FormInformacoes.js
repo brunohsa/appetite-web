@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 import { connect } from 'react-redux'
+
+import MaskedInput from 'react-text-mask';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 const MENSAGEM_ERRO_CAMPO_OBRIGATORIO = '* Campo Obrigatório'
 
@@ -66,6 +69,22 @@ class FormInformacoes extends Component {
     })
   }
 
+  TextMaskTelefone(props) {
+    const { inputRef, ...other } = props;
+  
+    return (
+      <MaskedInput
+        {...other}
+        ref={(ref) => {
+          inputRef(ref ? ref.inputElement : null);
+        }}
+        mask={["(", /[1-9]/, /\d/, ")", " ", /\d/, /\d/, /\d/, /\d/ , "-" , /\d/, /\d/, /\d/, /\d/, /\d/ ]}
+        placeholderChar={"\u2000"}
+        showMask
+      />
+    );
+  }
+
   render() {
     const props = this.props
     let state = this.state
@@ -105,14 +124,14 @@ class FormInformacoes extends Component {
                      style={{width: '27.5%', paddingRight: '20px'}}/>
 
           <TextField id="txtTelefone" 
-                     label="Telefone com DDD" 
-                     type='Number'
+                     label="Telefone"
                      margin="normal" 
                      value={state.telefone}
                      error={erros.telefone !== ''} 
                      helperText={erros.telefone}
                      onChange={(event) => this.handlerChange('telefone', event)}
-                     style={{width: '27.5%'}}/> 
+                     style={{width: '27.5%'}}
+                     InputProps={{ inputComponent: this.TextMaskTelefone}}/> 
         </div>
 
         <div style={{display: 'flex', justifyContent: 'center', position: 'relative', top: '50px'}}>

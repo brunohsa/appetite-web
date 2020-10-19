@@ -2,10 +2,73 @@ import actionTypes from '../actionTypes';
 
 let loginActions = {
 
-    doLogin(login) {
+    cardapiosEncontrados(cardapios) {
         return {
-            type: actionTypes.DO_LOGIN, 
-            login
+            type: actionTypes.CARDAPIOS_ENCONTRADOS, 
+            cardapios
+        }
+    },
+
+    cardapioCriado(cardapios) {
+        return {
+            type: actionTypes.CARDAPIO_CRIADO, 
+            cardapios
+        }
+    },
+
+    cardapioEncontrado(cardapio) {
+        return {
+            type: actionTypes.CARDAPIO_ENCONTRADO, 
+            cardapio
+        }
+    },
+
+    categoriaCriada(cardapio) {
+        return {
+            type: actionTypes.CATEGORIA_CRIADA, 
+            cardapio
+        }
+    },
+
+    subcategoriasEncontrada(subcategorias) {
+        return {
+            type: actionTypes.SUBCATEGORIAS_ENCONTRADA, 
+            subcategorias
+        }
+    },
+
+    produtoCriado(cardapio) {
+        return {
+            type: actionTypes.PRODUTO_ADICIONADO, 
+            cardapio
+        }
+    },
+
+    categoriaRemovida(cardapio) {
+        return {
+            type: actionTypes.CATEGORIA_REMOVIDA, 
+            cardapio
+        }
+    },
+
+    produtoRemovido(cardapio) {
+        return {
+            type: actionTypes.PRODUTO_REMOVIDO, 
+            cardapio
+        }
+    },
+
+    downloadImagemRealizado(imagemBlob) {
+        return {
+            type: actionTypes.IMAGEM_BAIXADA, 
+            imagemBlob
+        }
+    },
+
+    cardapioRemovido(cardapios) {
+        return {
+            type: actionTypes.CARDAPIO_REMOVIDO, 
+            cardapios
         }
     }
 }

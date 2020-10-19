@@ -28,6 +28,7 @@
 
 #lista-de-pedidos {
     position: relative;
+    height: 100%;
 }
 
 #header-home {
@@ -132,4 +133,11 @@
     font-weight: bold;
     color: rgb(112, 123, 129);
     position: relative;
+}
+
+.sem-pedidos-recentes {
+    color: black;
+    line-height: 300px;
+    font-size: 20px;
+    text-align: center;
 }

@@ -1,4 +1,9 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
@@ -10,8 +15,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 
-import { withRouter } from "react-router-dom";
-
 import iconeRemover from '../../images/icons/remover.png';
 
 import CadastrarCardapioDialog from './cardapio/CadastrarCardapioDialog'
@@ -19,42 +22,17 @@ import CadastrarCardapioDialog from './cardapio/CadastrarCardapioDialog'
 import '../../styles/cardapio.css';
 import '../../styles/common.css';
 
-let cardapios = [
-    {
-        "nome": "Cardapio 1",
-        "ativo": true,
-        "categorias": [
-            {
-                "titulo": "Sobremesas",
-                "produtos": [
-                    {
-                        "nome": "teste prod"
-                    }
-                ]
-            },
-            {
-                "titulo": "Lanches",
-                "produtos": [
-                    {
-                        "nome": "teste prod 2"
-                    },
-                    {
-                        "nome": "Item 2"
-                    }
-                ]
-            }
-        ]
-    }
-]
-
 class CardapioComponent extends Component {
 
     constructor(props) {
         super(props)
 
+        this.props.buscarCardapios()
+
         this.state = {
             abrirPopup: false,
             nomeCardapioRemocao: null,
+            idCardapioRemocao: null,
             filtrando: false,
             cardapiosFiltrados: [],
             abrirDialogCadastro: false
@@ -69,34 +47,40 @@ class CardapioComponent extends Component {
         this.fecharDialogCadastro = this.fecharDialogCadastro.bind(this);
     }
     
-    abrirDialogConfirmacaoRemocaoCardapio(idCardapio) {
+    componentDidUpdate() {
+        this.renderizarCardapios()
+    }
+
+    abrirDialogConfirmacaoRemocaoCardapio(idCardapio, nomeCardapio) {
         this.setState({
             abrirPopup: true,
-            nomeCardapioRemocao: idCardapio
+            nomeCardapioRemocao: nomeCardapio,
+            idCardapioRemocao: idCardapio
         });
     }
 
     fecharDialogRemocaoCardapio() {
-        this.setState({
-            abrirPopup: false
-        });
+        this.setState({ abrirPopup: false })
     }
 
     removerCardapio() {
-        this.fecharDialogRemocaoCardapio();
+        this.fecharDialogRemocaoCardapio()
+        this.props.removerCardapio(this.state.idCardapioRemocao)
     }
 
     editarVisualizarCardapio(id) {
-        this.props.history.push('/cardapios-editar/' + id);
+        this.props.history.push('/cardapios-editar/' + id)
     }
     
     filtrarCardapios(event) {
+        let { cardapios } = this.props.cardapioStore
+        
         let filtro = event.target.value
         let cardapiosFiltrados = []
         let filtrando = false
 
         if(filtro.length > 3) {
-            cardapiosFiltrados = cardapios.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()));
+            cardapiosFiltrados = cardapios.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()))
             filtrando = true
         } else if(filtro.length == 0) {
             filtrando = false   
@@ -112,11 +96,14 @@ class CardapioComponent extends Component {
             <div className='container-lista-cardapios'>
                 <div className={cardapio.ativo ? 'status-item status-ativo' : 'status-item status-inativo'}/>
                 <div className='content-lista-cardapios'>
-                    <div className='label-item-cardapio' onClick={() => this.editarVisualizarCardapio(cardapio.nome)}> 
-                        <span id='spanNomeCardapio' className='titulo'> { cardapio.nome } </span> 
+                    <div className='label-item-cardapio' onClick={() => this.editarVisualizarCardapio(cardapio.id)}> 
+                        <span style={{paddingLeft: '10px'}} className='titulo'> { cardapio.nome } </span> 
                     </div>
                     <div className='btns-item-cardapio'> 
-                        <Button className='btn-remover-cardapio' variant="contained" onClick={() => this.abrirDialogConfirmacaoRemocaoCardapio(cardapio.nome)}>
+                        <Button 
+                            className='btn-remover-cardapio' 
+                            variant="contained" 
+                            onClick={() => this.abrirDialogConfirmacaoRemocaoCardapio(cardapio.id, cardapio.nome)}>
                             <img src={iconeRemover} width='25px' />
                         </Button>
                     </div>
@@ -126,14 +113,16 @@ class CardapioComponent extends Component {
     }
 
     renderizarCardapios() {
-        let cardapiosParaRenderizar = this.state.filtrando ? this.state.cardapiosFiltrados : cardapios;
-        return cardapiosParaRenderizar.map(c => this.criarItemCardapio(c))
+        let { cardapios } = this.props.cardapioStore
+
+        let cardapiosParaRenderizar = this.state.filtrando ? this.state.cardapiosFiltrados : cardapios
+        return cardapiosParaRenderizar ? cardapiosParaRenderizar.map(c => this.criarItemCardapio(c)) : null
     }
 
     criarDialogRemocaoCardapio() {
         return (
-            <Dialog onClose={this.fecharDialogRemocaoCardapio} aria-labelledby="customized-dialog-title" open={this.state.abrirPopup}>
-                <DialogTitle id="customized-dialog-title" onClose={this.fecharDialogRemocaoCardapio}> Informativo </DialogTitle>
+            <Dialog onClose={this.fecharDialogRemocaoCardapio} open={this.state.abrirPopup}>
+                <DialogTitle onClose={this.fecharDialogRemocaoCardapio}> Informativo </DialogTitle>
                 <DialogContent dividers>
                     <Typography gutterBottom>
                         Deseja realmente remover o cardápio <span style={{fontWeight: 'bold'}}> {this.state.nomeCardapioRemocao} </span> ? <br/>
@@ -149,20 +138,17 @@ class CardapioComponent extends Component {
     }
 
     abrirDialogCadastro() {
-        this.setState({
-            abrirDialogCadastro: true
-        })
+        this.setState({ abrirDialogCadastro: true })
     }
 
     fecharDialogCadastro() {
-        this.setState({
-            abrirDialogCadastro: false
-        })
+        this.setState({ abrirDialogCadastro: false })
     }
 
     render() {
-        let state = this.state;
-    
+        let { abrirDialogCadastro } = this.state
+        let { criarCardapio }  = this.props
+
         return (    
             <div className='container-cardapio'>
                 <div>
@@ -171,10 +157,15 @@ class CardapioComponent extends Component {
                 <div className='container-content-cardapio'>
                     <div className='container-conteudos content-cardapio'>
                         <div className='header-cardapio'>
-                            <label id="lblCardapio" className='titulo'> Cardápios </label>
+                            <label style={{fontSize: '20px'}} className='titulo'> Cardápios </label>
                         </div>
                         <div className='container-txt-busca'>
-                            <TextField id='txt-busca' label='Busca' type='search' variant='filled' className='txt-busca' onChange={(event) => this.filtrarCardapios(event)} />
+                            <TextField 
+                                label='Busca' 
+                                type='search' 
+                                variant='filled' 
+                                className='txt-busca' 
+                                onChange={(event) => this.filtrarCardapios(event)} />
                         </div>
                         <div className='container-itens-cardapio'>
                             {  this.renderizarCardapios() }
@@ -186,10 +177,24 @@ class CardapioComponent extends Component {
                         </Fab>
                     </div>
                     { this.criarDialogRemocaoCardapio() }
-                    <CadastrarCardapioDialog abrirDialog={state.abrirDialogCadastro} fecharDialog={this.fecharDialogCadastro} />
+                    <CadastrarCardapioDialog abrirDialog={abrirDialogCadastro} fecharDialog={this.fecharDialogCadastro} criarCardapio={criarCardapio}/>
                 </div>
             </div>
         )
     }
 }
-export default withRouter(CardapioComponent)
+
+const mapStateToProps = (state) => {
+    return {
+        cardapioStore: state.cardapio,
+        erro: state.erro
+    }
+}
+  
+export default withRouter(connect(mapStateToProps)(CardapioComponent))
+
+CardapioComponent.propTypes = {
+    criarCardapio: PropTypes.func.isRequired,
+    buscarCardapios: PropTypes.func.isRequired,
+    removerCardapio: PropTypes.func.isRequired
+}

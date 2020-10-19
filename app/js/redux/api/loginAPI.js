@@ -16,7 +16,7 @@ let loginAPI = {
             return response
         }
 
-        let url = `${configs.URL_BASE_MS_AUTENTICACAO}autenticacao/api/v1/autenticar`
+        let url = `${configs.URL_MS_AUTENTICACAO}v1/autenticar`
         return requisicoesAjax.postSemToken(body, url, acao)
     }
     

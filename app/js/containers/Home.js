@@ -12,6 +12,7 @@ import carrinhoAPI from '../redux/api/carrinhoAPI'
 import TabelaModelo from '../modelos/TabelaModelo'
 
 import '../../styles/home.css';
+import '../../styles/common.css';
 
 class Home extends Component {
 
@@ -84,12 +85,15 @@ class Home extends Component {
                 </div>
                 <div id='lista-de-pedidos'>
                   { 
-                    pedidos ?
-                      pedidos.map(pedido => 
-                      <div id={pedido.id} className='list-pedidos-content' onClick={() => this.abrirDetalhesDoPedido(pedido)}> 
-                        <CardPedido pedido={pedido} /> 
+                    pedidos && pedidos.length > 0 
+                    ? pedidos.map(pedido => 
+                        <div id={pedido.id} className='list-pedidos-content' onClick={() => this.abrirDetalhesDoPedido(pedido)}> 
+                          <CardPedido pedido={pedido} /> 
+                        </div>
+                      )
+                    : <div className='sem-pedidos-recentes'> 
+                          <span className='titulo'> Ainda não possui nenhum pedido recente. </span> 
                       </div>
-                    ) : null
                   }
                 </div>
               </div>
