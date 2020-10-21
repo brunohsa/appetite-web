@@ -28,7 +28,7 @@ class LoginForm extends Component {
     }
 
     componentDidUpdate() {
-        if(this.props.login.loginRealizado) {
+        if(this.props.loginStore.loginRealizado) {
             this.props.history.push("/home");
         }
     }
@@ -114,7 +114,7 @@ class LoginForm extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        login: state.login,
+        loginStore: state.login,
         erro: state.erro
     }
 }

@@ -71,7 +71,7 @@ let carrinhoAPI = {
         let acao = (response, dispatch) => response
         let body = JSON.stringify({
             titulo: categoria.titulo,
-            subcategoria_id: categoria.subcategoria.id
+            subcategoria_id: categoria.subcategoria ? categoria.subcategoria.id : null
         })
 
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${cardapioId}/cartegoria/${categoriaId}/alterar`

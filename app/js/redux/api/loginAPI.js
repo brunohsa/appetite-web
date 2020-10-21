@@ -12,7 +12,7 @@ let loginAPI = {
 
         let acao = (response, dispatch) => {
             localStorage.setItem('token', response.headers.get('token'));
-            dispatch(loginActions.loginRealizado(response));
+            dispatch(loginActions.loginRealizado());
             return response
         }
 

@@ -4,8 +4,19 @@ let loginActions = {
 
     loginRealizado() {
         return {
-            type: actionTypes.LOGIN_REALIZADO, 
-            login: { loginRealizado: true }
+            type: actionTypes.LOGIN_REALIZADO
+        }
+    },
+
+    fazerLogout() {
+        return {
+            type: actionTypes.FAZER_LOGOUT
+        }
+    },
+
+    logoutRealizado() {
+        return {
+            type: actionTypes.LOGOUT_REALIZADO
         }
     }
 }

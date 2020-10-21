@@ -18,7 +18,7 @@ let carrinhoAPI = {
         let dataAgoraFormatada = DateUtils.getDataAgoraFormatada()
        
         let acao = (response, dispatch) => {
-            dispatch(carrinhoActions.resumoPedidosEncontrados(response));
+            dispatch(carrinhoActions.resumoPedidosEncontrados(response.body));
             return response
         }
 
