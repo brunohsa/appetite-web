@@ -85,12 +85,10 @@ class Tabela extends Component {
   handleSelectAllClick(event) {
     let newSelecteds = []
     if (event.target.checked) {
-      newSelecteds = this.props.tabelaModelo.linhas.map((n) => n.name);
+      newSelecteds = this.props.tabelaModelo.linhas.map(n => n.id);
     }
     
-    this.setState({
-      selected: newSelecteds
-    })
+    this.setState({ selected: newSelecteds })
   }
 
   handleClick(event, name) {
@@ -122,7 +120,7 @@ class Tabela extends Component {
 
   getLinhasVazias() {
     let { rowsPerPage, page } =  this.state
-    return rowsPerPage - Math.min(rowsPerPage, this.props.linhas.length - page * rowsPerPage);
+    return rowsPerPage - Math.min(rowsPerPage, this.props.tabelaModelo.linhas.length - page * rowsPerPage);
   }
 
   descendingComparator(a, b, orderBy) {
@@ -155,7 +153,7 @@ class Tabela extends Component {
       let { selected, order, orderBy, page, rowsPerPage } = this.state
       let { classes, headerToolbar, tabelaModelo, habilitarCheckBox } = this.props
 
-      let linhas =  tabelaModelo.linhas
+      let linhas = tabelaModelo.linhas
 
       return (
         <div className={classes.root}>
@@ -250,11 +248,7 @@ Tabela.propTypes = {
     colunas: PropTypes.shape({
       id: PropTypes.string.isRequired,
       titulo: PropTypes.string.isRequired
-    }),
-    linhas: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      valores: PropTypes.array.isRequired
-    }),
+    })
   }),
   habilitarCheckBox: PropTypes.bool
 }

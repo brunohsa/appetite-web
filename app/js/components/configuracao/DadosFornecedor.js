@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 import TextField from '@material-ui/core/TextField';
 
@@ -11,33 +12,42 @@ class DadosFornecedor extends Component {
     super(props)
   }
 
+  criarConteudoVisualizar(nomeCampo, valor) { 
+    return (
+      <div className='container-form-config'>
+        <span className='texto'> { nomeCampo } </span>
+        <div className='div-conteudo-config'>
+          <TextField
+            disabled
+            id="outlined-disabled"
+            value={valor}
+            variant="outlined"
+            className='input-forms-config'
+          />
+        </div>
+      </div>
+    )
+  }
+
   render() {
 
-    function criarConteudoVisualizar(nomeCampo, valor) { 
-      return (
-        <div className='container-form-config'>
-          <span className='texto'> {nomeCampo} </span>
-          <div className='div-conteudo-config'>
-            <TextField
-              disabled
-              id="outlined-disabled"
-              value={valor}
-              variant="outlined"
-              className='input-forms-config'
-            />
-          </div>
-        </div>
-      )
-    }
+    let { cadastro } = this.props.cadastroStore
+    let pessoa = cadastro ? cadastro.pessoa : null
 
     return (
       <div>
-          { criarConteudoVisualizar('Razão Social', 'Lanchonete do Zé') }
-          { criarConteudoVisualizar('CNPJ', '15.810.332/0001-09') }
-          { criarConteudoVisualizar('Telefone', '(19) 98356-2724') }
+          { this.criarConteudoVisualizar('Razão Social', pessoa ? pessoa.razao_social : '') }
+          { this.criarConteudoVisualizar('CNPJ', pessoa ? pessoa.cnpj : '') }
+          { this.criarConteudoVisualizar('Telefone', pessoa ? pessoa.telefone : '') }
       </div>
     )
   }
 }
 
-export default DadosFornecedor
+const mapStateToProps = (state) => {
+  return {
+      cadastroStore: state.cadastro
+  }
+}
+
+export default connect(mapStateToProps)(DadosFornecedor)

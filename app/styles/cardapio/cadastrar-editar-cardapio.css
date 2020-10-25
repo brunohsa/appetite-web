@@ -152,18 +152,6 @@
   display: inline-block;
 }
 
-.container-sem-itens {
-    height: 100px;
-    border: 1px solid rgb(214, 214, 214);
-    border-top: none;
-    background-color: #F8F8F8;
-    text-align: center;
-    margin: auto;
-    vertical-align: middle;
-    position: relative;
-    line-height: 100px;
-}
-
 .editar-nome-categoria {
   position: relative;
   bottom: 5px;

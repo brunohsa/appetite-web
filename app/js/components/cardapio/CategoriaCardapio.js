@@ -11,15 +11,14 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
-
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import EditIcon from '@material-ui/icons/Edit';
 
 import ProdutoCardapio from './ProdutoCardapio'
 
@@ -235,7 +234,9 @@ class CategoriaCardapio extends Component {
                                     onChange={(event) => this.atualizarNomeCategoria(event.target.value, categoria.id)} 
                                 /> 
                                 </div>
-                            : <span className='titulo-categoria' onClick={() => this.editarNomeCategoria()}> { categoria.titulo } </span>
+                            : <span className='titulo-categoria' onClick={() => this.editarNomeCategoria()}> { categoria.titulo } 
+                                <EditIcon style={{position: 'relative', top: '6px', left: '5px', height: '20px'}}/>
+                              </span>
                         }
                     </div>
                     <div className='container-sub-categoria'>
@@ -244,6 +245,7 @@ class CategoriaCardapio extends Component {
                           ? this.renderizarSubcategorias() 
                           : <span className='titulo-categoria' onClick={() => this.editarSubcategoria()}> 
                               { categoria.subcategoria ? categoria.subcategoria.descricao : 'Subcategoria' } 
+                              <EditIcon style={{position: 'relative', top: '6px', left: '5px', height: '20px'}}/>
                             </span>
                       } 
                     </div>

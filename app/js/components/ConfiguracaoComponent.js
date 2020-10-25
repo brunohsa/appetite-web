@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 import DadosFornecedor from './configuracao/DadosFornecedor'
 import EnderecoFornecedor from './configuracao/EnderecoFornecedor'
@@ -14,28 +15,32 @@ class ConfiguracaoComponent extends Component {
     super(props);
   }
 
-  render() {
-
-    function criarConteudo(titulo, componente) { 
-      return (
-        <div className='container-conteudo'>
-          <span className='titulo'> {titulo} </span>
-          <div className='container-conteudos conteudo-config'>
-            { componente }
-          </div>
+  criarConteudo(titulo, componente) { 
+    return (
+      <div className='container-conteudo'>
+        <span className='titulo'> {titulo} </span>
+        <div className='container-conteudos conteudo-config'>
+          { componente }
         </div>
-      )
-    }
+      </div>
+    )
+  }
+
+  render() {
 
     return (
       <div className='container-configuracoes'>
-        { criarConteudo('Dados do Fornecedor', <DadosFornecedor />) }
-        { criarConteudo('Endereço', <EnderecoFornecedor />) }
-        { criarConteudo('Horário de Funcionamento', <HorarioFuncionamento />) }
-        { criarConteudo('Adicionar Horário Diferenciado', <HorarioEspecial />) }
+        { this.criarConteudo('Dados do Fornecedor', <DadosFornecedor />) }
+        { this.criarConteudo('Endereço', <EnderecoFornecedor />) }
+        { this.criarConteudo('Horário de Funcionamento', <HorarioFuncionamento />) }
+        { this.criarConteudo('Horário Diferenciado', <HorarioEspecial />) }
       </div>    
     );
   }
 }
 
-export default ConfiguracaoComponent;
+export default ConfiguracaoComponent
+
+ConfiguracaoComponent.propTypes = {
+  adicionarHorarioDiferenciado: PropTypes.func.isRequired
+}

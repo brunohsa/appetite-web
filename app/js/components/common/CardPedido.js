@@ -54,7 +54,7 @@ class CardPedido extends Component {
                   <span> Hora: 12:25 </span>
                 </div>
                 <div className='ellipsis-texts'>
-                  <span> Produto(s): {pedido.itens.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2)} </span> 
+                  <span> Produto(s): {pedido.itens ? pedido.itens.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2) : null } </span> 
                 </div>
                 <div>
                   <span> Status: <b> {pedido.status} </b> </span>

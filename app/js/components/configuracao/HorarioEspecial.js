@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 import DateFnsUtils from '@date-io/date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -13,23 +14,6 @@ import Tabela from '../common/Tabela'
 
 import '../../../styles/configuracoes/horario-especial.css';
 
-const linhas = [
-  { 
-    id: 1,
-    dataCadastro: '14/08/2020', 
-    dataEspecial: '04/11/2020',
-    abertura: '12:00',
-    fechamento: '16:00'
-  },
-  { 
-    id: 2,
-    dataCadastro: '12/08/2020', 
-    dataEspecial: '25/12/2020',
-    abertura: '12:00',
-    fechamento: '16:00'
-  }
-];
-
 
 class HorarioEspecial extends Component {
 
@@ -41,8 +25,7 @@ class HorarioEspecial extends Component {
       dataCadastroFiltro: null,
       dataEspecialFiltro: null,
       horarioAbertura: '00:00',
-      horarioFechamento: '00:00',
-      linhas: linhas
+      horarioFechamento: '00:00'
     }
 
     this.handleDateChange = this.handleDateChange.bind(this)
@@ -83,7 +66,7 @@ class HorarioEspecial extends Component {
                 {  this.criarDatePicker("data-cadastro-filtro", "Data de cadastro", dataCadastroFiltro, 'dataCadastroFiltro' ) }
               </div>
               <div style={{display: 'inline-block'}}>
-                { this.criarDatePicker("data-especial-filtro", "Data especialo", dataEspecialFiltro, 'dataEspecialFiltro' ) }
+                { this.criarDatePicker("data-especial-filtro", "Data especial", dataEspecialFiltro, 'dataEspecialFiltro' ) }
               </div>
           </MuiPickersUtilsProvider>
         </div>
@@ -102,12 +85,6 @@ class HorarioEspecial extends Component {
       abertura: this.state.horarioAbertura,
       fechamento: this.state.horarioFechamento
     }
-    
-    let linhasAtualizadas = this.state.linhas
-    linhasAtualizadas.push(novoRegistro)
-    this.setState({  
-      linhas: linhasAtualizadas
-    })
   }
 
   getTabelaModelo() {    
@@ -118,13 +95,13 @@ class HorarioEspecial extends Component {
       { id: 'fechamento',  titulo: 'Fechamento' }
     ];
 
-    let linhas = this.state.linhas.map(linha => 
-      (
-        { id: linha.id,
-          valores: [linha.dataCadastro, linha.dataEspecial, linha.abertura, linha.fechamento]
-        }
-      )
-    )
+    let { horariosDiferenciados } = this.props.cadastroStore
+
+    let linhas = horariosDiferenciados ? 
+        horariosDiferenciados.map(linha => ({  
+          id: linha.id,
+          valores: [linha.data_cadastro, linha.data_especial, linha.abertura, linha.fechamento] 
+        })) : []
 
     return new TabelaModelo(colunas, linhas)
   }
@@ -135,7 +112,12 @@ class HorarioEspecial extends Component {
 
     return (
       <div className='container-hora-especial'>
-        <div style={{width:'95%', margin: '0 auto', marginBottom: '10px'}}>
+        <div style={{width:'95%', margin: '0 auto', padding: '15px', marginBottom: '10px', border: '1px solid rgb(214, 214, 214)'}}>
+
+          <div style={{marginBottom: '10px'}}>
+            <span className='texto'> Adicionar novo horário diferenciado </span>
+          </div>
+
           <div className='div-data'>
             <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
               { this.criarDatePicker("data-adicionar", "Data", this.state.dataAdicao, 'dataAdicao' ) }
@@ -154,11 +136,17 @@ class HorarioEspecial extends Component {
           </div>
         </div>    
         <div style={{width: '95%', margin: '0 auto'}}>
-          <Tabela habilitarCheckBox={true} headerToolbar={this.criarHeaderBusca} linhas={this.state.linhas} tabelaModelo={this.getTabelaModelo()}/>
+          <Tabela habilitarCheckBox={true} headerToolbar={this.criarHeaderBusca} tabelaModelo={this.getTabelaModelo()}/>
         </div>
       </div>
     )
   }
 }
 
-export default HorarioEspecial
+const mapStateToProps = (state) => {
+  return {
+      cadastroStore: state.cadastro
+  }
+}
+
+export default connect(mapStateToProps)(HorarioEspecial)
