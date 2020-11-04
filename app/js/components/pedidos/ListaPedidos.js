@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import Pagination from '@material-ui/lab/Pagination';
 import CardPedido from '../common/CardPedido';
-import DetalhesPedido from '../common/DetalhesPedido';
 
 import '../../../styles/pedidos-component.css';
 import '../../../styles/common.css';
@@ -16,9 +15,7 @@ class ListaPedidos extends Component {
     super(props);
 
     this.state = {
-      pagina: 1,
-      abrirDetalhes: false,
-      pedido: null
+      pagina: 1
     }
 
     this.handleChangePage = this.handleChangePage.bind(this)
@@ -26,19 +23,6 @@ class ListaPedidos extends Component {
 
   handleChangePage(event, newPage) {
     this.setState({ pagina: newPage })
-  }
-
-  abrirDetalhesDoPedido(pedido) {
-    this.setState({
-      abrirDetalhes: true,
-      pedido: pedido
-    })
-  }
-
-  fecharDetalhesDoPedido() {
-    this.setState({
-      abrirDetalhes: false
-    })
   }
 
   renderizarSemItens() {
@@ -66,7 +50,7 @@ class ListaPedidos extends Component {
                 pedidos.slice((pagina - 1) * itensPorPagina, pagina * itensPorPagina)
                 .map((pedido) => {
                   return (
-                      <div id={pedido.id} className='list-pedidos-content' onClick={() => this.abrirDetalhesDoPedido(pedido)}> 
+                      <div id={pedido.id} className='list-pedidos-content'> 
                         <CardPedido pedido={pedido} habilitarAcoes={true} /> 
                       </div>
                   )
@@ -77,7 +61,6 @@ class ListaPedidos extends Component {
         <div className='paginacao-pedidos'>
             <Pagination count={numeroDePaginas} page={pagina} onChange={this.handleChangePage}/>
         </div>
-        { this.state.abrirDetalhes ? <DetalhesPedido pedido={this.state.pedido} fecharDetalhesDoPedido={() => this.fecharDetalhesDoPedido()}/> : null }
       </div>
     );
   }

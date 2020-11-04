@@ -19,13 +19,11 @@ import EnhancedTableToolbar from './tabela/EnhancedTableToolbar'
 const styles = theme => ({
   root: {
     width: '100%',
+    height: '100%'
   },
   paper: {
     width: '100%',
     marginBottom: theme.spacing(2),
-  },
-  table: {
-    minWidth: 750,
   },
   visuallyHidden: {
     border: 0,
@@ -45,12 +43,13 @@ class Tabela extends Component {
   constructor(props) {
     super(props);
 
+    let linhas = this.props.linhasPorPagina ? this.props.linhasPorPagina : 5
     this.state = {
       order: 'asc',
       orderBy: '',
       selected: [],
       page: 0,
-      rowsPerPage: 5
+      rowsPerPage: linhas
     }
 
     this.handleRequestSort = this.handleRequestSort.bind(this)
@@ -58,6 +57,7 @@ class Tabela extends Component {
     this.handleChangeRowsPerPage = this.handleChangeRowsPerPage.bind(this)
     this.handleSelectAllClick = this.handleSelectAllClick.bind(this)
     this.handleClick = this.handleClick.bind(this)
+    this.remover = this.remover.bind(this)
   }
 
   handleRequestSort(event, property) {
@@ -92,6 +92,9 @@ class Tabela extends Component {
   }
 
   handleClick(event, name) {
+    if(!this.props.habilitarCheckBox) {
+      return
+    }
     let { selected } = this.state
 
     const selectedIndex = selected.indexOf(name);
@@ -116,11 +119,6 @@ class Tabela extends Component {
 
   isSelected(name) {
     return this.state.selected.indexOf(name) !== -1;
-  }
-
-  getLinhasVazias() {
-    let { rowsPerPage, page } =  this.state
-    return rowsPerPage - Math.min(rowsPerPage, this.props.tabelaModelo.linhas.length - page * rowsPerPage);
   }
 
   descendingComparator(a, b, orderBy) {
@@ -149,6 +147,27 @@ class Tabela extends Component {
     return stabilizedThis.map((el) => el[0]);
   }
 
+  remover() {
+    let { selected } = this.state
+    
+    this.props.remover(selected)
+    this.setState({selected: []})
+  }
+
+  desenharLinhas() {
+    if(!this.props.tabelaModelo.linhas && !this.props.tabelaModelo.linhas) {
+      return null
+    }
+    let mininoDeLinhas = (this.state.rowsPerPage * (this.state.page + 1)) - this.props.tabelaModelo.linhas.length
+    let linhasParaDesenhar = mininoDeLinhas > 0 ? mininoDeLinhas : 0
+    return (
+      Array.from(Array(linhasParaDesenhar), () => 
+        <TableRow style={{height: '53px'}}>
+        </TableRow>
+      )
+    )
+  }
+
   render() {
       let { selected, order, orderBy, page, rowsPerPage } = this.state
       let { classes, headerToolbar, tabelaModelo, habilitarCheckBox } = this.props
@@ -159,15 +178,10 @@ class Tabela extends Component {
         <div className={classes.root}>
           <Paper className={classes.paper}>
             {
-              headerToolbar ? 
-              <EnhancedTableToolbar numSelected={selected.length} headerToolbar={headerToolbar} /> : null
+              headerToolbar ? <EnhancedTableToolbar numSelected={selected.length} headerToolbar={headerToolbar} remover={this.remover}/> : null
             }
             <TableContainer>
-              <Table
-                className={classes.table}
-                aria-labelledby="tableTitle"
-                aria-label="enhanced table"
-              >
+              <Table>
                 <EnhancedTableHead
                   classes={classes}
                   numSelected={selected.length}
@@ -203,22 +217,15 @@ class Tabela extends Component {
                                 checked={isItemSelected}
                                 inputProps={{'aria-labelledby': labelId }}
                               />
-                            </TableCell>
-                            : null
+                            </TableCell> : null
                           }
-                          {
-                            linha.valores.map(valor => {
-                              return (<TableCell align="center">{valor}</TableCell>)
-                            })
-                          }
+                          { linha.valores.map(valor => <TableCell align="center">{valor}</TableCell>) }
                         </TableRow>
                       );
-                    })}
+                    })
+                  }
                   {
-                    this.getLinhasVazias() > 0 &&
-                      <TableRow style={{ height: 170 }}>
-                        <TableCell colSpan={6} />
-                      </TableRow>
+                    this.desenharLinhas()
                   }
                 </TableBody>
               </Table>
@@ -231,7 +238,9 @@ class Tabela extends Component {
               page={page}
               onChangePage={this.handleChangePage}
               onChangeRowsPerPage={this.handleChangeRowsPerPage}
-              nextPageLabel="Reihen pro Seite:"
+              nextIconButtonText="Próxima página"
+              backIconButtonText="Página anterior"
+              labelDisplayedRows={() => `${page + 1} de ${Math.ceil(this.props.tabelaModelo.linhas.length  / rowsPerPage)}`}
             />
           </Paper>
         </div>
@@ -250,5 +259,6 @@ Tabela.propTypes = {
       titulo: PropTypes.string.isRequired
     })
   }),
-  habilitarCheckBox: PropTypes.bool
+  habilitarCheckBox: PropTypes.bool,
+  remover: PropTypes.func
 }

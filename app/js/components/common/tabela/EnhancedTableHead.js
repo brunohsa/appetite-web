@@ -17,9 +17,6 @@ const styles = theme => ({
     width: '100%',
     marginBottom: theme.spacing(2),
   },
-  table: {
-    minWidth: 750,
-  },
   visuallyHidden: {
     border: 0,
     clip: 'rect(0 0 0 0)',

@@ -34,18 +34,26 @@ componentDidUpdate() {
   }
 }
 
+direcionarUsuarioNaoLogado(component) {
+  return !this.usuarioLogado() ? <Redirect to='/'/> : component
+}
+
+direcionarUsuarioLogado(component) {
+  return this.usuarioLogado() ? <Redirect to='/home'/> : component
+}
+
 render() {
     return (
       <div id="app">
         <Switch>
-          <Route exact path='/' render={() => this.usuarioLogado() ? <Redirect to='/home'/> : <Main /> }/>
+          <Route exact path='/' render={() => this.direcionarUsuarioLogado(<Main />)}/>
           <Route path='/home' render={() => this.usuarioLogado() ? <Home /> : <Redirect to='/login'/> }/>
-          <Route path='/login' render={() => this.usuarioLogado() ? <Redirect to='/home'/> : <Login /> }/>
-          <Route path='/cadastro' render={() => this.usuarioLogado() ? <Redirect to='/home'/> : <Cadastro /> }/>
-          <Route path='/cardapios' component={Cardapio}/>
-          <Route path='/configuracoes' component={Configuracao}/>
-          <Route path='/cardapios-editar/:cardapioId' component={(routerProps) => <EditarCardapio cardapioId={routerProps.match.params.cardapioId} />}/>
-          <Route path='/pedidos' component={Pedidos}/>
+          <Route path='/login' render={() => this.direcionarUsuarioLogado(<Login />)}/>
+          <Route path='/cadastro' render={() => this.direcionarUsuarioLogado(<Cadastro />)}/>
+          <Route path='/cardapios' render={() => this.direcionarUsuarioNaoLogado(<Cardapio />)}/>
+          <Route path='/configuracoes' render={() => this.direcionarUsuarioNaoLogado(<Configuracao />)}/>
+          <Route path='/cardapios-editar/:cardapioId' render={(routerProps) => this.direcionarUsuarioNaoLogado(<EditarCardapio cardapioId={routerProps.match.params.cardapioId}/>)}/>
+          <Route path='/pedidos' render={() => this.direcionarUsuarioNaoLogado(<Pedidos />)}/>
           <Route path='/pagina-nao-encontrada' component={NotFound}/>
           <Redirect to="/pagina-nao-encontrada" />
         </Switch>

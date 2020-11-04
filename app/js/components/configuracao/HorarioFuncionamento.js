@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 
-import PropTypes from 'prop-types';
-
+import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -19,57 +19,126 @@ class HorarioFuncionamento extends Component {
 
   constructor(props) {
     super(props)
+
+    this.state = {
+      horarios: null,
+      editado: false
+    }
+
+    this.cancelarAlteracao = this.cancelarAlteracao.bind(this)
+    this.alterarHorarioFuncionamento = this.alterarHorarioFuncionamento.bind(this)
+    this.salvarAlteracao = this.salvarAlteracao.bind(this)
+    this.alterarCheckFechado = this.alterarCheckFechado.bind(this)
   }
 
-  alterarHorarioDeFuncionamento(campo, valor) {
-    this.setState({ 
-      [campo]: valor
-    })
+  getNomeDiaSemana(status) {
+    switch(status) {
+      case 'SEGUNDA':
+        return 'Segunda-Feira'
+      case 'TERCA':
+        return 'Terça-Feira'
+      case 'QUARTA':
+        return 'Quarta-Feira'
+      case 'QUINTA':
+        return 'Quinta-Feira'
+      case 'SEXTA':
+        return 'Sexta-Feira'
+      case 'SABADO':
+        return 'Sábado'
+      case 'DOMINGO':
+        return 'Domingo'
+    }
+  }
+
+  componentDidUpdate() {
+    let { horariosFuncionamento } = this.props.cadastroStore
+    if(!this.state.horarios && horariosFuncionamento) {
+      let horarios = horariosFuncionamento.map(hf => Object.assign({}, hf))
+      this.setState({horarios: horarios})
+    }
+  }
+
+  alterarHorarioFuncionamento(horario, campo, valor) {
+    horario[campo] = valor
+    this.setState({horarios: this.state.horarios, editado: true})
+  }
+
+  alterarCheckFechado(hf, fechado) {
+    if(fechado) {
+      hf['abertura'] = null
+      hf['fechamento'] = null
+    }
+    hf['fechado'] = fechado
+
+    this.setState({horarios: this.state.horarios, editado: true})
+  }
+
+  salvarAlteracao() {
+    this.props.alterarHorariosFuncionamento(this.state.horarios)
+    this.setState({editado: false})
+  }
+
+  cancelarAlteracao() {
+    this.setState({horarios: null, editado: false})
   }
 
   render() {
 
-    let { horariosFuncionamento } = this.props.cadastroStore
+    let { horarios, editado } = this.state
+    let horariosFuncionamento = horarios ? horarios : this.props.cadastroStore.horariosFuncionamento
 
     return (
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Dia da Semana</TableCell>
-              <TableCell align="center">Início</TableCell>
-              <TableCell align="center">Término</TableCell>
-              <TableCell align="center">Fechado</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            { 
-              horariosFuncionamento ? horariosFuncionamento.map(hf =>
-                <TableRow>
-                  <TableCell align="center">
-                    { hf.dia }
-                  </TableCell>
-                  <TableCell align="center">
-                    <TextField 
-                      type="time"
-                      defaultValue="00:00" 
-                      value={hf.inicio} />
-                  </TableCell>
-                  <TableCell align="center">
-                    <TextField
-                      type="time"
-                      defaultValue="00:00"
-                      value={hf.termino} />
-                  </TableCell>
-                  <TableCell align="center">
-                    <Checkbox checked={hf.fechado}/>
-                  </TableCell>
-                </TableRow>
-              ) : null
-            }
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <div style={{height: '650px'}}>
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell align="center">Dia da Semana</TableCell>
+                <TableCell align="center">Abertura</TableCell>
+                <TableCell align="center">Fechamento</TableCell>
+                <TableCell align="center">Fechado</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              { 
+                horariosFuncionamento ? horariosFuncionamento.map(hf =>
+                  <TableRow>
+                    <TableCell align="center"> { this.getNomeDiaSemana(hf.dia) } </TableCell>
+                    <TableCell align="center">
+                      <TextField
+                        type="time"
+                        defaultValue="--:--"
+                        disabled={hf.fechado}
+                        value={hf.abertura ? hf.abertura : "--:--"}
+                        onChange={(e) => this.alterarHorarioFuncionamento(hf, 'abertura', e.target.value)}/>
+                    </TableCell>
+                    <TableCell align="center">
+                      <TextField
+                        type="time"
+                        defaultValue="--:--"
+                        disabled={hf.fechado}
+                        value={hf.fechamento ? hf.fechamento : "--:--"} 
+                        onChange={(e) => this.alterarHorarioFuncionamento(hf, 'fechamento', e.target.value)}/>
+                    </TableCell>
+                    <TableCell align="center">
+                      <Checkbox checked={hf.fechado} onChange={(e) => this.alterarCheckFechado(hf, e.target.checked)}/>
+                    </TableCell>
+                  </TableRow>
+                ) : null
+              }
+            </TableBody>
+          </Table>
+        </TableContainer>
+        {
+          editado ?
+          <div className='div-btns-horario-funcionamento'>
+            <Button id='btn-cancelar-alteraracao-horario-funcionamento' onClick={this.cancelarAlteracao}> Cancelar </Button>
+          </div> : null
+        }
+        <div className='div-btns-horario-funcionamento'>
+          <Button id='btn-alterar-horario-funcionamento' disabled={!editado} onClick={this.salvarAlteracao}> Salvar </Button>
+        </div>
+      </div>
     )
   }
 }
@@ -81,3 +150,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(HorarioFuncionamento)
+
+HorarioFuncionamento.propTypes = {
+  alterarHorariosFuncionamento: PropTypes.func.isRequired
+}

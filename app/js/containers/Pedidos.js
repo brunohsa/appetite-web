@@ -20,10 +20,10 @@ class Pedidos extends Component {
 
 	render() {
 		return (
-			<div>
-				<MenuApp />
-				<PedidosComponente />
-			</div>
+			<div style={{height: '100%', width: '100%'}}>
+                <div style={{height: '8%'}}> <MenuApp /> </div>
+                <div style={{height: '92%', overflowX: 'auto'}}> <PedidosComponente /> </div>
+            </div>
 		);
 	}
 

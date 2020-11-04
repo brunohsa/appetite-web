@@ -148,6 +148,15 @@ let carrinhoAPI = {
 
         let url = `${configs.URL_MS_CARDAPIO}${PRODUTOS_BASE_URL}/${idProduto}/imagem/download`
         return requisicoesAjax.get(getToken(), url, acao)
+    },
+
+    buscarProdutosMelhoresAvaliados() {
+        let acao = (response, dispatch) => {
+            dispatch(cardapioActions.produtosMelhoresAvaliadosBuscado(response.body));
+            return response
+        }
+        let url = `${configs.URL_MS_CARDAPIO}${PRODUTOS_BASE_URL}/melhores-avaliados`
+        return requisicoesAjax.get(getToken(), url, acao)
     }
 }
 

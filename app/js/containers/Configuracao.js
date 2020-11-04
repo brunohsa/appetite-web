@@ -19,13 +19,18 @@ class Configuracao extends Component {
 	
 	render() {
 		
-		let { adicionarHorarioDiferenciado } = this.props
+		let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado } = this.props
 
 		return (
 			<div style={{height: '100%', width: '100%'}}>
-				<MenuApp />
-				<ConfiguracaoComponent adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} />
-			</div>
+                <div style={{height: '8%'}}> <MenuApp /> </div>
+                <div style={{height: '92%', overflowX: 'auto'}}>
+					<ConfiguracaoComponent adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} 
+										   alterarHorariosFuncionamento={alterarHorariosFuncionamento}
+										   removerHorarioDiferenciado={removerHorarioDiferenciado}
+										   filtrarHorarioDiferenciado={filtrarHorarioDiferenciado}/>
+				</div>
+            </div>
 		)
 	}
 }
@@ -38,11 +43,20 @@ const mapDispatchToProps = (dispatch) => {
 		buscarHorariosFuncionamento: () => {
 			dispatch(cadastroAPI.buscarHorariosFuncionamento());
 		},
+		alterarHorariosFuncionamento: (horariosFuncionamento) => {
+			dispatch(cadastroAPI.alterarHorariosFuncionamento(horariosFuncionamento));
+		},
         buscarHorariosDiferenciados: () => {
 			dispatch(cadastroAPI.buscarHorariosDiferenciados());
         },
         adicionarHorarioDiferenciado: (horarioDiferenciado) => {
 			dispatch(cadastroAPI.adicionarHorarioDiferenciado(horarioDiferenciado));
+		},
+		removerHorarioDiferenciado: (idHorario) => {
+			dispatch(cadastroAPI.removerHorarioDiferenciado(idHorario));
+		},
+		filtrarHorarioDiferenciado: (filtro) => {
+			dispatch(cadastroAPI.filtrarHorarioDiferenciado(filtro));
 		},
     }
 }

@@ -14,7 +14,7 @@ class NotFound extends Component {
 					<h1>404</h1>
 					<h2>Oops! Página não encontrada</h2>
 					<p>Desculpe mas a tela que você está buscando não existe, foi removida ou está temporariamente indispoível.</p>
-					<a href='/home'> Voltar para a página principal </a>
+					<a href='/'> Voltar para a página principal </a>
 				</div>
 			</div>
 		);

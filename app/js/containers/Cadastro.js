@@ -14,15 +14,16 @@ class Cadastro extends Component {
 	render() {
 		let { loginFornecedor, informacoesFornecedor, enderecoFornecedor, salvarFornecedor } =  this.props
 		return (
-			<div>
-				<MenuApp />
-				<CadastroComponent 
-					loginFornecedor={loginFornecedor} 
-					informacoesFornecedor={informacoesFornecedor}
-					enderecoFornecedor={enderecoFornecedor}
-					salvarFornecedor={salvarFornecedor}
-				/>
-			</div>
+			<div style={{height: '100%', width: '100%'}}>
+                <div style={{height: '8%'}}> <MenuApp /> </div>
+                <div style={{height: '92%'}}>
+					<CadastroComponent 
+						loginFornecedor={loginFornecedor} 
+						informacoesFornecedor={informacoesFornecedor}
+						enderecoFornecedor={enderecoFornecedor}
+						salvarFornecedor={salvarFornecedor} />
+				</div>
+            </div>
 		);
 	}
 }

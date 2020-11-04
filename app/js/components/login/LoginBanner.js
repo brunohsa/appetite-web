@@ -12,7 +12,7 @@ class LoginBanner extends Component {
                 <div className="banner-content">
                 <div style={{position: 'relative', top: '15vh'}}>
                     <a href='/' style={{display: 'inherit'}}>
-                        <img src={logoCardapio} style={{maxWidth: '350px', maxHeight: '300px', display: 'inherit', alignItems: 'inherit', justifyContent: 'inherit', margin: 'auto'}} />
+                        <img src={logoCardapio} style={{maxWidth: '40%', maxHeight: '40%', display: 'inherit', alignItems: 'inherit', justifyContent: 'inherit', margin: 'auto'}} />
                     </a>
                 </div>
                 </div>

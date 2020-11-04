@@ -22,6 +22,11 @@ export function cadastroReducers(state = {}, action) {
                 ...state, 
                 horariosDiferenciados: action.horariosDiferenciados
             };
+        case actionTypes.HORARIOS_DIFERENCIADOS_FILTRADO:
+            return { 
+                ...state, 
+                horariosDiferenciados: action.horariosDiferenciados
+            };
         default:
             return state;
     }

@@ -52,6 +52,11 @@ export function cardapioReducers(state = {}, action) {
                 ...state, 
                 cardapios: action.cardapios
             };
+        case actionTypes.PRODUTOS_MELHORES_AVALIADOS:
+            return { 
+                ...state, 
+                produtosMelhoresAvaliados: action.melhoresAvaliados
+            };
         default:
             return state;
     }

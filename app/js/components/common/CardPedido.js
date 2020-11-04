@@ -6,6 +6,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
+import DetalhesPedido from './DetalhesPedido'
+
 import '../../../styles/common/card-pedido.css';
 
 const statusPedido = {
@@ -19,6 +21,21 @@ class CardPedido extends Component {
   
   constructor(props) {
     super(props);
+
+    this.state = {
+      abrirDetalhes: false
+    }
+
+    this.abrirDetalhesDoPedido = this.abrirDetalhesDoPedido.bind(this)
+    this.fecharDetalhesDoPedido = this.fecharDetalhesDoPedido.bind(this)
+  }
+
+  abrirDetalhesDoPedido() {
+    this.setState({ abrirDetalhes: true })
+  }
+
+  fecharDetalhesDoPedido() {
+    this.setState({ abrirDetalhes: false })
   }
 
   render() {
@@ -37,9 +54,22 @@ class CardPedido extends Component {
         }
       }
 
+      function getStatusCard(status) {
+        switch(status) {
+          case statusPedido.PENDENTE_PREPARACAO:
+            return 'Pendente preparação'
+          case statusPedido.PREPARANDO:
+            return 'Preparando'
+          case statusPedido.CONCLUIDO:
+            return 'Concluído'
+          case statusPedido.CANCELADO:
+            return 'Cancelado'
+        }
+      }
+
       return (
         <Card id='card-pedido'>
-          <CardActionArea>
+          <CardActionArea onClick={this.abrirDetalhesDoPedido}>
             <div className={`div-card-header ${getEstiloHeader(pedido.status)}`}>
               <span className='span-card-header'>#{pedido.numero}</span>
             </div>
@@ -57,7 +87,7 @@ class CardPedido extends Component {
                   <span> Produto(s): {pedido.itens ? pedido.itens.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2) : null } </span> 
                 </div>
                 <div>
-                  <span> Status: <b> {pedido.status} </b> </span>
+                  <span> Status: <b> {getStatusCard(pedido.status)} </b> </span>
                 </div>
               </Typography>
             </CardContent>
@@ -69,6 +99,9 @@ class CardPedido extends Component {
                 <Button size="small" color="inherit"> Cancelar </Button>
               </CardActions>
             : null
+          }
+          { 
+            this.state.abrirDetalhes ? <DetalhesPedido pedido={pedido} fecharDetalhesDoPedido={this.fecharDetalhesDoPedido}/> : null
           }
         </Card>
       );

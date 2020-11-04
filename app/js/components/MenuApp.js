@@ -113,8 +113,7 @@ class MenuApp extends Component {
   navegar(path) {
     this.props.history.push(path);
   }
-
-  //REMOVER
+  
   sair() {
     localStorage.removeItem('token')
     this.navegar('/')
@@ -129,11 +128,8 @@ class MenuApp extends Component {
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <AppBar
-          position="static"
-          className={clsx(classes.appBar, {[classes.appBarShift]: open})}
-        >
-          <Toolbar style={{backgroundColor: 'rgb(183, 28, 28)', height: '80px'}}>
+        <AppBar position="static" style={{height: '100%'}} className={clsx(classes.appBar, {[classes.appBarShift]: open})}>
+          <Toolbar style={{backgroundColor: 'rgb(183, 28, 28)', height: '100%'}}>
             {
               usuarioLogado ? 
                 <IconButton
@@ -148,7 +144,7 @@ class MenuApp extends Component {
                 : null
             }
             <Typography variant="h6" color="inherit" style={{ flexGrow: '1'}}> 
-              <Link to="/" style={{fontFamily: 'Arial, Helvetica, sans-serif', color: 'white', textDecoration: 'none'}}> Appetite </Link> 
+              <Link to="/" style={{fontFamily: 'Arial, Helvetica, sans-serif', color: 'white', textDecoration: 'none'}}> Appetito </Link> 
             </Typography>
           </Toolbar>
         </AppBar>
@@ -161,7 +157,7 @@ class MenuApp extends Component {
         >
           <div className={classes.drawerHeader}>
             <Typography variant="h6" color="inherit" style={{ flexGrow: '1'}}>
-                  <a href="/home" style={{color: 'rgba(0, 0, 0, 0.87)', textDecoration: 'none'}}> Appetite </a>
+                  <a href="/home" style={{color: 'rgba(0, 0, 0, 0.87)', textDecoration: 'none'}}> Appetito </a>
             </Typography>
             <IconButton onClick={() => this.handleDrawerClose()}>
               { theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon /> }
@@ -182,14 +178,10 @@ class MenuApp extends Component {
               <ListItemText primary={'Configurações'} />
             </ListItem>
             <Divider />
-
-            {
-              //<ListItem button onClick={() => this.navegar('/logout')}>
-                <ListItem button onClick={() => this.sair()}>
-                  <ListItemIcon> <img src={sairIcone} width='25px' /> </ListItemIcon>
-                  <ListItemText primary={'Sair'} />
-              </ListItem>
-            }
+            <ListItem button onClick={() => this.sair()}>
+              <ListItemIcon> <img src={sairIcone} width='25px' /> </ListItemIcon>
+              <ListItemText primary={'Sair'} />
+            </ListItem>
           </List>
         </Drawer>
       </div>

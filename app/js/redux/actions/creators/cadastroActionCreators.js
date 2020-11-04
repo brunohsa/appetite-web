@@ -29,6 +29,13 @@ let cadastroActions = {
             horariosDiferenciados: horarios
         }
     },
+
+    horariosDiferenciadoFiltrados(horarios) {
+        return {
+            type: actionTypes.HORARIOS_DIFERENCIADOS_FILTRADO, 
+            horariosDiferenciados: horarios
+        }
+    },
 }
 
 export default cadastroActions;

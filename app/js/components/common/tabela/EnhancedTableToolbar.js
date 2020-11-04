@@ -37,7 +37,7 @@ class EnhancedTableToolbar extends Component {
   }
 
   render() {
-    let { classes, numSelected, headerToolbar } = this.props
+    let { classes, numSelected, headerToolbar, remover } = this.props
     
     function criarTypography(titulo, variant) {
         return (
@@ -49,12 +49,10 @@ class EnhancedTableToolbar extends Component {
 
     return (
     <Toolbar className={clsx(classes.root, { [classes.highlight]: numSelected > 0 })}>
-      {
-        numSelected > 0 ? criarTypography(`${numSelected} selected`, 'subtitle1') : headerToolbar()
-      }
+      { numSelected > 0 ? criarTypography(`${numSelected} selecionado(s)`, 'subtitle1') : headerToolbar() }
       {
         numSelected > 0 ?
-          <Tooltip title="Deletar">
+          <Tooltip title="Deletar" onClick={remover}>
             <IconButton aria-label="delete">
               <DeleteIcon />
             </IconButton>
@@ -70,5 +68,6 @@ export default withStyles(styles)(withTheme(EnhancedTableToolbar))
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
-  headerToolbar: PropTypes.func.isRequired
+  headerToolbar: PropTypes.func.isRequired,
+  remover: PropTypes.func.isRequired
 }

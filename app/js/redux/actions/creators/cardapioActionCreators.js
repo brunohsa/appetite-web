@@ -70,6 +70,13 @@ let loginActions = {
             type: actionTypes.CARDAPIO_REMOVIDO, 
             cardapios
         }
+    },
+
+    produtosMelhoresAvaliadosBuscado(produtos) {
+        return {
+            type: actionTypes.PRODUTOS_MELHORES_AVALIADOS, 
+            melhoresAvaliados: produtos
+        }
     }
 }
 

@@ -28,12 +28,16 @@ class ConfiguracaoComponent extends Component {
 
   render() {
 
+    let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado } = this.props
+
     return (
       <div className='container-configuracoes'>
         { this.criarConteudo('Dados do Fornecedor', <DadosFornecedor />) }
         { this.criarConteudo('Endereço', <EnderecoFornecedor />) }
-        { this.criarConteudo('Horário de Funcionamento', <HorarioFuncionamento />) }
-        { this.criarConteudo('Horário Diferenciado', <HorarioEspecial />) }
+        { this.criarConteudo('Horário de Funcionamento', <HorarioFuncionamento alterarHorariosFuncionamento={alterarHorariosFuncionamento}/>) }
+        { this.criarConteudo('Horário Diferenciado', <HorarioEspecial adicionarHorarioDiferenciado={adicionarHorarioDiferenciado}
+                                                                      removerHorarioDiferenciado={removerHorarioDiferenciado}
+                                                                      filtrarHorarioDiferenciado={filtrarHorarioDiferenciado} />) }
       </div>    
     );
   }
@@ -42,5 +46,7 @@ class ConfiguracaoComponent extends Component {
 export default ConfiguracaoComponent
 
 ConfiguracaoComponent.propTypes = {
-  adicionarHorarioDiferenciado: PropTypes.func.isRequired
+  adicionarHorarioDiferenciado: PropTypes.func.isRequired,
+  alterarHorariosFuncionamento: PropTypes.func.isRequired,
+  removerHorarioDiferenciado: PropTypes.func.isRequired
 }
