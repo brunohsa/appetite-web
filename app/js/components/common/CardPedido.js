@@ -1,4 +1,5 @@
 import React, {Component}from 'react';
+import PropTypes from 'prop-types';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -38,6 +39,34 @@ class CardPedido extends Component {
     this.setState({ abrirDetalhes: false })
   }
 
+  getProximaAcoesPedido() {
+    const { pedido } = this.props
+    
+    switch(pedido.status) {
+      case statusPedido.PENDENTE_PREPARACAO:
+        return [ statusPedido.PREPARANDO, statusPedido.CANCELADO ]
+      case statusPedido.PREPARANDO:
+        return [ statusPedido.CONCLUIDO, statusPedido.CANCELADO ]
+      case statusPedido.CONCLUIDO:
+        return []
+      default:
+        return []
+    }
+  }
+
+  getNomeStatus(status) {
+    switch(status) {
+      case statusPedido.PENDENTE_PREPARACAO:
+        return 'Pendente Preparo'
+      case statusPedido.PREPARANDO:
+        return 'Em Preparo'
+      case statusPedido.CONCLUIDO:
+        return 'Concluido'
+      case statusPedido.CANCELADO:
+        return 'Cancelado'
+    }
+  }
+  
   render() {
       const { pedido, habilitarAcoes } = this.props
 
@@ -95,8 +124,13 @@ class CardPedido extends Component {
           {
             habilitarAcoes ?
               <CardActions style={{padding: '0px 0px 2px 8px'}}>
-                <Button size="small" color="inherit"> Concluir </Button>
-                <Button size="small" color="inherit"> Cancelar </Button>
+                { 
+                  this.getProximaAcoesPedido().map(status => 
+                    <Button size="small" color="inherit" onClick={() => this.props.alterarStatusPedido(pedido.id, status)}> 
+                      { this.getNomeStatus(status) } 
+                    </Button>
+                  )
+                }
               </CardActions>
             : null
           }
@@ -109,3 +143,7 @@ class CardPedido extends Component {
 }
 
 export default CardPedido;
+
+CardPedido.propTypes = {
+  alterarStatusPedido: PropTypes.func.isRequired
+}

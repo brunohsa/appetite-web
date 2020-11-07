@@ -88,7 +88,7 @@ let cadastroAPI = {
             cep: endereco.cep,
             bairro: endereco.bairro,
             cidade: endereco.cidade,
-            estado: endereco.estadoId,
+            estado: endereco.estado,
             logradouro: endereco.logradouro,
             numero: endereco.numero
         })

@@ -23,8 +23,8 @@ class Configuracao extends Component {
 
 		return (
 			<div style={{height: '100%', width: '100%'}}>
-                <div style={{height: '8%'}}> <MenuApp /> </div>
-                <div style={{height: '92%', overflowX: 'auto'}}>
+                <div> <MenuApp /> </div>
+                <div style={{height: '90%', overflowX: 'auto'}}>
 					<ConfiguracaoComponent adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} 
 										   alterarHorariosFuncionamento={alterarHorariosFuncionamento}
 										   removerHorarioDiferenciado={removerHorarioDiferenciado}

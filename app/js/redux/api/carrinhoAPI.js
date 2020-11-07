@@ -7,7 +7,8 @@ import DateUtils from '../../util/DateUtils'
 const statusPedidos = {
     PENDENTE_PREPARACAO: 'PENDENTE_PREPARACAO',
     PREPARANDO: 'PREPARANDO',
-    CONCLUIDO: 'CONCLUIDO'
+    CONCLUIDO: 'CONCLUIDO',
+    CANCELADO: 'CANCELADO'
 }
 
 const PEDIDOS_FORNECEDORES_BASE_URL = 'v1/fornecedores/pedidos'
@@ -54,6 +55,21 @@ let carrinhoAPI = {
         }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?status=${statusPedidos.CONCLUIDO}`
         return requisicoesAjax.get(getToken(), url, acao)
+    },
+
+    buscarPedidosCancelados() {
+        let acao = (response, dispatch) => {
+            dispatch(carrinhoActions.pedidosCancelados(response.body));
+            return response
+        }
+        let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?status=${statusPedidos.CANCELADO}`
+        return requisicoesAjax.get(getToken(), url, acao)
+    },
+
+    alterarStatusPedido(id, novoStatus) {
+        let acao = (response, dispatch) => response
+        let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}/${id}/status/${novoStatus}/alterar`
+        return requisicoesAjax.put(getToken(), null, url, acao)
     }
 }
 

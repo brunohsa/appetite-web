@@ -160,10 +160,10 @@ class CardapioComponent extends Component {
                             <label style={{fontSize: '20px'}} className='titulo'> Cardápios </label>
                         </div>
                         <div className='container-txt-busca'>
-                            <TextField 
+                            <TextField
                                 label='Busca' 
                                 type='search' 
-                                variant='filled' 
+                                variant='filled'
                                 className='txt-busca' 
                                 onChange={(event) => this.filtrarCardapios(event)} />
                         </div>

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux'
 
 import ListaPedidos from './pedidos/ListaPedidos';
@@ -13,13 +14,15 @@ class PedidosComponente extends Component {
 
   render() {
 
-    let { pedidosPendentePreparacao, pedidosEmPreparo, pedidosConcluidos } = this.props.carrinhoStore
+    let { pedidosPendentePreparacao, pedidosEmPreparo, pedidosConcluidos, pedidosCancelados } = this.props.carrinhoStore
+    let { alterarStatusPedido } = this.props
     
     return (
       <div className='container-pedidos'>
-        <ListaPedidos titulo='Pedidos Pendentes' pedidos={pedidosPendentePreparacao}/>
-        <ListaPedidos titulo='Pedidos em Preparo' pedidos={pedidosEmPreparo}/>
-        <ListaPedidos titulo='Pedidos Concluídos' pedidos={pedidosConcluidos}/>
+        <ListaPedidos titulo='Pedidos Pendentes' pedidos={pedidosPendentePreparacao} alterarStatusPedido={alterarStatusPedido}/>
+        <ListaPedidos titulo='Pedidos em Preparo' pedidos={pedidosEmPreparo} alterarStatusPedido={alterarStatusPedido}/>
+        <ListaPedidos titulo='Pedidos Concluídos' pedidos={pedidosConcluidos} alterarStatusPedido={alterarStatusPedido}/>
+        <ListaPedidos titulo='Pedidos Cancelados' pedidos={pedidosCancelados} alterarStatusPedido={alterarStatusPedido}/>
       </div>    
     );
   }
@@ -32,3 +35,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(PedidosComponente);
+
+PedidosComponente.propTypes = {
+  alterarStatusPedido: PropTypes.func.isRequired
+}

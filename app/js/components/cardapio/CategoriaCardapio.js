@@ -224,7 +224,7 @@ class CategoriaCardapio extends Component {
         return (
             <div className='container-categoria'>
                 <div className='header-categoria'>
-                    <div style={{display: 'inline-block', width: '82%'}}>
+                    <div style={{display: 'inline-block', width: '80%'}}>
                         {
                           editarNomeCategoria
                             ? <div className='editar-nome-categoria'> 

@@ -22,15 +22,18 @@ class HomeComponent extends Component {
         { id: 'qtdVenda',  titulo: 'Vendidos' }
       ];
   
-      let linhas = []
-  
+      let { produtosMaisVendidos } = this.props.cardapioStore
+      let linhas = produtosMaisVendidos
+                  ? produtosMaisVendidos.map((produto, index) => this.montarLinhaProdutoMaisVendidos(produto, index + 1)) 
+                  : []
+                  
       return new TabelaModelo(colunas, linhas)
     }
 
-    montarLinhaProdutoMelhorAvaliado(produto, index) {
+    montarLinhaProdutoMaisVendidos(produto, index) {
       let linha = {
         id: produto.id,
-        valores: [index, produto.nome, produto.nota] 
+        valores: [index, produto.nome, produto.vendidos] 
       }
       return linha
     }
@@ -48,6 +51,14 @@ class HomeComponent extends Component {
                   : []
 
       return new TabelaModelo(colunas, linhas)
+    }
+
+    montarLinhaProdutoMelhorAvaliado(produto, index) {
+      let linha = {
+        id: produto.id,
+        valores: [index, produto.nome, produto.nota] 
+      }
+      return linha
     }
 
     render() {
@@ -76,13 +87,13 @@ class HomeComponent extends Component {
             <div className='home-card'>
               <span className='lbl-card'> Mais Vendidos </span>
               <div style={{paddingTop: '10px', width: '100%', height: '100%'}}>
-                <Tabela linhasPorPagina={4} tabelaModelo={this.getTabelaModeloMaisVendidos()}/>
+                <Tabela linhasPorPagina={2} tabelaModelo={this.getTabelaModeloMaisVendidos()}/>
               </div>
             </div>
             <div className='home-card' style={{float: 'right'}}>
               <span className='lbl-card'> Melhores Avalidados </span>
               <div style={{paddingTop: '10px'}} >
-                <Tabela linhasPorPagina={4}  tabelaModelo={this.getTabelaModeloMelhoresAvaliados()}/>
+                <Tabela linhasPorPagina={2}  tabelaModelo={this.getTabelaModeloMelhoresAvaliados()}/>
               </div>
             </div>
           </div>

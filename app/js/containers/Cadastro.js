@@ -25,8 +25,8 @@ class Cadastro extends Component {
 		let { loginFornecedor, informacoesFornecedor, enderecoFornecedor, salvarFornecedor, buscarEnderecoPorCEP } =  this.props
 		return (
 			<div style={{height: '100%', width: '100%'}}>
-                <div style={{height: '8%'}}> <MenuApp /> </div>
-                <div style={{height: '92%'}}>
+                <div> <MenuApp /> </div>
+                <div style={{height: '90%'}}>
 					<CadastroComponent 
 						loginFornecedor={loginFornecedor} 
 						informacoesFornecedor={informacoesFornecedor}

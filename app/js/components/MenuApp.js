@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import clsx from 'clsx';
+import { connect } from 'react-redux'
 
 import { withStyles, withTheme } from '@material-ui/core/styles';
 
@@ -20,6 +21,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import { withRouter } from "react-router-dom";
 import { Link } from 'react-router-dom';
+
+import Alert from '@material-ui/lab/Alert';
 
 import cardapioIcone from '../../images/icons/cardapio.png';
 import configIcone from '../../images/icons/configuracoes.png';
@@ -120,7 +123,7 @@ class MenuApp extends Component {
   }
 
   render() {
-    let { classes, theme } = this.props;
+    let { classes, theme, erro } = this.props;
     let open = this.state.open
     
     let usuarioLogado = localStorage.getItem('token')
@@ -166,27 +169,42 @@ class MenuApp extends Component {
           <Divider />
           <List style={{width: '100%'}}>
             <ListItem button onClick={() => this.navegar('/pedidos')}>
-              <ListItemIcon> <img src={pedidosIcone} width='25px' /> </ListItemIcon>
+              <ListItemIcon> <img src={pedidosIcone} width='27px' height='27px' /> </ListItemIcon>
               <ListItemText primary={'Pedidos'} />
             </ListItem>
             <ListItem button onClick={() => this.navegar('/cardapios')}>
-              <ListItemIcon> <img src={cardapioIcone} width='22px' /> </ListItemIcon>
+              <ListItemIcon> <img src={cardapioIcone} width='20px' height='22px'/> </ListItemIcon>
               <ListItemText primary={'Cardapios'} />
             </ListItem>
             <ListItem button onClick={() => this.navegar('/configuracoes')}>
-              <ListItemIcon> <img src={configIcone} width='27px' /> </ListItemIcon>
+              <ListItemIcon> <img src={configIcone} width='26px' /> </ListItemIcon>
               <ListItemText primary={'Configurações'} />
             </ListItem>
             <Divider />
             <ListItem button onClick={() => this.sair()}>
-              <ListItemIcon> <img src={sairIcone} width='25px' /> </ListItemIcon>
+              <ListItemIcon> <img src={sairIcone} width='25px' height='26px'/> </ListItemIcon>
               <ListItemText primary={'Sair'} />
             </ListItem>
           </List>
         </Drawer>
+        {
+          erro.mensagem 
+          ? <div style={{width: '400px', padding: '10px', position: 'absolute', right: '0px'}}>
+              <Alert style={{ backgroundColor: 'rgb(183, 28, 28)', fontSize: '16px' }} variant="filled" severity="error"> 
+                { erro.mensagem }
+              </Alert>
+            </div>
+          : null
+        }
       </div>
     )
   }
 }
 
-export default withStyles(styles)(withTheme(withRouter(MenuApp)));
+const mapStateToProps = (state) => {
+	return {
+		erro: state.erro
+	}
+}
+
+export default withStyles(styles)(withTheme(withRouter(connect(mapStateToProps)(MenuApp))));

@@ -35,7 +35,7 @@ class ListaPedidos extends Component {
 
   render() {
     let { pagina } = this.state
-    let { titulo, pedidos } = this.props
+    let { titulo, pedidos, alterarStatusPedido } = this.props
 
     let numeroDePaginas = this.props.pedidos ? Math.ceil(this.props.pedidos.length / itensPorPagina) : 1
 
@@ -51,7 +51,7 @@ class ListaPedidos extends Component {
                 .map((pedido) => {
                   return (
                       <div id={pedido.id} className='list-pedidos-content'> 
-                        <CardPedido pedido={pedido} habilitarAcoes={true} /> 
+                        <CardPedido pedido={pedido} habilitarAcoes={true} alterarStatusPedido={alterarStatusPedido} /> 
                       </div>
                   )
                 })
@@ -70,5 +70,6 @@ export default ListaPedidos;
 
 ListaPedidos.propTypes = {
   titulo: PropTypes.string.isRequired,
-  pedidos: PropTypes.object
+  pedidos: PropTypes.object,
+  alterarStatusPedido: PropTypes.func.isRequired
 }

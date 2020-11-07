@@ -78,7 +78,7 @@ class CadastroComponent extends Component {
     super(props)
 
     this.state = {
-      activeStep: 0,
+      activeStep: 2,
       enviadoParaPersistencia: false
     }
 

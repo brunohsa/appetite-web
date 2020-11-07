@@ -98,7 +98,7 @@ class LoginForm extends Component {
                     <div className="login-form-items"  style={{marginTop:'15px'}}>
                         <Button id="button-login" variant="contained" onClick={() => this.doLogin()}> Entrar </Button>
                     </div>
-                    <div style={{textAlign: 'center', position: 'relative', top: '250px'}}>
+                    <div style={{textAlign: 'center', position: 'relative', top: '80px'}}>
                         <span style={{fontFamily: 'Arial, Helvetica, sans-serif', fontSize: '18px', color: '#3f3f3f', borderRight: '1px solid #3f3f3f'}}> 
                             Não possui uma conta?&nbsp;
                         </span> 

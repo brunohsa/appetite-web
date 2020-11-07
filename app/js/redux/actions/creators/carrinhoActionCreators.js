@@ -28,6 +28,13 @@ let carrinhoActions = {
             type: actionTypes.PEDIDOS_CONCLUIDOS_ENCONTRADOS, 
             pedidos: pedidos
         }
+    },
+
+    pedidosCancelados(pedidos) {
+        return {
+            type: actionTypes.PEDIDOS_CANCELADOS_ENCONTRADOS, 
+            pedidos: pedidos
+        }
     }
 }
 

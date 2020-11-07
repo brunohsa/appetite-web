@@ -31,14 +31,20 @@ class Main extends Component {
             </ul>
           </div>
 
-          <div style={{height: '45%', width: '100%',margin: 'auto',position: 'relative', display: 'flex', alignItems: 'center', paddingTop: '40px'}}>
+          <div style={{height: '50%', width: '100%',margin: 'auto',position: 'relative', display: 'flex', alignItems: 'center', paddingTop: '40px'}}>
             <img src={logoCardapio} style={{maxWidth: '15%', maxHeight: '250px', margin: 'auto'}} />
           </div>
 
-          <div style={{textAlign: 'center', position: 'relative',  height: '20%', width: '100%', display: 'grid', alignItems: 'center'}}>
-            <span style={{fontSize: '260%', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1', textTransform: 'uppercase', color: 'rgb(183, 28, 28)'}}> 
-              ALGUM TEXTO CHAMATIVO 
+          <div style={{textAlign: 'center', position: 'relative',  height: '15%', width: '60%', margin: '0px auto'}}>
+            <span style={{fontSize: '200%', fontFamily: 'Arial', fontWeight: '700', lineHeight: '1', color: 'rgb(183, 28, 28)'}}> 
+              Não deixe para amanhã, o que você pode comer hoje.
             </span>
+            <div>
+              <br/>
+              <span style={{fontSize: '200%', fontFamily: 'Arial', fontWeight: '700', lineHeight: '1', color: 'rgb(183, 28, 28)'}}> 
+                Buon Appetito !
+              </span>
+            </div>
           </div>
 
           <div style={{margin: 'auto', position: 'relative', height: '20%', width: '100%', display: 'flex', alignItems: 'center'}}>

@@ -77,7 +77,7 @@ class HorarioEspecial extends Component {
   
     return (
       <div style={{width: '100%'}}>
-        <div style={{display: 'inline-block', width: '50%'}}>
+        <div style={{display: 'inline-block', width: '80%'}}>
           <MuiPickersUtilsProvider locale={ptBR} utils={DateFnsUtils}>
               <div style={{display: 'inline-block', paddingRight: '30px'}}>
                 {  this.criarDatePicker("data-cadastro-filtro", "Data de cadastro", dataCadastroFiltro, 'dataCadastroFiltro' ) }

@@ -19,13 +19,14 @@ class Home extends Component {
     componentDidMount() {
       this.props.buscarUltimosPedidos()
       this.props.buscarProdutosMelhoresAvaliados()
+      this.props.buscarProdutosMaisVendidos()
     }
 
     render() {
         return (
           <div style={{height: '100%', width: '100%'}}>
-            <div style={{height: '8%'}}> <MenuApp /> </div>
-            <div style={{height: '92%'}}> <HomeComponent /> </div>
+            <div> <MenuApp /> </div>
+            <div style={{height: '90%'}}> <HomeComponent /> </div>
           </div>
         )
     }
@@ -45,6 +46,9 @@ const mapDispatchToProps = (dispatch) => {
       },
       buscarProdutosMelhoresAvaliados: () => {
         dispatch(cardapioAPI.buscarProdutosMelhoresAvaliados());
+      },
+      buscarProdutosMaisVendidos: () => {
+        dispatch(cardapioAPI.buscarProdutosMaisVendidos());
       }
   }
 }

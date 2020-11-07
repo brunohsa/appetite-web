@@ -52,7 +52,7 @@ const DetalhesTextField = withStyles({
     root: {
         '& .MuiInputBase-root': {
             padding: '0px 10px 0px 10px',
-            width: '350%',
+            width: '400px',
             height: '60px',
             fontSize: '15px',
             color: '#989898'

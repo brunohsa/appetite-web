@@ -22,6 +22,11 @@ export function carrinhoReducers(state = {}, action) {
                 ...state, 
                 pedidosConcluidos: action.pedidos
             };
+        case actionTypes.PEDIDOS_CANCELADOS_ENCONTRADOS:
+            return { 
+                ...state, 
+                pedidosCancelados: action.pedidos
+            };
         default:
             return state;
     }

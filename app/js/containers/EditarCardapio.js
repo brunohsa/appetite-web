@@ -12,8 +12,8 @@ class EditarCardapio extends Component {
         let { cardapioId } = this.props
         return (
             <div style={{height: '100%', width: '100%'}}>
-                <div style={{height: '8%'}}> <MenuApp /> </div>
-                <div style={{height: '92%'}}> <CadastrarEditarCardapio cardapioId={cardapioId} /> </div>
+                <div> <MenuApp /> </div>
+                <div style={{height: '90%', overflowX: 'auto'}}> <CadastrarEditarCardapio cardapioId={cardapioId} /> </div>
             </div>
         );
     }

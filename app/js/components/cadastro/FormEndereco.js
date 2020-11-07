@@ -104,6 +104,11 @@ class FormEndereco extends Component {
     return value !== null && value !== '' ? '' : MENSAGEM_ERRO_CAMPO_OBRIGATORIO
   }
 
+  getEstadoPorSigla(siglaEstado) {
+    let { estados } = this.props.localizacaoStore
+    return estados.filter(e => e.sigla == siglaEstado)[0].nome
+  }
+
   render() {
     let props = this.props
     let { estados, endereco } = this.props.localizacaoStore
@@ -159,7 +164,7 @@ class FormEndereco extends Component {
             margin="normal"
             style={{width: '27.5%', paddingRight: '20px'}}
             disabled={endereco && endereco.estado}
-            value={endereco && endereco.estado ? endereco.estado : estado}
+            value={endereco && endereco.estado ? this.getEstadoPorSigla(endereco.estado) : estado}
             onChange={(e) => this.handlerChange('estado', e.target.value)}
             select
             SelectProps={{ native: true }}>

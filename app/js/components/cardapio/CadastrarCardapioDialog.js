@@ -15,7 +15,7 @@ const MENSAGEM_ERRO_CAMPO_OBRIGATORIO = '* Campo Obrigatório'
 const styles = {
   dialogPaper: {
       minHeight: '25%',
-      maxHeight: '25%',
+      maxHeight: '35%',
   },
 };
 

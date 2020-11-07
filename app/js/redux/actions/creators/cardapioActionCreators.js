@@ -77,6 +77,13 @@ let loginActions = {
             type: actionTypes.PRODUTOS_MELHORES_AVALIADOS, 
             melhoresAvaliados: produtos
         }
+    },
+
+    produtosMaisVendidosBuscado(produtos) {
+        return {
+            type: actionTypes.PRODUTOS_MAIS_VENDIDOS, 
+            maisVendidos: produtos
+        }
     }
 }
 
