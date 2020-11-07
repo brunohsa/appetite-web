@@ -15,6 +15,7 @@ class FormInformacoes extends Component {
   constructor(props) {
     super(props)
 
+    let { informacoes } = this.props.fornecedorStore
     this.state = {
       erros: {
         razaoSocial: '',
@@ -22,10 +23,10 @@ class FormInformacoes extends Component {
         cnpj: '',
         telefone: ''
       },
-      razaoSocial: '',
-      nomeFantasia: '',
-      cnpj: '',
-      telefone: ''
+      razaoSocial: informacoes ? informacoes.razaoSocial : '',
+      nomeFantasia: informacoes ? informacoes.nomeFantasia : '',
+      cnpj: informacoes ? informacoes.cnpj : '',
+      telefone: informacoes ? informacoes.telefone : '',
     }
   }
 
@@ -85,6 +86,22 @@ class FormInformacoes extends Component {
     );
   }
 
+  TextMaskCNPJ(props) {
+    const { inputRef, ...other } = props;
+  
+    return (
+      <MaskedInput
+        {...other}
+        ref={(ref) => {
+          inputRef(ref ? ref.inputElement : null);
+        }}
+        mask={[/[1-9]/, /\d/, ".", /\d/, /\d/, /\d/, ".", /\d/, /\d/, /\d/, "/", /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/]}
+        placeholderChar={"\u2000"}
+        showMask
+      />
+    );
+  }
+
   render() {
     const props = this.props
     let state = this.state
@@ -115,13 +132,13 @@ class FormInformacoes extends Component {
         <div> 
           <TextField id="txtCNPJ"
                      label="CNPJ"
-                     type='Number'
                      margin="normal"
                      value={state.cnpj}
                      error={erros.cnpj !== ''} 
                      helperText={erros.cnpj}
                      onChange={(event) => this.handlerChange('cnpj', event)}
-                     style={{width: '27.5%', paddingRight: '20px'}}/>
+                     style={{width: '27.5%', paddingRight: '20px'}}
+                     InputProps={{ inputComponent: this.TextMaskCNPJ}}/>
 
           <TextField id="txtTelefone" 
                      label="Telefone"
@@ -145,7 +162,7 @@ class FormInformacoes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      fornecedor: state.fornecedor
+      fornecedorStore: state.fornecedor
   }
 }
 

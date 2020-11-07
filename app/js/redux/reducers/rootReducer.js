@@ -5,6 +5,7 @@ import { fornecedorReducers } from './fornecedorReducer';
 import { erroReducers } from './erroReducer';
 import { cadastroReducers } from './cadastroReducer';
 import { carrinhoReducers } from './carrinhoReducer';
+import { localizacaoReducers } from './localizacaoReducer';
 
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
     fornecedor: fornecedorReducers,
     carrinho: carrinhoReducers,
     cadastro: cadastroReducers,
+    localizacao: localizacaoReducers,
     erro: erroReducers
 });

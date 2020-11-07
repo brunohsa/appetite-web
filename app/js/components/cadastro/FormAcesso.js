@@ -19,15 +19,16 @@ class FormAcesso extends Component {
   constructor(props) {
     super(props)
 
+    let { login } = this.props.fornecedorStore
     this.state = {
       erros: {
         email: '',
         senha: '',
         confirmacaoSenha: ''
       },
-      email: '',
-      senha: '',
-      confirmarSenha: ''
+      email: login ? login.email : '',
+      senha: login ? login.senha : '',
+      confirmarSenha: login ? login.senha : ''
     }
   }
 
@@ -150,7 +151,7 @@ class FormAcesso extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      fornecedor: state.fornecedor
+      fornecedorStore: state.fornecedor
   }
 }
 

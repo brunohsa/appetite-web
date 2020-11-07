@@ -78,7 +78,8 @@ class CadastroComponent extends Component {
     super(props)
 
     this.state = {
-      activeStep: 0
+      activeStep: 0,
+      enviadoParaPersistencia: false
     }
 
     this.QontoStepIcon = this.QontoStepIcon.bind(this)
@@ -90,47 +91,38 @@ class CadastroComponent extends Component {
     if(this.props.fornecedor.cadastroRealizado) {
       this.props.history.push('/home');
     }
+    
+    let { fornecedor, salvarFornecedor } = this.props
+    if(fornecedor.informacoes && fornecedor.endereco && !this.state.enviadoParaPersistencia) {
+      salvarFornecedor(fornecedor.login, fornecedor.informacoes, fornecedor.endereco)
+      this.setState({enviadoParaPersistencia: true})
+    }
   }
 
   renderForm() {
-    let { classes, loginFornecedor, informacoesFornecedor, enderecoFornecedor } = this.props;
+    let { classes, loginFornecedor, informacoesFornecedor, enderecoFornecedor, buscarEnderecoPorCEP, adicionarEndereco } = this.props;
     switch(this.state.activeStep) {
       case 0 :
         return <FormAcesso loginFornecedor={loginFornecedor} voltar={this.acaoVoltar} proximo={this.acaoProximo} class={classes.button}/>
       case 1 :
         return <FormInformacoes informacoesFornecedor={informacoesFornecedor} voltar={this.acaoVoltar} proximo={this.acaoProximo}  class={classes.button}/>
       case 2 :
-        return <FormEndereco enderecoFornecedor={enderecoFornecedor} voltar={this.acaoVoltar} proximo={this.acaoProximo}  class={classes.button}/>
+        return <FormEndereco enderecoFornecedor={enderecoFornecedor} buscarEnderecoPorCEP={buscarEnderecoPorCEP} voltar={this.acaoVoltar} proximo={this.acaoProximo} class={classes.button} />
     }
   }
 
   acaoVoltar() {
     let stepAtual = this.state.activeStep - 1;
-    this.setState({
-      activeStep: stepAtual
-    })
+    this.setState({ activeStep: stepAtual })
   }
 
   acaoProximo() {
     let stepAtual = this.state.activeStep + 1;
-    this.setState({
-      activeStep: stepAtual
-    })
-    
-    if(stepAtual == this.getSteps().length) {
-      this.salvarFavorecido()
-    }
-  }
-
-  salvarFavorecido() {
-    let { fornecedor } = this.props
-    this.props.salvarFornecedor(fornecedor.login, fornecedor.informacoes)
+    this.setState({ activeStep: stepAtual })
   }
 
   handleReset() {
-    this.setState({
-      activeStep: 0
-    })
+    this.setState({ activeStep: 0 })
   }
 
   QontoStepIcon(propsStep) {
@@ -184,5 +176,6 @@ CadastroComponent.propTypes = {
   loginFornecedor: PropTypes.func.isRequired,
   informacoesFornecedor: PropTypes.func.isRequired,
   enderecoFornecedor: PropTypes.func.isRequired,
-  salvarFavorecido: PropTypes.func.isRequired
+  salvarFavorecido: PropTypes.func.isRequired,
+  buscarEnderecoPorCEP: PropTypes.func.isRequired
 }

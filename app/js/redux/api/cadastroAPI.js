@@ -77,6 +77,23 @@ let cadastroAPI = {
         }
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/diferenciado?${montarUrlFiltroHorariosDiferenciados(filtro)}`
         return requisicoesAjax.get(getToken(), url, acao)
+    },
+
+    adicionarEndereco(endereco) {
+        let acao = (response, dispatch) => {
+            dispatch(cadastroActions.horariosDiferenciadoFiltrados(response.body));
+            return response
+        }
+        let body = JSON.stringify({
+            cep: endereco.cep,
+            bairro: endereco.bairro,
+            cidade: endereco.cidade,
+            estado: endereco.estadoId,
+            logradouro: endereco.logradouro,
+            numero: endereco.numero
+        })
+        let url = `${configs.URL_MS_CADASTRO}${CADASTRO_BASE_URL}/endereco/adicionar`
+        return requisicoesAjax.put(getToken(), body, url, acao)
     }
 }
 

@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
 import MaskedInput from 'react-text-mask';
 
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import { connect } from 'react-redux'
+
+const CustomFormControl = withStyles({
+  root: {
+    '& .MuiSelect-root': {
+      fontSize: '15x',
+      textAlign: 'initial'
+    }
+  }
+})(FormControl);
+
 
 const MENSAGEM_ERRO_CAMPO_OBRIGATORIO = '* Campo Obrigatório'
 
@@ -18,24 +32,24 @@ class FormEndereco extends Component {
     this.state = {
       erros: {
         cep: '',
-        endereco: '',
+        logradouro: '',
         numero: '',
         bairro: '',
         estado: '',
         cidade: ''
       },
       cep: '',
-      endereco: '',
+      logradouro: '',
       numero: '',
-      bairro: '',
       estado: '',
+      bairro: '',
       cidade: ''
     }
   }
 
-  handlerChange(campo, event) {
+  handlerChange(campo, valor) {
     this.setState({
-      [campo]: event.target.value
+      [campo]: valor
     })
   }
 
@@ -43,15 +57,16 @@ class FormEndereco extends Component {
     if(!this.camposValidos()) {
       return
     }
-    let endereco = {
+    let { endereco } = this.props.localizacaoStore
+    let enderecoBody = {
       cep: this.state.cep,
-      endereco: this.state.endereco,
+      logradouro: endereco && endereco.logradouro ? endereco.logradouro : this.state.logradouro,
       numero: this.state.numero,
-      bairro: this.state.bairro,
-      estado: this.state.estado,
-      cidade: this.state.cidade
+      bairro:  endereco && endereco.bairro ? endereco.bairro : this.state.bairro,
+      estado: endereco && endereco.estado ? endereco.estado : this.state.estado,
+      cidade: endereco && endereco.cidade ? endereco.cidade : this.state.cidade
     }
-    this.props.enderecoFornecedor(endereco)
+    this.props.enderecoFornecedor(enderecoBody)
     this.props.proximo();  
   }
 
@@ -61,9 +76,7 @@ class FormEndereco extends Component {
     return (
       <MaskedInput
         {...other}
-        ref={(ref) => {
-          inputRef(ref ? ref.inputElement : null);
-        }}
+        ref={(ref) => { inputRef(ref ? ref.inputElement : null) }}
         mask={[/[1-9]/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/]}
         placeholderChar={"\u2000"}
         showMask
@@ -72,17 +85,19 @@ class FormEndereco extends Component {
   }
 
   camposValidos() {
+    let { endereco } = this.props.localizacaoStore
+    let { cep, logradouro, numero, bairro, estado, cidade } = this.state
     let erros = {
-      cep: this.validarCampoObrigatorio(this.state.cep),
-      endereco: this.validarCampoObrigatorio(this.state.endereco),
-      numero: this.validarCampoObrigatorio(this.state.numero),
-      bairro: this.validarCampoObrigatorio(this.state.bairro),
-      estado: this.validarCampoObrigatorio(this.state.estado),
-      cidade: this.validarCampoObrigatorio(this.state.cidade)
+      cep: this.validarCampoObrigatorio(endereco && endereco.cep ? endereco.cep : cep),
+      logradouro: this.validarCampoObrigatorio(endereco && endereco.logradouro ? endereco.logradouro : logradouro),
+      numero: this.validarCampoObrigatorio(endereco && endereco.numero ? endereco.numero : numero),
+      bairro: this.validarCampoObrigatorio(endereco && endereco.bairro ? endereco.bairro : bairro),
+      estado: this.validarCampoObrigatorio(endereco && endereco.estado ? endereco.estado : estado),
+      cidade: this.validarCampoObrigatorio(endereco && endereco.cidade ? endereco.cidade : cidade)
     }
     
     this.setState({ erros: erros })
-    return erros.cep === '' && erros.endereco === '' && erros.numero === '' && erros.bairro === '' && erros.estado === '' && erros.cidade === ''
+    return erros.cep === '' && erros.logradouro === '' && erros.numero === '' && erros.bairro === '' && erros.estado === '' && erros.cidade === ''
   }
 
   validarCampoObrigatorio(value) {
@@ -91,64 +106,72 @@ class FormEndereco extends Component {
 
   render() {
     let props = this.props
-    let state = this.state
-    let erros = state.erros
+    let { estados, endereco } = this.props.localizacaoStore
+    let { cep, logradouro, numero, bairro, estado, cidade, erros } = this.state
 
     return (
       <div>
         <div>
           <TextField id="txtCEP" 
                      label="CEP"
-                     value={state.cep} 
-                     onChange={(event) => this.handlerChange('cep', event)} 
+                     value={cep} 
+                     onChange={(event) => this.handlerChange('cep', event.target.value)} 
                      error={erros.cep != ''} 
                      helperText={erros.cep}
                      style={{width: '55%'}}
+                     onBlur={() => this.props.buscarEnderecoPorCEP(cep)}
                      InputProps={{ inputComponent: this.TextMaskCEP}}/>
         </div>
         <div style={{paddingTop:'10px'}}>
           <TextField id="txtEndereco" 
                      label="Endereco" 
-                     value={state.endereco} 
-                     onChange={(event) => this.handlerChange('endereco', event)} 
-                     error={erros.endereco != ''} 
-                     helperText={erros.endereco}
+                     disabled={endereco && endereco.logradouro}
+                     value={endereco && endereco.logradouro ? endereco.logradouro : logradouro }
+                     onChange={(event) => this.handlerChange('endereco', event.target.value)} 
+                     error={erros.logradouro != ''} 
+                     helperText={erros.logradouro}
                      style={{width: '55%'}}/>
         </div>
         <div>
           <TextField id="txtNumero" 
                      label="Número"
                      margin="normal"
-                     value={state.numero} 
-                     onChange={(event) => this.handlerChange('numero', event)}  
+                     value={numero} 
+                     onChange={(event) => this.handlerChange('numero', event.target.value)}  
                      error={erros.numero != ''} 
                      helperText={erros.numero}
                      style={{width: '55%'}}/>
         </div>
         <div>
           <TextField id="txtBairro" 
-                     label="Bairro" 
-                     value={state.bairro} 
-                     onChange={(event) => this.handlerChange('bairro', event)}  
+                     label="Bairro"
+                     margin="normal"
+                     disabled={endereco && endereco.bairro}
+                     value={endereco && endereco.bairro ? endereco.bairro : bairro }
+                     onChange={(event) => this.handlerChange('bairro', event.target.value)}  
                      error={erros.bairro != ''} 
                      helperText={erros.bairro}
                      style={{width: '55%'}}/>
         </div>
         <div>
-          <TextField id="txtEstado" 
-                     label="Estado" 
-                     margin="normal" 
-                     value={state.estado} 
-                     onChange={(event) => this.handlerChange('estado', event)}  
-                     error={erros.estado != ''} 
-                     helperText={erros.estado}
-                     style={{width: '27.5%', paddingRight: '20px'}}/>
-
+          <TextField
+            label="Estado"
+            margin="normal"
+            style={{width: '27.5%', paddingRight: '20px'}}
+            disabled={endereco && endereco.estado}
+            value={endereco && endereco.estado ? endereco.estado : estado}
+            onChange={(e) => this.handlerChange('estado', e.target.value)}
+            select
+            SelectProps={{ native: true }}>
+            { <option value={''}> { '' } </option>  }
+            {  estados ? estados.map(e => <option value={e.nome}> { e.nome } </option> ) : null }
+          </TextField>
           <TextField id="txtCidade" 
                      label="Cidade" 
-                     margin="normal" 
-                     value={state.cidade} 
-                     onChange={(event) => this.handlerChange('cidade', event)}  
+                     margin="normal"
+                     disabled={endereco && endereco.cidade}
+                     value={endereco && endereco.cidade ? endereco.cidade : cidade }
+                     onChange={(event) => this.handlerChange('cidade', event.target.value)}  
                      error={erros.cidade != ''} 
                      helperText={erros.cidade}
                      style={{width: '27.5%'}}/> 
@@ -165,7 +188,8 @@ class FormEndereco extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      fornecedor: state.fornecedor
+      fornecedorStore: state.fornecedor,
+      localizacaoStore: state.localizacao
   }
 }
 
