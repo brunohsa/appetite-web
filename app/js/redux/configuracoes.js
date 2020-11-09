@@ -1,9 +1,9 @@
 const configuracoes = {
-  URL_MS_AUTENTICACAO: 'http://192.168.0.49:8081/autenticacao/api/',
-  URL_MS_CARDAPIO: 'http://192.168.0.44:8083/cardapio/api/',
-  URL_MS_CARRINHO: 'http://192.168.0.44:8084/carrinho/api/',
-  URL_MS_CADASTRO: 'http://192.168.0.44:8082/cadastro/api/',
-  URL_MS_LOCALIZACAO: 'http://192.168.0.44:8086/localizacao/api/',
+  URL_MS_AUTENTICACAO: 'http://127.0.0.1:8081/autenticacao/api/',
+  URL_MS_CARDAPIO: 'http://127.0.0.1:8083/cardapio/api/',
+  URL_MS_CARRINHO: 'http://127.0.0.1:8084/carrinho/api/',
+  URL_MS_CADASTRO: 'http://127.0.0.1:8082/cadastro/api/',
+  URL_MS_LOCALIZACAO: 'http://127.0.0.1:8086/localizacao/api/',
 }
 
 
