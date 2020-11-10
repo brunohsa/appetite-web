@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import MenuApp from '../components/MenuApp'
 import ConfiguracaoComponent from '../components/ConfiguracaoComponent'
 
+import cadastroActions from '../redux/actions/creators/cadastroActionCreators'
 import cadastroAPI from '../redux/api/cadastroAPI'
 
 class Configuracao extends Component {
@@ -23,8 +24,10 @@ class Configuracao extends Component {
 
 		return (
 			<div style={{height: '100%', width: '100%'}}>
-                <div> <MenuApp /> </div>
-                <div style={{height: '90%', overflowX: 'auto'}}>
+                <div> 
+					<MenuApp /> 
+				</div>
+                <div style={{height: '93.2%', overflowX: 'auto', position: 'relative'}}>
 					<ConfiguracaoComponent adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} 
 										   alterarHorariosFuncionamento={alterarHorariosFuncionamento}
 										   removerHorarioDiferenciado={removerHorarioDiferenciado}
@@ -44,18 +47,22 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(cadastroAPI.buscarHorariosFuncionamento());
 		},
 		alterarHorariosFuncionamento: (horariosFuncionamento) => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
 			dispatch(cadastroAPI.alterarHorariosFuncionamento(horariosFuncionamento));
 		},
         buscarHorariosDiferenciados: () => {
 			dispatch(cadastroAPI.buscarHorariosDiferenciados());
         },
         adicionarHorarioDiferenciado: (horarioDiferenciado) => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
 			dispatch(cadastroAPI.adicionarHorarioDiferenciado(horarioDiferenciado));
 		},
 		removerHorarioDiferenciado: (idHorario) => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
 			dispatch(cadastroAPI.removerHorarioDiferenciado(idHorario));
 		},
 		filtrarHorarioDiferenciado: (filtro) => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
 			dispatch(cadastroAPI.filtrarHorarioDiferenciado(filtro));
 		},
     }

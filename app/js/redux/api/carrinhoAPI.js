@@ -22,12 +22,16 @@ let carrinhoAPI = {
             dispatch(carrinhoActions.resumoPedidosEncontrados(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(carrinhoActions.stopLoaderResumoPedidos());
+        }
+
         let statusParametros = `status=${statusPedidos.PENDENTE_PREPARACAO}&status=${statusPedidos.PREPARANDO}&status=${statusPedidos.CONCLUIDO}`
         let filtroData = `&de=${dataAgoraFormatada}&ate=${dataAgoraFormatada}`
         let limite = `&limite=${10}`
 
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?${statusParametros}${filtroData}${limite}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarPedidosPendentePreparacao() {
@@ -35,8 +39,11 @@ let carrinhoAPI = {
             dispatch(carrinhoActions.pedidosPendentePreparacao(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(carrinhoActions.stopLoaderPedidosPendentePreparacao());
+        }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?status=${statusPedidos.PENDENTE_PREPARACAO}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarPedidosEmPreparo() {
@@ -44,8 +51,11 @@ let carrinhoAPI = {
             dispatch(carrinhoActions.pedidosEmPreparo(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(carrinhoActions.stopLoaderPedidosEmPreparacao());
+        }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?status=${statusPedidos.PREPARANDO}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarPedidosConcluidos() {
@@ -53,8 +63,11 @@ let carrinhoAPI = {
             dispatch(carrinhoActions.pedidosConcluidos(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(carrinhoActions.stopLoaderPedidosConcluidos());
+        }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?status=${statusPedidos.CONCLUIDO}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarPedidosCancelados() {
@@ -62,8 +75,11 @@ let carrinhoAPI = {
             dispatch(carrinhoActions.pedidosCancelados(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(carrinhoActions.stopLoaderPedidosCancelados());
+        }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}?status=${statusPedidos.CANCELADO}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     alterarStatusPedido(id, novoStatus) {

@@ -1,21 +1,27 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import Skeleton from "@material-ui/lab/Skeleton";
+
 import Pagination from '@material-ui/lab/Pagination';
 import CardPedido from '../common/CardPedido';
 
 import '../../../styles/pedidos-component.css';
 import '../../../styles/common.css';
 
-const itensPorPagina = 16
+const itensPorPaginaDefault = 16
 
 class ListaPedidos extends Component {
   
   constructor(props) {
     super(props);
 
+    let { itensPorPagina } = this.props
     this.state = {
-      pagina: 1
+      pagina: 1,
+      itensPorPagina: itensPorPagina ? itensPorPagina : itensPorPaginaDefault
     }
 
     this.handleChangePage = this.handleChangePage.bind(this)
@@ -33,33 +39,70 @@ class ListaPedidos extends Component {
     )
   }
 
+  renderizarEsqueletoCard(itensPorPagina) {
+    return (
+      <div style={{paddingLeft: '20px'}}>
+        {
+          Array.from(Array(itensPorPagina), () =>
+            <div className='esqueleto-pedidos'>
+              <Grid container wrap="nowrap">
+                <Box width={200}>
+                  <Skeleton variant="rect" width={200} height={110} />
+                  <Box>
+                    <Skeleton width="60%" />
+                    <Skeleton />
+                    <Skeleton />
+                    <Skeleton />
+                  </Box>
+                </Box>
+              </Grid>
+            </div>
+          )
+        }
+      </div>
+    )
+  }
+
+  renderizarPedidos(numeroDePaginas) {
+    let { pagina, itensPorPagina } = this.state
+    let { pedidos, alterarStatusPedido, habilitarAcoes } = this.props
+    return (
+      <div style={{height: '89%', marginBottom: '10px'}}>
+          {
+            pedidos && pedidos.length > 0 ? 
+              pedidos.slice((pagina - 1) * itensPorPagina, pagina * itensPorPagina)
+              .map((pedido) => {
+                return (
+                    <div id={pedido.id} className='list-pedidos-content'> 
+                      <CardPedido pedido={pedido} habilitarAcoes={habilitarAcoes} alterarStatusPedido={alterarStatusPedido} /> 
+                    </div>
+                )
+              })
+            : this.renderizarSemItens()
+          }
+          <div className='paginacao-pedidos'>
+            <Pagination count={numeroDePaginas} page={pagina} onChange={this.handleChangePage}/>
+          </div>
+      </div>
+    )
+  }
+
   render() {
-    let { pagina } = this.state
-    let { titulo, pedidos, alterarStatusPedido } = this.props
+    let { titulo, pedidos } = this.props
+    let { itensPorPagina } = this.state
 
-    let numeroDePaginas = this.props.pedidos ? Math.ceil(this.props.pedidos.length / itensPorPagina) : 1
-
+    let numeroDePaginas = this.props.pedidos ? Math.ceil(pedidos.length / itensPorPagina) : 1
     return (
       <div className='container-conteudos container-pedidos-conteudo'>
         <div>
           <span className='titulo titulo-pedidos'> { titulo } </span>
         </div>
-        <div style={{height: '89%', marginBottom: '10px'}}>
-            {
-              pedidos && pedidos.length > 0 ? 
-                pedidos.slice((pagina - 1) * itensPorPagina, pagina * itensPorPagina)
-                .map((pedido) => {
-                  return (
-                      <div id={pedido.id} className='list-pedidos-content'> 
-                        <CardPedido pedido={pedido} habilitarAcoes={true} alterarStatusPedido={alterarStatusPedido} /> 
-                      </div>
-                  )
-                })
-              : this.renderizarSemItens()
-            }
-        </div>
-        <div className='paginacao-pedidos'>
-            <Pagination count={numeroDePaginas} page={pagina} onChange={this.handleChangePage}/>
+        <div style={{height: '100%', overflow: 'auto'}}>
+          { 
+            this.props.buscando 
+              ? this.renderizarEsqueletoCard(itensPorPagina) 
+              : this.renderizarPedidos(numeroDePaginas)
+          }
         </div>
       </div>
     );

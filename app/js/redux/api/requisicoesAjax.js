@@ -2,6 +2,9 @@ import erroActions from '../actions/creators/erroActionCreators'
 import loginActions from '../actions/creators/loginActionCreators'
 
 const CODIGO_TOKEN_EXPIRADO = '001'
+const ERRO_DE_CONEXAO = 'Failed to fetch'
+
+let tokenExpirado = false
 
 let requisicoesAjax = {
 
@@ -9,31 +12,31 @@ let requisicoesAjax = {
        return this.post(null, body, url, acao)
    },
 
-   post(token, body, url, acao) {
+   post(token, body, url, acao, customCatch) {
         return (dispatch) => {
-            this.fetch(token, body, url, acao, 'POST', dispatch)
+            this.fetch(token, body, url, acao, 'POST', dispatch, customCatch)
         }
     },
 
-    put(token, body, url, acao) {
+    put(token, body, url, acao, customCatch) {
         return (dispatch) => {
-            this.fetch(token, body, url, acao, 'PUT', dispatch)
+            this.fetch(token, body, url, acao, 'PUT', dispatch, customCatch)
         }
     },
 
-    delete(token, url, acao) {
+    delete(token, url, acao, customCatch) {
         return (dispatch) => {
-            this.fetch(token, null, url, acao, 'DELETE', dispatch)
+            this.fetch(token, null, url, acao, 'DELETE', dispatch, customCatch)
         }
     },
     
-    get(token, url, acao) {
+    get(token, url, acao, customCatch) {
         return (dispatch) => {
-            this.fetch(token, null, url, acao, 'GET', dispatch)
+            this.fetch(token, null, url, acao, 'GET', dispatch, customCatch)
         }
     },
 
-    fetch(token, body, url, acao, method, dispatch) {
+    fetch(token, body, url, acao, method, dispatch, customCatch) {
         return fetch(url, {
                 method: method,
                 headers: {
@@ -53,12 +56,14 @@ let requisicoesAjax = {
                 return response.text().then(json => retorno(json, response.headers))
             })
             .then(response => {
-                tratarErro(response, dispatch)
+                tratarErro(response)
                 return acao(response, dispatch)
             })
             .catch(e => {
-                console.log(`erro: ${e.message}`)
-                dispatch(erroActions.apresentarErro(e.message));
+                let mensagem = tratarMensagemDeErro(e.message)
+                dispatch(erroActions.apresentarErro(mensagem))
+                tokenExpirado ? fazerLogoff(dispatch) : null
+                customCatch ? customCatch(dispatch) : null
             })
     }
 }
@@ -70,13 +75,21 @@ function retorno(body, headers) {
     }   
 }
 
-function tratarErro(response, dispatch) {
+function tratarErro(response) {
     let erro = response.body.erro
     if(erro) {
-       erro.codigo === CODIGO_TOKEN_EXPIRADO ? fazerLogoff(dispatch) : null
-       console.log(erro.mensagem)
-       throw Error(erro.mensagem)
+        tokenExpirado = erro.codigo === CODIGO_TOKEN_EXPIRADO
+        console.log(erro.mensagem)
+        throw Error(erro.mensagem)
     }
+}
+
+function tratarMensagemDeErro(mensagem) {
+    console.log(`erro: ${mensagem}`)
+    if(mensagem === ERRO_DE_CONEXAO) {
+        return 'Erro na conexão. por favor tente novamente mais tarde.'
+    }
+    return mensagem
 }
 
 function fazerLogoff(dispatch) {

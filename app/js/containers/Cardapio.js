@@ -6,6 +6,7 @@ import CardapioComponent from '../components/CardapioComponent';
 import '../../styles/login/login.css';
 
 import cardapioAPI from '../redux/api/cardapioAPI'
+import cardapioActions from '../redux/actions/creators/cardapioActionCreators'
 
 class Cardapio extends Component {
 
@@ -23,12 +24,15 @@ class Cardapio extends Component {
 const mapDispatchToProps = (dispatch) => {
     return {
     	criarCardapio: (nomeCardapio) => {
+            dispatch(cardapioActions.startLoaderTelaCardapios());
         	dispatch(cardapioAPI.criarCardapio(nomeCardapio));
 	  	},
         buscarCardapios: () => {
+            dispatch(cardapioActions.startLoaderTelaCardapios());
 			dispatch(cardapioAPI.buscarCardapios());
         },
         removerCardapio: (idCardapio) => {
+            dispatch(cardapioActions.startLoaderTelaCardapios());
 			dispatch(cardapioAPI.removerCardapio(idCardapio));
         },
     }

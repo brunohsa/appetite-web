@@ -16,6 +16,20 @@ let loginActions = {
         }
     },
 
+    startLoaderTelaCardapios() {
+        return {
+            type: actionTypes.LOADER_TELA_CARDAPIOS, 
+            carregandoDadosTelaCardapio: true
+        }
+    },
+
+    stopLoaderTelaCardapios() {
+        return {
+            type: actionTypes.LOADER_TELA_CARDAPIOS, 
+            carregandoDadosTelaCardapio: false
+        }
+    },
+
     cardapioEncontrado(cardapio) {
         return {
             type: actionTypes.CARDAPIO_ENCONTRADO, 
@@ -79,12 +93,55 @@ let loginActions = {
         }
     },
 
+    startLoaderBuscaProdutosMelhoresAvaliados() {
+        return {
+            type: actionTypes.LOADER_PRODUTOS_MELHORES_AVALIADOS, 
+            buscandoProdutosMelhoresAvaliados: true
+        }
+    },
+
+    stopLoaderBuscaProdutosMelhoresAvaliados() {
+        return {
+            type: actionTypes.LOADER_PRODUTOS_MELHORES_AVALIADOS, 
+            buscandoProdutosMelhoresAvaliados: false
+        }
+    },
+
     produtosMaisVendidosBuscado(produtos) {
         return {
-            type: actionTypes.PRODUTOS_MAIS_VENDIDOS, 
+            type: actionTypes.PRODUTOS_MAIS_VENDIDOS,
             maisVendidos: produtos
         }
-    }
+    },
+
+    startLoaderBuscaPedidosMaisVendidos() {
+        return {
+            type: actionTypes.LOADER_PRODUTOS_MAIS_VENDIDOS, 
+            buscandoPedidosMaisVendidos: true
+        }
+    },
+
+    stopLoaderBuscaPedidosMaisVendidos() {
+        return {
+            type: actionTypes.LOADER_PRODUTOS_MAIS_VENDIDOS, 
+            buscandoPedidosMaisVendidos: false
+        }
+    },
+
+    startLoaderTelaEditarCardapio() {
+        return {
+            type: actionTypes.LOADER_TELA_EDITAR_CARDAPIO, 
+            carregandoDadosTelaEditarCardapio: true
+        }
+    },
+
+    stopLoaderTelaEditarCardapio() {
+        return {
+            type: actionTypes.LOADER_TELA_EDITAR_CARDAPIO, 
+            carregandoDadosTelaEditarCardapio: false
+        }
+    },
+
 }
 
 export default loginActions;

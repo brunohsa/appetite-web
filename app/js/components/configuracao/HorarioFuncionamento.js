@@ -74,7 +74,8 @@ class HorarioFuncionamento extends Component {
   }
 
   salvarAlteracao() {
-    this.props.alterarHorariosFuncionamento(this.state.horarios)
+    let response = this.props.alterarHorariosFuncionamento(this.state.horarios)
+    console.log(response)
     this.setState({editado: false})
   }
 
@@ -136,7 +137,7 @@ class HorarioFuncionamento extends Component {
           </div> : null
         }
         <div className='div-btns-horario-funcionamento'>
-          <Button id='btn-alterar-horario-funcionamento' disabled={!editado} onClick={this.salvarAlteracao}> Salvar </Button>
+          <Button id='btn-alterar-horario-funcionamento' onClick={this.salvarAlteracao}> Salvar </Button>
         </div>
       </div>
     )

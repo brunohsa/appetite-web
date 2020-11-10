@@ -14,7 +14,7 @@ body {
 }
 
 .container-content-cardapio {
-  height: 86%;
+  height: 90%;
   width: 100%;
   padding-top: 20px;
 }
@@ -25,7 +25,7 @@ body {
 
 .content-cardapio {
   height: 100%;
-  width: 95%; 
+  width: 92%; 
   margin: 0px auto;
 }
 
@@ -131,4 +131,13 @@ body {
 .container-itens-cardapio {
   overflow: auto;
   height: 88%;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.sem-cardapios-cadastrados {
+  color: black;
+  font-size: 130%;
+  padding: 15%;
+  text-align: center;
 }

@@ -14,6 +14,7 @@
   border-radius: 10px;
   background-color: white;
   padding: 15px;
+  margin-bottom: 15px;
 }
 
 .container-sem-itens {
@@ -26,4 +27,28 @@
   vertical-align: middle;
   position: relative;
   line-height: 100px;
+  height: 85%;
+}
+
+.ellipsis-texts{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+.erro-container {
+  opacity: 1;
+  width: 400px; 
+  padding: 10px;
+  position: absolute;
+  right: 0px;
+  z-index: 999999;
+  visibility: hidden;
+}
+
+.erro-container.show {
+  opacity: 0;
+  transition: all 10s;
+  visibility: visible;
 }

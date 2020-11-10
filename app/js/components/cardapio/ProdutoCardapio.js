@@ -216,11 +216,13 @@ class ProdutoCardapio extends Component {
                 </div>
                 <div className='div-informacoes-produto-cardapio'>
                     <div className='div-nome-produto-categoria'>
-                        {
-                            editar 
-                                ? <TextFieldNome value={nome != null ? nome : produto.nome} onChange={(event) => this.handlerChange('nome', event.target.value)}/>
-                                : <span className='titulo'> { nome ? nome : produto.nome } </span>
-                        }
+                        <CustomTextField 
+                            style={{width: '100%'}}
+                            disabled={!editar}
+                            label='Nome'
+                            value={nome != null ? nome : produto.nome}
+                            variant="outlined"
+                            onChange={(event) => this.handlerChange('nome', event.target.value)}/>
                     </div>
                     <div className='div-descricao-produto'>
                         <DetalhesTextField 
@@ -245,6 +247,7 @@ class ProdutoCardapio extends Component {
                             disabled={!editar}
                             style={{marginLeft: '20px'}}
                             label='Estoque'
+                            defaultValue={0}
                             value={estoque ? estoque : produto.estoque}
                             variant="outlined"
                             onChange={(event) => this.handlerChange('estoque', event.target.value ? parseInt(event.target.value) : null)}

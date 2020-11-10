@@ -9,7 +9,7 @@
 }
 
 .container-pedidos-conteudo {
-  margin-top: 10px;
+  height: 100%;
 }
 
 .list-pedidos-content {
@@ -24,5 +24,12 @@
 
 .paginacao-pedidos {
   border-top: 1px solid rgb(214, 214, 214);
+  padding-top: 15px;
+}
+
+.esqueleto-pedidos {
+  display: inline-block; 
+  width: 200px; 
+  margin-right: 10px; 
   padding-top: 15px;
 }

@@ -20,7 +20,7 @@
     height: auto;
     margin: 0 auto;
     overflow: auto;
-    padding-top: 10px;
+    position: relative;
 }
 
 .container-conteudo {

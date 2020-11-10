@@ -36,6 +36,27 @@ let cadastroActions = {
             horariosDiferenciados: horarios
         }
     },
+
+    enderecoCadastrado() {
+        return {
+            type: actionTypes.ENDERECO_CADASTRADO, 
+            enderecoCadastrado: true
+        }
+    },
+
+    startLoaderTelaConfiguracoes() {
+        return {
+            type: actionTypes.LOADER_TELA_CONFIGURACOES, 
+            carregandoDadosTelaConfiguracoes: true
+        }
+    },
+
+    stopLoaderTelaConfiguracoes() {
+        return {
+            type: actionTypes.LOADER_TELA_CONFIGURACOES, 
+            carregandoDadosTelaConfiguracoes: false
+        }
+    }
 }
 
 export default cadastroActions;

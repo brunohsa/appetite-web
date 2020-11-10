@@ -106,7 +106,7 @@ class CategoriaCardapio extends Component {
               </DialogActions>
           </Dialog>
       )
-  }
+    }
 
     renderizarMenuCategoria() {
         let { anchorElCategoria } = this.state

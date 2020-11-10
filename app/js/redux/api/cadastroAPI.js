@@ -12,12 +12,18 @@ let cadastroAPI = {
             dispatch(cadastroActions.cadastroEncontrado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderBuscandoCadastro());
+        }
         let url = `${configs.URL_MS_CADASTRO}${CADASTRO_BASE_URL}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     alterarHorariosFuncionamento(horariosFuncionamento) {
         let acao = (response, dispatch) => response
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
         let body = JSON.stringify(horariosFuncionamento.map(hf => {
                 let hrFunc = {
                     dia: hf.dia,
@@ -29,7 +35,7 @@ let cadastroAPI = {
             })
         )
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/funcionamento/alterar`
-        return requisicoesAjax.put(getToken(), body, url, acao)
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     },
 
     buscarHorariosFuncionamento() {
@@ -37,8 +43,11 @@ let cadastroAPI = {
             dispatch(cadastroActions.horariosFuncionamentoEncontrados(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/funcionamento`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarHorariosDiferenciados() {
@@ -46,8 +55,11 @@ let cadastroAPI = {
             dispatch(cadastroActions.horariosDiferenciadosEncontrados(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/diferenciado`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     adicionarHorarioDiferenciado(horarioDiferenciado) {
@@ -55,19 +67,25 @@ let cadastroAPI = {
             dispatch(cadastroActions.horarioDiferenciadoAdicionado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
         let body = JSON.stringify({
             data_especial: horarioDiferenciado.dataEspecial,
             abertura: horarioDiferenciado.abertura,
             fechamento: horarioDiferenciado.fechamento
         })
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/diferenciado`
-        return requisicoesAjax.post(getToken(), body, url, acao)
+        return requisicoesAjax.post(getToken(), body, url, acao, customCatch)
     },
 
     removerHorarioDiferenciado(idHorario) {
         let acao = (response, dispatch) => response
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/diferenciado/${idHorario}`
-        return requisicoesAjax.delete(getToken(), url, acao)
+        return requisicoesAjax.delete(getToken(), url, acao, customCatch)
     },
 
     filtrarHorarioDiferenciado(filtro) {
@@ -75,13 +93,16 @@ let cadastroAPI = {
             dispatch(cadastroActions.horariosDiferenciadoFiltrados(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
         let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/horarios/diferenciado?${montarUrlFiltroHorariosDiferenciados(filtro)}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     adicionarEndereco(endereco) {
         let acao = (response, dispatch) => {
-            dispatch(cadastroActions.horariosDiferenciadoFiltrados(response.body));
+            dispatch(cadastroActions.enderecoCadastrado(response.body));
             return response
         }
         let body = JSON.stringify({

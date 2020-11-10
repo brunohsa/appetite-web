@@ -78,8 +78,7 @@ class CadastroComponent extends Component {
     super(props)
 
     this.state = {
-      activeStep: 2,
-      enviadoParaPersistencia: false
+      activeStep: 0
     }
 
     this.QontoStepIcon = this.QontoStepIcon.bind(this)
@@ -88,19 +87,18 @@ class CadastroComponent extends Component {
   }
 
   componentDidUpdate() {
-    if(this.props.fornecedor.cadastroRealizado) {
+    let { fornecedor, erro } = this.props
+    if(fornecedor.cadastroRealizado && fornecedor.enderecoCadastrado) {
       this.props.history.push('/home');
     }
     
-    let { fornecedor, salvarFornecedor } = this.props
-    if(fornecedor.informacoes && fornecedor.endereco && !this.state.enviadoParaPersistencia) {
-      salvarFornecedor(fornecedor.login, fornecedor.informacoes, fornecedor.endereco)
-      this.setState({enviadoParaPersistencia: true})
+    if(fornecedor.cadastroRealizado && fornecedor.endereco && !fornecedor.enderecoCadastrado && !erro.mensagem) {
+      this.props.adicionarEndereco(fornecedor.endereco)
     }
   }
 
   renderForm() {
-    let { classes, loginFornecedor, informacoesFornecedor, enderecoFornecedor, buscarEnderecoPorCEP, adicionarEndereco } = this.props;
+    let { classes, loginFornecedor, informacoesFornecedor, enderecoFornecedor, buscarEnderecoPorCEP } = this.props;
     switch(this.state.activeStep) {
       case 0 :
         return <FormAcesso loginFornecedor={loginFornecedor} voltar={this.acaoVoltar} proximo={this.acaoProximo} class={classes.button}/>
@@ -117,8 +115,15 @@ class CadastroComponent extends Component {
   }
 
   acaoProximo() {
+    let totaisSteps = this.getSteps().length
     let stepAtual = this.state.activeStep + 1;
-    this.setState({ activeStep: stepAtual })
+    let step = stepAtual == totaisSteps ? totaisSteps - 1 : stepAtual
+    this.setState({ activeStep: step })
+
+    let { fornecedor } = this.props
+    if(stepAtual == this.getSteps().length && !fornecedor.cadastroRealizado) {
+      this.props.salvarFornecedor(fornecedor.login, fornecedor.informacoes)
+    }
   }
 
   handleReset() {
@@ -177,5 +182,6 @@ CadastroComponent.propTypes = {
   informacoesFornecedor: PropTypes.func.isRequired,
   enderecoFornecedor: PropTypes.func.isRequired,
   salvarFavorecido: PropTypes.func.isRequired,
-  buscarEnderecoPorCEP: PropTypes.func.isRequired
+  buscarEnderecoPorCEP: PropTypes.func.isRequired,
+  adicionarEndereco: PropTypes.func.isRequired,
 }

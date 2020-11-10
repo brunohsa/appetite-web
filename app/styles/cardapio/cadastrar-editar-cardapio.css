@@ -20,8 +20,13 @@
 }
 
 .container-cadastrar-editar-cardapio {
+  width: 90%;
+}
+
+.content-cadastrar-editar-cardapio {
   width: 92%;
-  margin: 10px auto;
+  margin: 0 auto;
+  padding-top: 15px;
 }
 
 .div-informacoes-cardapio {
@@ -80,7 +85,7 @@
   display: inline-block;
   width: 15%;
   position: relative;
-  top: 20px;
+  top: 5px;
 }
 
 .div-informacoes-produto-cardapio {

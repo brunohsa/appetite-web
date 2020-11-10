@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types';
 
 import DadosFornecedor from './configuracao/DadosFornecedor'
 import EnderecoFornecedor from './configuracao/EnderecoFornecedor'
 import HorarioFuncionamento from './configuracao/HorarioFuncionamento'
 import HorarioEspecial from './configuracao/HorarioEspecial'
+
+import LoaderComponent from './LoaderComponent'
 
 import '../../styles/configuracoes/configuracao.css';
 import '../../styles/common.css';
@@ -26,24 +29,39 @@ class ConfiguracaoComponent extends Component {
     )
   }
 
-  render() {
-
+  renderizarConteudosConfiguracao() {
     let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado } = this.props
-
     return (
-      <div className='container-configuracoes'>
+      <div>
         { this.criarConteudo('Dados do Fornecedor', <DadosFornecedor />) }
         { this.criarConteudo('Endereço', <EnderecoFornecedor />) }
         { this.criarConteudo('Horário de Funcionamento', <HorarioFuncionamento alterarHorariosFuncionamento={alterarHorariosFuncionamento}/>) }
-        { this.criarConteudo('Horário Diferenciado', <HorarioEspecial adicionarHorarioDiferenciado={adicionarHorarioDiferenciado}
-                                                                      removerHorarioDiferenciado={removerHorarioDiferenciado}
-                                                                      filtrarHorarioDiferenciado={filtrarHorarioDiferenciado} />) }
+        { this.criarConteudo('Horário Diferenciado', <HorarioEspecial adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} 
+                                                                    removerHorarioDiferenciado={removerHorarioDiferenciado}
+                                                                    filtrarHorarioDiferenciado={filtrarHorarioDiferenciado} />) }
+      </div>
+    )
+  }
+
+  render() {
+    let { cadastroEncontrado, horariosFuncionamentoEncontrado, horariosDiferenciadoEncontrado, carregandoDadosTelaConfiguracoes } = this.props.cadastroStore
+    let abrirLoader = (!cadastroEncontrado && !horariosFuncionamentoEncontrado && !horariosDiferenciadoEncontrado) || carregandoDadosTelaConfiguracoes
+    return (
+      <div className='container-configuracoes'>
+        { abrirLoader ? <LoaderComponent /> : null }
+        { this.renderizarConteudosConfiguracao() }
       </div>    
     );
   }
 }
 
-export default ConfiguracaoComponent
+const mapStateToProps = (state) => {
+  return {
+      cadastroStore: state.cadastro
+  }
+}
+
+export default connect(mapStateToProps)(ConfiguracaoComponent)
 
 ConfiguracaoComponent.propTypes = {
   adicionarHorarioDiferenciado: PropTypes.func.isRequired,

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux'
-
 import { withStyles } from '@material-ui/core/styles';
 
 import TextField from '@material-ui/core/TextField';
@@ -12,9 +11,18 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+
+import LoaderComponent from '../LoaderComponent'
+
 import CategoriaCardapio from './CategoriaCardapio'
 
-import cardapioAPI from '../../redux/api/cardapioAPI'
+
 
 import '../../../styles/cardapio/cadastrar-editar-cardapio.css';
 import '../../../styles/common.css';
@@ -36,31 +44,48 @@ class CadastrarEditarCardapio extends Component {
   constructor(props) {
     super(props)
 
-    let { buscarCardapio, cardapioId } = this.props
-    buscarCardapio(cardapioId)
-
     this.state = {
       anchorEl: null,
       subcategoria: null,
-      editarNomeCardapio: false
+      editarNomeCardapio: false,
+      abrirDialogCardapioAtivo: false,
+      cardapioAtivo: false
     }
     
-    this.checkAtivarCardapio = this.checkAtivarCardapio.bind(this)
+    this.alterarCardapioAtivo = this.alterarCardapioAtivo.bind(this)
     this.abrirMenuCategoriasHeader = this.abrirMenuCategoriasHeader.bind(this)
     this.fecharMenuCategoriasHeader = this.fecharMenuCategoriasHeader.bind(this)
     this.adicionarNovaCategoria = this.adicionarNovaCategoria.bind(this)
+    this.validarCheckAtivarCardapio = this.validarCheckAtivarCardapio.bind(this)
+    this.abrirDialogCardapioAtivo = this.abrirDialogCardapioAtivo.bind(this)
+    this.fecharDialogCardapioAtivo = this.fecharDialogCardapioAtivo.bind(this)
   }
 
   handlerChange(valor, state) {
     this.setState({ [state]: valor })
   }
 
-  checkAtivarCardapio(event) {
-    let { cardapio } = this.props.cardapioStore
-    cardapio.ativo = event.target.checked
+  validarCheckAtivarCardapio(event) {
+    let { cardapios } = this.props.cardapioStore
     
+    let cardapioAtivo = event.target.checked
+    let existeCardapioAtivo = cardapios ? cardapios.filter(c => c.ativo)[0] != null : false
+    if(!existeCardapioAtivo) {
+      this.alterarCardapioAtivo(cardapioAtivo)
+      return
+    }
+    this.setState({ abrirDialogCardapioAtivo: existeCardapioAtivo, cardapioAtivo: cardapioAtivo})
+  }
+
+  alterarCardapioAtivo(cardapioAtivo) {
+    let { cardapio, cardapios } = this.props.cardapioStore
+    cardapio.ativo = cardapioAtivo != null && cardapioAtivo != undefined ? cardapioAtivo : this.state.cardapioAtivo
+    cardapios.filter(c => c.id == cardapio.id)[0] = cardapio
+
     this.props.alterarCardapio(cardapio.id, cardapio)
-    this.setState({ ativarCardapio: event.target.checked })
+    this.fecharDialogCardapioAtivo()
+    
+    this.setState({ cardapio: cardapio, cardapios: cardapios })
   }
 
   editarNomeCardapio() {
@@ -79,6 +104,31 @@ class CadastrarEditarCardapio extends Component {
     cardapio.nome = valor
 
     this.setState({ cardapio: cardapio })
+  }
+
+  criarDialogAlterarAtivoCardapio() {
+    return (
+        <Dialog onClose={this.fecharDialogCardapioAtivo} aria-labelledby="customized-dialog-title" open={this.state.abrirDialogCardapioAtivo}>
+            <DialogTitle id="customized-dialog-title" onClose={this.fecharDialogCardapioAtivo}> Informativo </DialogTitle>
+            <DialogContent dividers>
+                <Typography gutterBottom>
+                    Já possui um cardápio ativo, deseja mesmo assim tornar este ativo ? <br/>
+                </Typography>
+            </DialogContent>
+            <DialogActions>
+                <Button autoFocus onClick={() => this.fecharDialogCardapioAtivo()} color="inherit"> Fechar </Button>
+                <Button autoFocus onClick={() => this.alterarCardapioAtivo()} color="Secondary"> Alterar </Button>
+            </DialogActions>
+        </Dialog>
+    )
+  }
+
+  abrirDialogCardapioAtivo() {
+    this.setState({ abrirDialogCardapioAtivo: true })
+  }
+
+  fecharDialogCardapioAtivo() {
+    this.setState({ abrirDialogCardapioAtivo: false })
   }
 
   informacoesDoCardapio() {
@@ -107,7 +157,7 @@ class CadastrarEditarCardapio extends Component {
           </div>
           <div className='div-check-cardapio-ativo'>
             <span id='lblAtivarCardapio' className='texto'> Ativo </span>
-            <Switch checked={cardapio ? cardapio.ativo : false} onChange={(event) => this.checkAtivarCardapio(event)}/>
+            <Switch checked={cardapio ? cardapio.ativo : false} onChange={(event) => this.validarCheckAtivarCardapio(event)}/>
           </div>
         </div>
       </div>
@@ -198,10 +248,16 @@ class CadastrarEditarCardapio extends Component {
   }
 
   render() {
+    let { abrirDialogCardapioAtivo } = this.state
+    let { carregandoDadosTelaEditarCardapio } = this.props.cardapioStore
     return (
       <div className='container-cadastrar-editar-cardapio'>
-        { this.informacoesDoCardapio() }
-        { this.headerCategorias() }
+        { carregandoDadosTelaEditarCardapio ? <LoaderComponent /> : null }
+        <div className='content-cadastrar-editar-cardapio'>
+          { this.informacoesDoCardapio() }
+          { this.headerCategorias() }
+          { abrirDialogCardapioAtivo ? this.criarDialogAlterarAtivoCardapio() : null }
+        </div>
       </div>
     )
   }
@@ -214,45 +270,7 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    alterarCardapio: (idCardapio, cardapio) => {
-      dispatch(cardapioAPI.alterarCardapio(idCardapio, cardapio));
-    },
-    buscarCardapio: (idCardapio) => {
-      dispatch(cardapioAPI.buscarCardapio(idCardapio));
-    },
-    adicionarCategoria: (idCardapio, nomeCategoria) => {
-      dispatch(cardapioAPI.adicionarCategoria(idCardapio, nomeCategoria));
-    },
-    alterarCategoria: (idCardapio, idCategoria, categoria) => {
-      dispatch(cardapioAPI.alterarCategoria(idCardapio, idCategoria, categoria));
-    },
-    adicionarProduto: (idCardapio, idCategoria, produto) => {
-      dispatch(cardapioAPI.adicionarProduto(idCardapio, idCategoria, produto));
-    },
-    alterarProduto: (idCardapio, idCategoria, idProduto, produto) => {
-      dispatch(cardapioAPI.alterarProduto(idCardapio, idCategoria, idProduto, produto));
-    },
-    alterarImagemProduto: (idProduto, imagemBase64) => {
-      dispatch(cardapioAPI.alterarImagemProduto(idProduto, imagemBase64));
-    },
-    removerCategoria: (idCardapio, idCategoria) => {
-      dispatch(cardapioAPI.removerCategoria(idCardapio, idCategoria));
-    },
-    removerProduto: (idCardapio, idCategoria, idProduto) => {
-      dispatch(cardapioAPI.removerProduto(idCardapio, idCategoria, idProduto));
-    },
-    fazerDownloadImagem: (idProduto) => {
-      dispatch(cardapioAPI.fazerDownloadImagem(idProduto));
-    },
-    buscarSubcategorias: () => {
-      dispatch(cardapioAPI.buscarSubcategorias());
-    }
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CadastrarEditarCardapio);
+export default connect(mapStateToProps)(CadastrarEditarCardapio);
 
 CadastrarEditarCardapio.propTypes = {
   cardapioId: PropTypes.number.isRequired

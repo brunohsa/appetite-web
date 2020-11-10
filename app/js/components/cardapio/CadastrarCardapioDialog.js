@@ -66,14 +66,12 @@ class CadastrarCardapioDialog extends Component {
     if(this.camposValidos()) {
         this.props.criarCardapio(this.state.nome)
         this.props.fecharDialog()
+        this.setState({ nome: null })
     }
   }
 
   camposValidos() {
-    let possuiErros = false
-    possuiErros = this.possuiErros(this.validarCampoObrigatorio('nome', this.state.nome))
-
-    return !possuiErros
+    return !this.possuiErros(this.validarCampoObrigatorio('nome', this.state.nome))
   }
 
   possuiErros(erros) {

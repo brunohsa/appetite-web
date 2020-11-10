@@ -22,7 +22,7 @@ class Cadastro extends Component {
 	}
 	
 	render() {
-		let { loginFornecedor, informacoesFornecedor, enderecoFornecedor, salvarFornecedor, buscarEnderecoPorCEP } =  this.props
+		let { loginFornecedor, informacoesFornecedor, enderecoFornecedor, salvarFornecedor, buscarEnderecoPorCEP, adicionarEndereco } =  this.props
 		return (
 			<div style={{height: '100%', width: '100%'}}>
                 <div> <MenuApp /> </div>
@@ -32,7 +32,8 @@ class Cadastro extends Component {
 						informacoesFornecedor={informacoesFornecedor}
 						enderecoFornecedor={enderecoFornecedor}
 						salvarFornecedor={salvarFornecedor}
-						buscarEnderecoPorCEP={buscarEnderecoPorCEP} />
+						buscarEnderecoPorCEP={buscarEnderecoPorCEP} 
+						adicionarEndereco={adicionarEndereco} />
 				</div>
             </div>
 		);
@@ -50,8 +51,11 @@ const mapDispatchToProps = (dispatch) => {
 		enderecoFornecedor: (endereco) => {
 			dispatch(fornecedorActions.enderecoFornecedor(endereco));
 		},
-		salvarFornecedor: (login, informacoes, endereco) => {
-			dispatch(fornecedorAPI.salvarFornecedor(login, informacoes, endereco));
+		salvarFornecedor: (login, informacoes) => {
+			dispatch(fornecedorAPI.salvarFornecedor(login, informacoes));
+		},
+		adicionarEndereco: (endereco) => {
+			dispatch(cadastroAPI.adicionarEndereco(endereco));
 		},
 		buscarEstados: () => {
 			dispatch(localizacaoAPI.buscarEstados());

@@ -5,6 +5,8 @@ import { connect } from 'react-redux'
 
 import carrinhoAPI from '../redux/api/carrinhoAPI'
 
+import carrinhoActions from '../redux/actions/creators/carrinhoActionCreators'
+
 import MenuApp from '../components/MenuApp';
 import PedidosComponente from '../components/PedidosComponente';
 
@@ -54,15 +56,19 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		buscarPedidosPendentePreparacao: () => {
+			dispatch(carrinhoActions.startLoaderPedidosPendentePreparacao());
 			dispatch(carrinhoAPI.buscarPedidosPendentePreparacao());
 		},
 		buscarPedidosEmPreparo: () => {
+			dispatch(carrinhoActions.startLoaderPedidosEmPreparacao());
 			dispatch(carrinhoAPI.buscarPedidosEmPreparo());
 		},
 		buscarPedidosConcluidos: () => {
+			dispatch(carrinhoActions.startLoaderPedidosConcluidos());
 			dispatch(carrinhoAPI.buscarPedidosConcluidos());
 		},
 		buscarPedidosCancelados: () => {
+			dispatch(carrinhoActions.startLoaderPedidosCancelados());
 			dispatch(carrinhoAPI.buscarPedidosCancelados());
 		},
 		alterarStatusPedido: (id, novoStatus) => {

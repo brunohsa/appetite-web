@@ -7,6 +7,9 @@ import HomeComponent from '../components/HomeComponent';
 import carrinhoAPI from '../redux/api/carrinhoAPI'
 import cardapioAPI from '../redux/api/cardapioAPI'
 
+import carrinhoActions from '../redux/actions/creators/carrinhoActionCreators'
+import cardapioActions from '../redux/actions/creators/cardapioActionCreators'
+
 import '../../styles/home.css';
 import '../../styles/common.css';
 
@@ -26,7 +29,9 @@ class Home extends Component {
         return (
           <div style={{height: '100%', width: '100%'}}>
             <div> <MenuApp /> </div>
-            <div style={{height: '90%'}}> <HomeComponent /> </div>
+            <div style={{height: '90%', overflow: 'auto'}}> 
+              <HomeComponent /> 
+            </div>
           </div>
         )
     }
@@ -42,12 +47,15 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
       buscarUltimosPedidos: () => {
+          dispatch(carrinhoActions.startLoaderResumoPedidos());
           dispatch(carrinhoAPI.buscarUltimosPedidos());
       },
       buscarProdutosMelhoresAvaliados: () => {
+        dispatch(cardapioActions.startLoaderBuscaProdutosMelhoresAvaliados());
         dispatch(cardapioAPI.buscarProdutosMelhoresAvaliados());
       },
       buscarProdutosMaisVendidos: () => {
+        dispatch(cardapioActions.startLoaderBuscaPedidosMaisVendidos());
         dispatch(cardapioAPI.buscarProdutosMaisVendidos());
       }
   }

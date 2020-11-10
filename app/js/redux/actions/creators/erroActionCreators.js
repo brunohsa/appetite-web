@@ -9,7 +9,12 @@ let erroActions = {
         }
     },
 
-
+    limparErros() {
+        return {
+            type: actionTypes.LIMPAR_ERROS, 
+            erro: { mensagem: null }
+        }
+    },
 }
 
 export default erroActions;

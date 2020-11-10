@@ -13,18 +13,27 @@ let carrinhoAPI = {
             dispatch(cardapioActions.cardapioCriado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
+        
         let body = JSON.stringify({ nome: nomeCardapio })
-
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/criar`
-        return requisicoesAjax.post(getToken(), body, url, acao)
+        return requisicoesAjax.post(getToken(), body, url, acao, customCatch)
     },
 
     alterarCardapio(idCardapio, cardapio) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            return response
+        }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
+        
         let body = JSON.stringify({ nome: cardapio.nome, ativo: cardapio.ativo })
-
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${idCardapio}/alterar`
-        return requisicoesAjax.put(getToken(), body, url, acao)
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     },
 
     removerCardapio(idCardapio) {
@@ -32,8 +41,12 @@ let carrinhoAPI = {
             dispatch(cardapioActions.cardapioRemovido(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaCardapios());
+        }
+
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${idCardapio}`
-        return requisicoesAjax.delete(getToken(), url, acao)
+        return requisicoesAjax.delete(getToken(), url, acao, customCatch)
     },
 
     buscarCardapio(idCardapio) {
@@ -41,9 +54,12 @@ let carrinhoAPI = {
             dispatch(cardapioActions.cardapioEncontrado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
 
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${idCardapio}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarCardapios() {
@@ -51,9 +67,12 @@ let carrinhoAPI = {
             dispatch(cardapioActions.cardapiosEncontrados(response.body));
             return response.body
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaCardapios());
+        }
 
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     adicionarCategoria(cardapioId, nomeCategoria) {
@@ -61,21 +80,30 @@ let carrinhoAPI = {
             dispatch(cardapioActions.categoriaCriada(response.body));
             return response.body
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
+        
         let body = JSON.stringify({ titulo: nomeCategoria })
-
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${cardapioId}/adicionar-categoria`
-        return requisicoesAjax.put(getToken(), body, url, acao)
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     },
 
     alterarCategoria(cardapioId, categoriaId, categoria) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            return response
+        }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
+
         let body = JSON.stringify({
             titulo: categoria.titulo,
             subcategoria_id: categoria.subcategoria ? categoria.subcategoria.id : null
         })
-
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${cardapioId}/cartegoria/${categoriaId}/alterar`
-        return requisicoesAjax.put(getToken(), body, url, acao)
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     },
     
     buscarSubcategorias() {
@@ -93,9 +121,12 @@ let carrinhoAPI = {
             dispatch(cardapioActions.categoriaRemovida(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
 
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${cardapioId}/categoria/${categoriaId}`
-        return requisicoesAjax.delete(getToken(), url, acao)
+        return requisicoesAjax.delete(getToken(), url, acao, customCatch)
     },
 
     adicionarProduto(idCardapio, idCategoria, produto) {
@@ -103,23 +134,32 @@ let carrinhoAPI = {
             dispatch(cardapioActions.produtoCriado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
+        
         let body = JSON.stringify({ nome: produto.nome, valor: produto.valor })
-
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${idCardapio}/categoria/${idCategoria}/adicionar-produto`
-        return requisicoesAjax.put(getToken(), body, url, acao)
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     },
 
     alterarProduto(idCardapio, idCategoria, idProduto, produto) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            return response
+        }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
+
         let body = JSON.stringify({
             nome: produto.nome,
             descricao: produto.descricao,
             valor: produto.valor,
             estoque: produto.estoque
         })
-
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${idCardapio}/categoria/${idCategoria}/produto/${idProduto}/alterar`
-        return requisicoesAjax.put(getToken(), body,  url, acao)
+        return requisicoesAjax.put(getToken(), body,  url, acao, customCatch)
     },
 
     removerProduto(idCardapio, idCategoria, idProduto) {
@@ -127,9 +167,12 @@ let carrinhoAPI = {
             dispatch(cardapioActions.produtoRemovido(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+        }
 
         let url = `${configs.URL_MS_CARDAPIO}${CARDAPIOS_BASE_URL}/${idCardapio}/categoria/${idCategoria}/produto/${idProduto}`
-        return requisicoesAjax.delete(getToken(), url, acao)
+        return requisicoesAjax.delete(getToken(), url, acao, customCatch)
     },
 
     alterarImagemProduto(idProduto, imagemBase64) {
@@ -155,8 +198,11 @@ let carrinhoAPI = {
             dispatch(cardapioActions.produtosMelhoresAvaliadosBuscado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderBuscaProdutosMelhoresAvaliados());
+        }
         let url = `${configs.URL_MS_CARDAPIO}${PRODUTOS_BASE_URL}/melhores-avaliados`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
     buscarProdutosMaisVendidos() {
@@ -164,8 +210,11 @@ let carrinhoAPI = {
             dispatch(cardapioActions.produtosMaisVendidosBuscado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cardapioActions.stopLoaderBuscaPedidosMaisVendidos());
+        }
         let url = `${configs.URL_MS_CARDAPIO}${PRODUTOS_BASE_URL}/mais-vendidos`
-        return requisicoesAjax.get(getToken(), url, acao)
+        return requisicoesAjax.get(getToken(), url, acao, customCatch)
     }
 }
 

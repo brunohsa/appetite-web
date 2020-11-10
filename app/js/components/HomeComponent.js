@@ -1,7 +1,9 @@
 import React, {Component}from 'react'
 import { connect } from 'react-redux'
 
-import CardPedido from './common/CardPedido'
+import LoaderComponent from './LoaderComponent'
+
+import ListaPedidos from './pedidos/ListaPedidos';
 import Tabela from './common/Tabela'
 
 import TabelaModelo from '../modelos/TabelaModelo'
@@ -61,41 +63,69 @@ class HomeComponent extends Component {
       return linha
     }
 
-    render() {
-        let { pedidos } = this.props.carrinhoStore
+    renderizarUltimosPedidos() {
+      let { pedidos, buscandoResumoDePedidos } = this.props.carrinhoStore
+      let itensPorPagina = Math.ceil((window.screen.width * 0.92) / 230)
+      return (
+        <div className='list-pedidos-container'>
+            <ListaPedidos 
+              titulo='Últimos Pedidos' 
+              buscando={buscandoResumoDePedidos} 
+              pedidos={pedidos} 
+              itensPorPagina={itensPorPagina} 
+              habilitarAcoes={false}/>
+        </div>
+      )
+    }
 
+    renderizarLoader() {
+      return (
+          <div className='home-card-loader'>
+              <LoaderComponent />
+          </div>
+      )
+    }
+
+    renderizarMaisPedidos() {
+      let { buscandoPedidosMaisVendidos } = this.props.cardapioStore
+      let itensPorPagina = Math.trunc((window.screen.height * 0.25) / 53)
+      return (
+        <div className='home-card'>
+          <span className='titulo'> Mais Vendidos </span>
+          {
+            buscandoPedidosMaisVendidos 
+              ? this.renderizarLoader() 
+              : <div style={{paddingTop: '15px'}}>
+                  <Tabela linhasPorPagina={itensPorPagina} tabelaModelo={this.getTabelaModeloMaisVendidos()}/>
+                </div>
+          }
+        </div>
+      )
+    }
+
+    renderizarMelhoresAvaliados() {
+      let { buscandoProdutosMelhoresAvaliados } = this.props.cardapioStore
+      let itensPorPagina =  Math.trunc((window.screen.height * 0.25) / 53)
+      return (
+        <div className='home-card' style={{float: 'right'}}>
+          <span className='titulo'> Melhores Avalidados </span>
+          {
+            buscandoProdutosMelhoresAvaliados 
+              ? this.renderizarLoader()
+              : <div style={{paddingTop: '15px'}} >
+                  <Tabela linhasPorPagina={itensPorPagina} tabelaModelo={this.getTabelaModeloMelhoresAvaliados()}/>
+                </div>
+          }
+        </div>
+      )
+    }
+
+    render() {
         return (
           <div className='home-content-container'>
-            <div className='list-pedidos-container'>
-              <div className='div-informativos'>
-                <span className='lbl-informativos'> Últimos Pedidos </span>
-              </div>
-              <div id='lista-de-pedidos'>
-                { 
-                  pedidos && pedidos.length > 0 
-                  ? pedidos.map(pedido => 
-                      <div id={pedido.id} className='list-pedidos-content'> 
-                        <CardPedido pedido={pedido} /> 
-                      </div>
-                    )
-                  : <div className='sem-pedidos-recentes'> 
-                        <span className='titulo'> Ainda não possui nenhum pedido recente. </span> 
-                    </div>
-                }
-              </div>
-            </div>
-            <div className='home-card'>
-              <span className='lbl-card'> Mais Vendidos </span>
-              <div style={{paddingTop: '10px', width: '100%', height: '100%'}}>
-                <Tabela linhasPorPagina={2} tabelaModelo={this.getTabelaModeloMaisVendidos()}/>
-              </div>
-            </div>
-            <div className='home-card' style={{float: 'right'}}>
-              <span className='lbl-card'> Melhores Avalidados </span>
-              <div style={{paddingTop: '10px'}} >
-                <Tabela linhasPorPagina={2}  tabelaModelo={this.getTabelaModeloMelhoresAvaliados()}/>
-              </div>
-            </div>
+            { this.renderizarUltimosPedidos() }
+            { this.renderizarMaisPedidos() }
+            { this.renderizarMelhoresAvaliados() }
           </div>
         )
     }

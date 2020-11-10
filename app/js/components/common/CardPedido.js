@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import DetalhesPedido from './DetalhesPedido'
 
 import '../../../styles/common/card-pedido.css';
+import '../../../styles/common.css';
 
 const statusPedido = {
   PENDENTE_PREPARACAO: 'PENDENTE_PREPARACAO',
@@ -115,7 +116,7 @@ class CardPedido extends Component {
                 <div className='ellipsis-texts'>
                   <span> Produto(s): {pedido.itens ? pedido.itens.map(p => p.nome).reduce((p1, p2) => p1 + ', ' + p2) : null } </span> 
                 </div>
-                <div>
+                <div className='ellipsis-texts'>
                   <span> Status: <b> {getStatusCard(pedido.status)} </b> </span>
                 </div>
               </Typography>

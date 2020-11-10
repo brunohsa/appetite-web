@@ -30,10 +30,3 @@
   font-weight: bold;
   color: white;
 }
-
-.ellipsis-texts{
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
-}

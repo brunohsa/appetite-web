@@ -1,11 +1,10 @@
 import fornecedorActions from '../actions/creators/fornecedorActionCreators'
-import cadastroAPI from './cadastroAPI'
 import requisicoesAjax from './requisicoesAjax'
 import configs from '../configuracoes';
 
 let fornecedorAPI = {
 
-    salvarFornecedor(login, informacoes, endereco) {
+    salvarFornecedor(login, informacoes) {
         let body = JSON.stringify({
             email: login.email,
             senha: login.senha,
@@ -14,11 +13,9 @@ let fornecedorAPI = {
             cnpj: informacoes.cnpj,
             telefone: informacoes.telefone
         })
-
         let acao = (response, dispatch) => {
             localStorage.setItem('token', response.headers.get('token'));
             dispatch(fornecedorActions.cadastroRealizado());
-            dispatch(cadastroAPI.adicionarEndereco(endereco))
             return response
         }
 

@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 
 import iconeRemover from '../../images/icons/remover.png';
 
+import LoaderComponent from './LoaderComponent'
 import CadastrarCardapioDialog from './cardapio/CadastrarCardapioDialog'
 
 import '../../styles/cardapio.css';
@@ -112,11 +113,19 @@ class CardapioComponent extends Component {
         )
     }
 
+    renderizarCardapiosVazios() {
+        return (
+            <div className='sem-cardapios-cadastrados'> 
+            <span className='titulo'> Ainda não possui nenhum cardápio cadastrado. </span> 
+            </div>
+        )
+    }
+
     renderizarCardapios() {
         let { cardapios } = this.props.cardapioStore
 
         let cardapiosParaRenderizar = this.state.filtrando ? this.state.cardapiosFiltrados : cardapios
-        return cardapiosParaRenderizar ? cardapiosParaRenderizar.map(c => this.criarItemCardapio(c)) : null
+        return cardapios && cardapios.length > 0 ? cardapiosParaRenderizar.map(c => this.criarItemCardapio(c))  : this.renderizarCardapiosVazios()
     }
 
     criarDialogRemocaoCardapio() {
@@ -168,7 +177,8 @@ class CardapioComponent extends Component {
                                 onChange={(event) => this.filtrarCardapios(event)} />
                         </div>
                         <div className='container-itens-cardapio'>
-                            {  this.renderizarCardapios() }
+                            { this.props.cardapioStore.carregandoDadosTelaCardapio ? <LoaderComponent /> : null }
+                            { this.renderizarCardapios() }
                         </div>
                     </div>
                     <div className='div-btn-add-cardapio'>
@@ -186,8 +196,7 @@ class CardapioComponent extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        cardapioStore: state.cardapio,
-        erro: state.erro
+        cardapioStore: state.cardapio
     }
 }
   

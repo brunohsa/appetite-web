@@ -29,6 +29,8 @@ import configIcone from '../../images/icons/configuracoes.png';
 import pedidosIcone from '../../images/icons/pedidos.png';
 import sairIcone from '../../images/icons/sair.png';
 
+import '../../styles/common.css';
+
   const drawerWidth = 240;
   const styles = theme => ({
     root: {
@@ -127,7 +129,7 @@ class MenuApp extends Component {
     let open = this.state.open
     
     let usuarioLogado = localStorage.getItem('token')
-
+  
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -188,13 +190,11 @@ class MenuApp extends Component {
           </List>
         </Drawer>
         {
-          erro.mensagem 
-          ? <div style={{width: '400px', padding: '10px', position: 'absolute', right: '0px'}}>
-              <Alert style={{ backgroundColor: 'rgb(183, 28, 28)', fontSize: '16px' }} variant="filled" severity="error"> 
-                { erro.mensagem }
-              </Alert>
-            </div>
-          : null
+          <div className={erro.mensagem ? 'erro-container show' : 'erro-container'}>
+            <Alert style={{ backgroundColor: 'rgb(183, 28, 28)', fontSize: '16px' }} variant="filled" severity="info"> 
+              { erro.mensagem }
+            </Alert>
+          </div>
         }
       </div>
     )
