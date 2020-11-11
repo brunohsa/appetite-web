@@ -1,4 +1,5 @@
 import fornecedorActions from '../actions/creators/fornecedorActionCreators'
+import cadastroActions from '../actions/creators/cadastroActionCreators'
 import requisicoesAjax from './requisicoesAjax'
 import configs from '../configuracoes';
 
@@ -13,14 +14,18 @@ let fornecedorAPI = {
             cnpj: informacoes.cnpj,
             telefone: informacoes.telefone
         })
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaCadastro());
+        }
         let acao = (response, dispatch) => {
             localStorage.setItem('token', response.headers.get('token'));
+            dispatch(cadastroActions.stopLoaderTelaCadastro());
             dispatch(fornecedorActions.cadastroRealizado());
             return response
         }
 
         let url = `${configs.URL_MS_AUTENTICACAO}v1/usuarios/cadastrar/fornecedor`
-        return requisicoesAjax.postSemToken(body, url, acao)
+        return requisicoesAjax.postSemToken(body, url, acao, customCatch)
     }
 }
 

@@ -5,8 +5,6 @@ import { withStyles } from '@material-ui/core/styles';
 import MaskedInput from 'react-text-mask';
 
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -29,6 +27,7 @@ class FormEndereco extends Component {
   constructor(props) {
     super(props)
 
+    let { endereco } = this.props.fornecedorStore
     this.state = {
       erros: {
         cep: '',
@@ -38,12 +37,12 @@ class FormEndereco extends Component {
         estado: '',
         cidade: ''
       },
-      cep: '',
-      logradouro: '',
-      numero: '',
-      estado: '',
-      bairro: '',
-      cidade: ''
+      cep: endereco ? endereco.cep : '',
+      logradouro: endereco ? endereco.logradouro : '',
+      numero: endereco ? endereco.numero : '',
+      estado: endereco ? endereco.estado : '',
+      bairro: endereco ? endereco.bairro : '',
+      cidade: endereco ? endereco.cidade : ''
     }
   }
 
@@ -57,6 +56,18 @@ class FormEndereco extends Component {
     if(!this.camposValidos()) {
       return
     }
+    let body = this.getEnderecoBody()
+    this.props.enderecoFornecedor(body)
+    this.props.proximo(body);  
+  }
+
+  voltar() {
+    let body = this.getEnderecoBody()
+    this.props.enderecoFornecedor(body)
+    this.props.voltar()
+  }
+
+  getEnderecoBody() {
     let { endereco } = this.props.localizacaoStore
     let enderecoBody = {
       cep: this.state.cep,
@@ -66,8 +77,8 @@ class FormEndereco extends Component {
       estado: endereco && endereco.estado ? endereco.estado : this.state.estado,
       cidade: endereco && endereco.cidade ? endereco.cidade : this.state.cidade
     }
-    this.props.enderecoFornecedor(enderecoBody)
-    this.props.proximo();  
+
+    return enderecoBody
   }
 
   TextMaskCEP(props) {
@@ -119,6 +130,7 @@ class FormEndereco extends Component {
         <div>
           <TextField id="txtCEP" 
                      label="CEP"
+                     required
                      value={cep} 
                      onChange={(event) => this.handlerChange('cep', event.target.value)} 
                      error={erros.cep != ''} 
@@ -130,9 +142,10 @@ class FormEndereco extends Component {
         <div style={{paddingTop:'10px'}}>
           <TextField id="txtEndereco" 
                      label="Endereco" 
+                     required
                      disabled={endereco && endereco.logradouro}
                      value={endereco && endereco.logradouro ? endereco.logradouro : logradouro }
-                     onChange={(event) => this.handlerChange('endereco', event.target.value)} 
+                     onChange={(event) => this.handlerChange('logradouro', event.target.value)} 
                      error={erros.logradouro != ''} 
                      helperText={erros.logradouro}
                      style={{width: '55%'}}/>
@@ -141,6 +154,7 @@ class FormEndereco extends Component {
           <TextField id="txtNumero" 
                      label="Número"
                      margin="normal"
+                     required
                      value={numero} 
                      onChange={(event) => this.handlerChange('numero', event.target.value)}  
                      error={erros.numero != ''} 
@@ -151,6 +165,7 @@ class FormEndereco extends Component {
           <TextField id="txtBairro" 
                      label="Bairro"
                      margin="normal"
+                     required
                      disabled={endereco && endereco.bairro}
                      value={endereco && endereco.bairro ? endereco.bairro : bairro }
                      onChange={(event) => this.handlerChange('bairro', event.target.value)}  
@@ -162,29 +177,34 @@ class FormEndereco extends Component {
           <TextField
             label="Estado"
             margin="normal"
+            required
             style={{width: '27.5%', paddingRight: '20px'}}
             disabled={endereco && endereco.estado}
             value={endereco && endereco.estado ? this.getEstadoPorSigla(endereco.estado) : estado}
             onChange={(e) => this.handlerChange('estado', e.target.value)}
+            error={erros.estado != ''} 
+            helperText={erros.estado}
             select
             SelectProps={{ native: true }}>
             { <option value={''}> { '' } </option>  }
             {  estados ? estados.map(e => <option value={e.nome}> { e.nome } </option> ) : null }
           </TextField>
-          <TextField id="txtCidade" 
-                     label="Cidade" 
-                     margin="normal"
-                     disabled={endereco && endereco.cidade}
-                     value={endereco && endereco.cidade ? endereco.cidade : cidade }
-                     onChange={(event) => this.handlerChange('cidade', event.target.value)}  
-                     error={erros.cidade != ''} 
-                     helperText={erros.cidade}
-                     style={{width: '27.5%'}}/> 
+          <TextField 
+            id="txtCidade" 
+            label="Cidade" 
+            margin="normal"
+            required
+            disabled={endereco && endereco.cidade}
+            value={endereco && endereco.cidade ? endereco.cidade : cidade }
+            onChange={(event) => this.handlerChange('cidade', event.target.value)}  
+            error={erros.cidade != ''} 
+            helperText={erros.cidade}
+            style={{width: '27.5%'}}/> 
         </div>
 
         <div style={{display: 'flex', justifyContent: 'center', position: 'relative', top: '50px'}}>
-          <Button variant="contained" style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={()=> this.props.voltar()} className={props.class}> Voltar </Button>
-          <Button variant="contained"style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={()=> this.proximo()} className={props.class}> Finalizar </Button>
+          <Button variant="contained" style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={() => this.voltar()} className={props.class}> Voltar </Button>
+          <Button variant="contained"style={{backgroundColor: 'rgb(183, 28, 28)', color: 'white'}} onClick={() => this.proximo()} className={props.class}> Finalizar </Button>
         </div>
     </div>
     )

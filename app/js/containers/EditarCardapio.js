@@ -22,7 +22,7 @@ class EditarCardapio extends Component {
 
     render() {
         let { cardapioId, alterarCategoria, adicionarProduto, alterarProduto, alterarImagemProduto, removerCategoria, 
-            removerProduto, fazerDownloadImagem, buscarSubcategorias } = this.props
+              removerProduto, fazerDownloadImagem, buscarSubcategorias, alterarCardapio } = this.props
         
         return (
             <div style={{height: '100%', width: '100%'}}>
@@ -31,9 +31,8 @@ class EditarCardapio extends Component {
                 </div>
                 <div style={{height: '93.2%', overflowX: 'auto', position: 'relative'}}> 
                     <CadastrarEditarCardapio 
-                        cardapioId={cardapioId} 
-                        cardapio={cardapio} 
-                        categoria={categoria}
+                        cardapioId={cardapioId}
+                        alterarCardapio={alterarCardapio}
                         alterarCategoria={alterarCategoria} 
                         removerCategoria={removerCategoria}  
                         adicionarProduto={adicionarProduto} 
@@ -64,7 +63,7 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(cardapioActions.startLoaderTelaEditarCardapio());
         dispatch(cardapioAPI.buscarCardapio(idCardapio));
       },
-      buscarCardapio: () => {
+      buscarCardapios: () => {
         dispatch(cardapioAPI.buscarCardapios());
       },
       adicionarCategoria: (idCardapio, nomeCategoria) => {

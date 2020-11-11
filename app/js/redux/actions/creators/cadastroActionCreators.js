@@ -56,6 +56,20 @@ let cadastroActions = {
             type: actionTypes.LOADER_TELA_CONFIGURACOES, 
             carregandoDadosTelaConfiguracoes: false
         }
+    },
+
+    startLoaderTelaCadastro() {
+        return {
+            type: actionTypes.LOADER_TELA_CADASTRO, 
+            fazendoCadastro: true
+        }
+    },
+
+    stopLoaderTelaCadastro() {
+        return {
+            type: actionTypes.LOADER_TELA_CADASTRO, 
+            fazendoCadastro: false
+        }
     }
 }
 

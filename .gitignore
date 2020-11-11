@@ -6,3 +6,6 @@ public/bundle.js
 public/images/
 
 package-lock.json
+
+public/*.json
+public/*.js

@@ -45,7 +45,8 @@ class ConfiguracaoComponent extends Component {
 
   render() {
     let { cadastroEncontrado, horariosFuncionamentoEncontrado, horariosDiferenciadoEncontrado, carregandoDadosTelaConfiguracoes } = this.props.cadastroStore
-    let abrirLoader = (!cadastroEncontrado && !horariosFuncionamentoEncontrado && !horariosDiferenciadoEncontrado) || carregandoDadosTelaConfiguracoes
+    let { mensagem } = this.props.erroStore
+    let abrirLoader = (!cadastroEncontrado && !horariosFuncionamentoEncontrado && !horariosDiferenciadoEncontrado && !mensagem) || carregandoDadosTelaConfiguracoes
     return (
       <div className='container-configuracoes'>
         { abrirLoader ? <LoaderComponent /> : null }
@@ -57,7 +58,8 @@ class ConfiguracaoComponent extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      cadastroStore: state.cadastro
+      cadastroStore: state.cadastro,
+      erroStore: state.erro
   }
 }
 

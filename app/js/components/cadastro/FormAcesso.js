@@ -112,6 +112,7 @@ class FormAcesso extends Component {
           <TextField id="txtEmail" 
                      label="Email"
                      margin="normal"
+                     required
                      value={state.email}
                      error={erros.email !== ''} 
                      helperText={erros.email}
@@ -123,6 +124,7 @@ class FormAcesso extends Component {
                      label="Senha"
                      type="password" 
                      margin="normal"
+                     required
                      value={state.senha}
                      error={erros.senha !== ''} 
                      helperText={erros.senha}
@@ -134,6 +136,7 @@ class FormAcesso extends Component {
                      label="Confirmar Senha"
                      type="password"
                      margin="normal"
+                     required
                      value={state.confirmarSenha}
                      error={erros.confirmacaoSenha !== ''} 
                      helperText={erros.confirmacaoSenha}

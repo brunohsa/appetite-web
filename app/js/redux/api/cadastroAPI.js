@@ -13,7 +13,7 @@ let cadastroAPI = {
             return response
         }
         let customCatch = (dispatch) => {
-            dispatch(cadastroActions.stopLoaderBuscandoCadastro());
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
         }
         let url = `${configs.URL_MS_CADASTRO}${CADASTRO_BASE_URL}`
         return requisicoesAjax.get(getToken(), url, acao, customCatch)
@@ -105,6 +105,9 @@ let cadastroAPI = {
             dispatch(cadastroActions.enderecoCadastrado(response.body));
             return response
         }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaCadastro());
+        }
         let body = JSON.stringify({
             cep: endereco.cep,
             bairro: endereco.bairro,
@@ -114,7 +117,7 @@ let cadastroAPI = {
             numero: endereco.numero
         })
         let url = `${configs.URL_MS_CADASTRO}${CADASTRO_BASE_URL}/endereco/adicionar`
-        return requisicoesAjax.put(getToken(), body, url, acao)
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     }
 }
 

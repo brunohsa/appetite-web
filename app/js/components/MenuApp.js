@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import clsx from 'clsx';
 import { connect } from 'react-redux'
+import { withRouter } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 import { withStyles, withTheme } from '@material-ui/core/styles';
 
@@ -19,22 +21,17 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { withRouter } from "react-router-dom";
-import { Link } from 'react-router-dom';
-
-import Alert from '@material-ui/lab/Alert';
+import AlertComponent from './AlertComponent';
 
 import cardapioIcone from '../../images/icons/cardapio.png';
 import configIcone from '../../images/icons/configuracoes.png';
 import pedidosIcone from '../../images/icons/pedidos.png';
 import sairIcone from '../../images/icons/sair.png';
 
-import '../../styles/common.css';
-
   const drawerWidth = 240;
   const styles = theme => ({
     root: {
-      display: 'inline',
+      display: 'inline'
     },
     
     appBar: {
@@ -63,7 +60,7 @@ import '../../styles/common.css';
     
     drawer: {
       width: drawerWidth,
-      flexShrink: 0,
+      flexShrink: 0
     },
     
     drawerPaper: {
@@ -121,6 +118,7 @@ class MenuApp extends Component {
   
   sair() {
     localStorage.removeItem('token')
+    localStorage.removeItem('podeRedirecionar')
     this.navegar('/')
   }
 
@@ -154,6 +152,7 @@ class MenuApp extends Component {
           </Toolbar>
         </AppBar>
         <Drawer
+          style={{zIndex: '9999999999 !important'}}
           className={classes.drawer}
           variant="persistent"
           anchor="left"
@@ -189,13 +188,7 @@ class MenuApp extends Component {
             </ListItem>
           </List>
         </Drawer>
-        {
-          <div className={erro.mensagem ? 'erro-container show' : 'erro-container'}>
-            <Alert style={{ backgroundColor: 'rgb(183, 28, 28)', fontSize: '16px' }} variant="filled" severity="info"> 
-              { erro.mensagem }
-            </Alert>
-          </div>
-        }
+        <AlertComponent tipo='error' mensagem={erro.mensagem} />
       </div>
     )
   }

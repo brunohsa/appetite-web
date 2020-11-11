@@ -12,6 +12,7 @@ let loginAPI = {
 
         let acao = (response, dispatch) => {
             localStorage.setItem('token', response.headers.get('token'));
+            localStorage.setItem('podeRedirecionar', true);
             dispatch(loginActions.loginRealizado());
             return response
         }

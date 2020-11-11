@@ -8,8 +8,8 @@ let tokenExpirado = false
 
 let requisicoesAjax = {
 
-   postSemToken(body, url, acao) {
-       return this.post(null, body, url, acao)
+   postSemToken(body, url, acao, customCatch) {
+       return this.post(null, body, url, acao, customCatch)
    },
 
    post(token, body, url, acao, customCatch) {
@@ -37,6 +37,7 @@ let requisicoesAjax = {
     },
 
     fetch(token, body, url, acao, method, dispatch, customCatch) {
+        dispatch(erroActions.limparErros())
         return fetch(url, {
                 method: method,
                 headers: {

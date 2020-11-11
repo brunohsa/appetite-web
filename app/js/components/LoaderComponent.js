@@ -23,7 +23,7 @@ class LoaderComponent extends Component {
     render() {
         let { classes } = this.props;
         return (    
-            <div style={{height: '100%', width: '100%', position: 'absolute'}}>
+            <div style={{height: '100%', width: '100%', position: 'absolute', zIndex: 1000}}>
                 <Backdrop className={classes.backdrop} open={true} >
                     <CircularProgress color="inherit" />
                 </Backdrop>

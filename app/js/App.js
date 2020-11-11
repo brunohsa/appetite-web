@@ -24,7 +24,7 @@ constructor(props) {
 }
 
 usuarioLogado() {
-  return localStorage.getItem('token');
+  return localStorage.getItem('token') && localStorage.getItem('podeRedirecionar');
 }
 
 componentDidUpdate() {

@@ -113,6 +113,7 @@ class FormInformacoes extends Component {
           <TextField id="txtRazaoSocial" 
                      label="Razão Social" 
                      margin="normal" 
+                     required
                      value={state.razaoSocial} 
                      error={erros.razaoSocial !== ''} 
                      helperText={erros.razaoSocial}
@@ -123,6 +124,7 @@ class FormInformacoes extends Component {
           <TextField id="txtNomeFantasia" 
                      label="Nome Fantasia" 
                      margin="normal" 
+                     required
                      value={state.nomeFantasia}
                      error={erros.nomeFantasia !== ''} 
                      helperText={erros.nomeFantasia}
@@ -133,6 +135,7 @@ class FormInformacoes extends Component {
           <TextField id="txtCNPJ"
                      label="CNPJ"
                      margin="normal"
+                     required
                      value={state.cnpj}
                      error={erros.cnpj !== ''} 
                      helperText={erros.cnpj}
@@ -143,6 +146,7 @@ class FormInformacoes extends Component {
           <TextField id="txtTelefone" 
                      label="Telefone"
                      margin="normal" 
+                     required
                      value={state.telefone}
                      error={erros.telefone !== ''} 
                      helperText={erros.telefone}

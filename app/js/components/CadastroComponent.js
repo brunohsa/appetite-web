@@ -13,6 +13,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Check from '@material-ui/icons/Check';
 import StepConnector from '@material-ui/core/StepConnector';
 
+import LoaderComponent from './LoaderComponent'
+
 import FormAcesso from './cadastro/FormAcesso'
 import FormEndereco from './cadastro/FormEndereco'
 import FormInformacoes from './cadastro/FormInformacoes'
@@ -78,7 +80,8 @@ class CadastroComponent extends Component {
     super(props)
 
     this.state = {
-      activeStep: 0
+      activeStep: 0,
+      enderecoEnviadoParaPersistencia: false
     }
 
     this.QontoStepIcon = this.QontoStepIcon.bind(this)
@@ -87,13 +90,10 @@ class CadastroComponent extends Component {
   }
 
   componentDidUpdate() {
-    let { fornecedor, erro } = this.props
-    if(fornecedor.cadastroRealizado && fornecedor.enderecoCadastrado) {
+    let { fornecedor, cadastroStore } = this.props
+    if(fornecedor.cadastroRealizado && cadastroStore.enderecoCadastrado) {
+      localStorage.setItem('podeRedirecionar', true);
       this.props.history.push('/home');
-    }
-    
-    if(fornecedor.cadastroRealizado && fornecedor.endereco && !fornecedor.enderecoCadastrado && !erro.mensagem) {
-      this.props.adicionarEndereco(fornecedor.endereco)
     }
   }
 
@@ -114,15 +114,21 @@ class CadastroComponent extends Component {
     this.setState({ activeStep: stepAtual })
   }
 
-  acaoProximo() {
+  acaoProximo(endereco) {
     let totaisSteps = this.getSteps().length
     let stepAtual = this.state.activeStep + 1;
     let step = stepAtual == totaisSteps ? totaisSteps - 1 : stepAtual
     this.setState({ activeStep: step })
 
-    let { fornecedor } = this.props
-    if(stepAtual == this.getSteps().length && !fornecedor.cadastroRealizado) {
-      this.props.salvarFornecedor(fornecedor.login, fornecedor.informacoes)
+    if(stepAtual != this.getSteps().length) {
+      return
+    }
+
+    let { fornecedor, cadastroStore } = this.props
+    if(!fornecedor.cadastroRealizado) {
+      this.props.salvarFornecedor(fornecedor.login, fornecedor.informacoes, endereco)
+    } else if(!cadastroStore.enderecoCadastrado) {
+      this.props.adicionarEndereco(endereco)
     }
   }
 
@@ -147,21 +153,27 @@ class CadastroComponent extends Component {
 
   render() {
     let { activeStep } = this.state
-    let steps = this.getSteps()
+    let { fornecedor, cadastroStore, erroStore } = this.props
 
+    let abrirLoader = ((!fornecedor.cadastroRealizado || !cadastroStore.enderecoCadastrado) && cadastroStore.fazendoCadastro && !erroStore.mensagem)
     return (
-        <div style={{height: '100%', width: '60%', margin: '0px auto', paddingTop: '30px'}}>
-          <Stepper style={{backgroundColor: '#F0F0F0'}} alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
-            {
-              steps.map(label => (
-                <Step key={label}>
-                  <StepLabel StepIconComponent={this.QontoStepIcon}> {label} </StepLabel>
-                </Step>
-              ))
-            }
-          </Stepper>
-          <div style={{textAlign: 'center'}}> 
-            { this.renderForm() } 
+        <div  style={{height: '100%', width: '100%', position: 'relative'}}>
+          { 
+            abrirLoader ? <LoaderComponent /> : null 
+          }
+          <div style={{height: '100%', width: '60%', margin: '0px auto', paddingTop: '30px'}}>
+            <Stepper style={{backgroundColor: '#F0F0F0'}} alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
+              {
+                this.getSteps().map(label => (
+                  <Step key={label}>
+                    <StepLabel StepIconComponent={this.QontoStepIcon}> {label} </StepLabel>
+                  </Step>
+                ))
+              }
+            </Stepper>
+            <div style={{textAlign: 'center'}}> 
+              { this.renderForm() } 
+            </div>
           </div>
         </div>
     );
@@ -171,7 +183,8 @@ class CadastroComponent extends Component {
 const mapStateToProps = (state) => {
   return {
       fornecedor: state.fornecedor,
-      erro: state.erro
+      cadastroStore: state.cadastro,
+      erroStore: state.erro
   }
 }
 

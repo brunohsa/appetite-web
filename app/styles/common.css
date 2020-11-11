@@ -37,7 +37,7 @@
   width: 100%;
 }
 
-.erro-container {
+.alert-container {
   opacity: 1;
   width: 400px; 
   padding: 10px;
@@ -47,7 +47,7 @@
   visibility: hidden;
 }
 
-.erro-container.show {
+.alert-container.show {
   opacity: 0;
   transition: all 10s;
   visibility: visible;

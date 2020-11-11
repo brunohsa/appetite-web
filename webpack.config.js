@@ -6,12 +6,13 @@ module.exports = {
         publicPath: '/'
     },
     devServer: {
-        inline: true,
         contentBase: './public',
         host: 'localhost',
-        port: 3000,
+        port: 3001,
+        hot: true,
+        writeToDisk: true,
         historyApiFallback: true,
-        writeToDisk: true
+        inline: true,
     },
     module: {
         rules: [

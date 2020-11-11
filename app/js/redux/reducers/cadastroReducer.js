@@ -42,6 +42,11 @@ export function cadastroReducers(state = {}, action) {
                 ...state, 
                 carregandoDadosTelaConfiguracoes: action.carregandoDadosTelaConfiguracoes
             };
+        case actionTypes.LOADER_TELA_CADASTRO:
+            return { 
+                ...state, 
+                fazendoCadastro: action.fazendoCadastro
+            };
         default:
             return state;
     }

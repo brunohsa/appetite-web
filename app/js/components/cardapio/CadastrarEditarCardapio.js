@@ -265,13 +265,21 @@ class CadastrarEditarCardapio extends Component {
 
 const mapStateToProps = (state) => {
   return {
-      cardapioStore: state.cardapio,
-      erro: state.erro
+      cardapioStore: state.cardapio
   }
 }
 
 export default connect(mapStateToProps)(CadastrarEditarCardapio);
 
 CadastrarEditarCardapio.propTypes = {
-  cardapioId: PropTypes.number.isRequired
+  cardapioId: PropTypes.number.isRequired,
+  alterarCardapio: PropTypes.func.isRequired,
+  alterarCategoria: PropTypes.func.isRequired,
+  removerCategoria: PropTypes.func.isRequired, 
+  adicionarProduto: PropTypes.func.isRequired,
+  alterarProduto: PropTypes.func.isRequired,
+  alterarImagemProduto: PropTypes.func.isRequired,
+  removerProduto: PropTypes.func.isRequired,
+  fazerDownloadImagem: PropTypes.func.isRequired,
+  buscarSubcategorias: PropTypes.func.isRequired,
 }

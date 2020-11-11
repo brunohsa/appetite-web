@@ -7,6 +7,8 @@ import MenuApp from '../components/MenuApp';
 
 import '../../styles/not-found/not-found.css';
 
+import cadastroActions from '../redux/actions/creators/cadastroActionCreators'
+
 import fornecedorAPI from '../redux/api/fornecedorAPI'
 import localizacaoAPI from '../redux/api/localizacaoAPI'
 import cadastroAPI from '../redux/api/cadastroAPI'
@@ -26,7 +28,7 @@ class Cadastro extends Component {
 		return (
 			<div style={{height: '100%', width: '100%'}}>
                 <div> <MenuApp /> </div>
-                <div style={{height: '90%'}}>
+                <div style={{height: '93.2%'}}>
 					<CadastroComponent 
 						loginFornecedor={loginFornecedor} 
 						informacoesFornecedor={informacoesFornecedor}
@@ -51,8 +53,10 @@ const mapDispatchToProps = (dispatch) => {
 		enderecoFornecedor: (endereco) => {
 			dispatch(fornecedorActions.enderecoFornecedor(endereco));
 		},
-		salvarFornecedor: (login, informacoes) => {
+		salvarFornecedor: (login, informacoes, endereco) => {
+			dispatch(cadastroActions.startLoaderTelaCadastro())
 			dispatch(fornecedorAPI.salvarFornecedor(login, informacoes));
+			dispatch(cadastroAPI.adicionarEndereco(endereco));
 		},
 		adicionarEndereco: (endereco) => {
 			dispatch(cadastroAPI.adicionarEndereco(endereco));

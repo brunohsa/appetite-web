@@ -28,7 +28,7 @@ class LoginForm extends Component {
     }
 
     componentDidUpdate() {
-        if(this.props.loginStore.loginRealizado) {
+        if(this.props.loginStore.loginRealizado && this.props.cadastroStore.enderecoCadastrado) {
             this.props.history.push("/home");
         }
     }
@@ -115,6 +115,7 @@ class LoginForm extends Component {
 const mapStateToProps = (state) => {
     return {
         loginStore: state.login,
+        cadastroStore: state.cadastro,
         erro: state.erro
     }
 }
