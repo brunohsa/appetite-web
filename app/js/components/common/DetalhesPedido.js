@@ -35,13 +35,14 @@ class DetalhesPedido extends Component {
                             <div> <span className='lbl-conteudo-card'> R$ {prod.valor} </span> </div>
                         </div>
                     </div>
-                    {   prod.observacao ? 
+                    {   
+                        prod.observacoes ? 
                             <div className='card-itens-pedido'>
                                 <div className='div-titulo-obs'>
                                     <span className='lbl-detalhes-pedido'> <img src={observacaoIcone} width='15px' /> </span>
                                 </div>
                                 <div className='div-conteudo-obs'>
-                                    <span className='lbl-conteudo-card'> {prod.observacao} </span>
+                                    <span className='lbl-conteudo-card'> {prod.observacoes} </span>
                                 </div>
                             </div>
                         : null

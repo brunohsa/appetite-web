@@ -7,7 +7,7 @@ let loginActions = {
             type: actionTypes.LOGIN_REALIZADO
         }
     },
-
+    
     fazerLogout() {
         return {
             type: actionTypes.FAZER_LOGOUT
@@ -18,7 +18,21 @@ let loginActions = {
         return {
             type: actionTypes.LOGOUT_REALIZADO
         }
-    }
+    },
+
+    startLoaderTelaLogin() {
+        return {
+            type: actionTypes.LOADER_TELA_LOGIN,
+            startLoaderTelaLogin: true
+        }
+    },
+
+    stopLoaderTelaLogin() {
+        return {
+            type: actionTypes.LOADER_TELA_LOGIN,
+            startLoaderTelaLogin: false
+        }
+    },
 }
 
 export default loginActions;

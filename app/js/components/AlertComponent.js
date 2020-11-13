@@ -13,10 +13,9 @@ class AlertComponent extends Component {
 
     render() {
         let { tipo, mensagem } = this.props
-        let style = tipo == 'error' ? { backgroundColor: 'rgb(183, 28, 28)' } : null
         return (
             <div className={mensagem ? 'alert-container show' : 'alert-container'}>
-                <Alert style={{ style, fontSize: '16px' }} variant="filled" severity={tipo}> 
+                <Alert style={{backgroundColor: 'rgb(183, 28, 28)', fontSize: '16px' }} variant="filled" severity={tipo}> 
                     { mensagem }
                 </Alert>
             </div>

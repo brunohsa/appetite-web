@@ -28,7 +28,9 @@ class Home extends Component {
     render() {
         return (
           <div style={{height: '100%', width: '100%'}}>
-            <div> <MenuApp /> </div>
+            <div> 
+              <MenuApp />
+            </div>
             <div style={{height: '90%', overflow: 'auto'}}> 
               <HomeComponent /> 
             </div>

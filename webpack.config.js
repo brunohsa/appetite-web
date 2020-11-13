@@ -8,9 +8,8 @@ module.exports = {
     devServer: {
         contentBase: './public',
         host: 'localhost',
-        port: 3001,
+        port: 3000,
         hot: true,
-        writeToDisk: true,
         historyApiFallback: true,
         inline: true,
     },

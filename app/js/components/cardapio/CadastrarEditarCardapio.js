@@ -11,6 +11,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -26,6 +29,7 @@ import CategoriaCardapio from './CategoriaCardapio'
 
 import '../../../styles/cardapio/cadastrar-editar-cardapio.css';
 import '../../../styles/common.css';
+import { Alert } from '@material-ui/lab';
 
 const CustomTextField = withStyles({
   root: {
@@ -33,8 +37,7 @@ const CustomTextField = withStyles({
           padding: '0px 10px 0px 10px',
           width: '500px',
           height: '60px',
-          fontSize: '15px',
-          color: '#989898'
+          fontSize: '15px'
       }
   }
 })(TextField);
@@ -88,7 +91,7 @@ class CadastrarEditarCardapio extends Component {
     this.setState({ cardapio: cardapio, cardapios: cardapios })
   }
 
-  editarNomeCardapio() {
+  ehParaEditarNomeCardapio() {
     this.setState({ editarNomeCardapio: true })
   }
 
@@ -131,6 +134,22 @@ class CadastrarEditarCardapio extends Component {
     this.setState({ abrirDialogCardapioAtivo: false })
   }
 
+  renderizarBotoesNomeCardapio() {
+    return (
+      <div>
+        {
+          this.state.editarNomeCardapio 
+            ? <Button style={{height: '50px'}} onClick={() => this.confirmarEditacaoNomeCardapio()}>
+                <CheckIcon />
+              </Button>
+            : <Button style={{height: '50px'}} onClick={() => this.ehParaEditarNomeCardapio()}> 
+                <EditIcon />
+              </Button>
+        }
+      </div>
+    )
+  }
+
   informacoesDoCardapio() {
     let { cardapio } = this.props.cardapioStore
     let { editarNomeCardapio } = this.state
@@ -147,12 +166,10 @@ class CadastrarEditarCardapio extends Component {
                   label='Nome do cardápio'
                   variant="outlined"
                   disabled={!editarNomeCardapio}
-                  value={cardapio ? cardapio.nome : ''} 
-                  onBlur={() => this.confirmarEditacaoNomeCardapio()} 
-                  onChange={(event) => this.atualizarNomeCardapio(event.target.value)}
-                  onClick={() => this.editarNomeCardapio()}
+                  value={cardapio ? cardapio.nome : ''}
                   autoFocus
-              /> 
+                  InputProps={{endAdornment: this.renderizarBotoesNomeCardapio()}}
+              />
             </div>
           </div>
           <div className='div-check-cardapio-ativo'>

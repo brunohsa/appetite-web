@@ -19,6 +19,11 @@ export function loginReducers(state = {}, action) {
                 ...state,
                 fazerLogout: false
             }
+        case actionTypes.LOADER_TELA_LOGIN:
+            return {
+                ...state,
+                startLoaderTelaLogin: action.startLoaderTelaLogin
+            }
         default:
             return state;
     }
