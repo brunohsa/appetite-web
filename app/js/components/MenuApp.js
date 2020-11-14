@@ -6,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 import { withStyles, withTheme } from '@material-ui/core/styles';
 
+import Avatar from '@material-ui/core/Avatar';
+
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -28,71 +30,73 @@ import configIcone from '../../images/icons/configuracoes.png';
 import pedidosIcone from '../../images/icons/pedidos.png';
 import sairIcone from '../../images/icons/sair.png';
 
-  const drawerWidth = 240;
-  const styles = theme => ({
-    root: {
-      display: 'inline'
-    },
-    
-    appBar: {
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(['margin', 'width'], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    
-    hide: {
-      display: 'none',
-    },
-    
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0
-    },
-    
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    
-    drawerHeader: {
-      display: 'flex',
-      alignItems: 'center',
-      padding: theme.spacing(0, 1),
-      ...theme.mixins.toolbar,
-      justifyContent: 'flex-end',
-    },
-    
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
-    },
-    
-    contentShift: {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    },
-  })
+import configs from '../redux/configuracoes'
+
+const drawerWidth = 240;
+const styles = theme => ({
+  root: {
+    display: 'inline'
+  },
+  
+  appBar: {
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  
+  hide: {
+    display: 'none',
+  },
+  
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0
+  },
+  
+  drawerPaper: {
+    width: drawerWidth,
+  },
+  
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(0, 1),
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+  },
+  
+  content: {
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  },
+})
 
 class MenuApp extends Component {
 
@@ -123,11 +127,12 @@ class MenuApp extends Component {
   }
 
   render() {
-    let { classes, theme, erro } = this.props;
+    let { classes, theme, cadastroStore} = this.props;
     let open = this.state.open
     
     let usuarioLogado = localStorage.getItem('token')
-  
+    let cadastroUUID = localStorage.getItem('cadastroUUID');
+    let urlDownloadImagem = configs.URL_MS_DOWLOAD_IMAGEM_FORNECEDOR.replace('%s', cadastroUUID)
     return (
       <div className={classes.root}>
         <CssBaseline />
@@ -146,9 +151,21 @@ class MenuApp extends Component {
                 </IconButton>
                 : null
             }
+            
             <Typography variant="h6" color="inherit" style={{ flexGrow: '1'}}> 
               <Link to="/" style={{fontFamily: 'Arial, Helvetica, sans-serif', color: 'white', textDecoration: 'none'}}> Appetito </Link> 
             </Typography>
+
+            {
+              usuarioLogado 
+              ? <div>
+                  <Avatar 
+                    style={{height:'52px', width: '52px'}} 
+                    alt="Logo" 
+                    src={cadastroStore.imagemFornecedor ? cadastroStore.imagemFornecedor : urlDownloadImagem } />
+                </div>
+              : null
+            }
           </Toolbar>
         </AppBar>
         <Drawer
@@ -188,7 +205,7 @@ class MenuApp extends Component {
             </ListItem>
           </List>
         </Drawer>
-        <AlertComponent tipo='error' mensagem={erro.mensagem} />
+        <AlertComponent />
       </div>
     )
   }
@@ -196,7 +213,7 @@ class MenuApp extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		erro: state.erro
+    cadastroStore: state.cadastro,
 	}
 }
 

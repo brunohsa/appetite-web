@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import TextField from '@material-ui/core/TextField';
 
+import MaskedInput from 'react-text-mask';
+
 import '../../../styles/configuracoes/configuracao.css';
 import '../../../styles/common.css';
 
@@ -10,6 +12,35 @@ class EnderecoFornecedor extends Component {
 
   constructor(props) {
     super(props)
+  }
+
+  mascaraCEP(props) {
+    const { inputRef, ...other } = props;
+    return (
+      <MaskedInput
+        {...other}
+        ref={(ref) => { inputRef(ref ? ref.inputElement : null) }}
+        mask={[/[1-9]/, /\d/, /\d/, /\d/, /\d/, "-", /\d/, /\d/, /\d/]}
+        placeholderChar={"\u2000"}
+        showMask
+      />
+    );
+  }
+
+  criarConteudoVisualizarCEP(endereco) {
+    return (
+      <div className='container-form-config'>
+        <span className='texto'> CEP </span>
+        <div className='div-conteudo-config'>
+          <TextField
+            disabled
+            value={endereco ? endereco.cep : ''}
+            variant="outlined"
+            className='input-forms-config'
+            InputProps={{ inputComponent: this.mascaraCEP}}/> 
+        </div>
+      </div>
+    );
   }
 
   criarConteudoVisualizar(nomeCampo, valor) { 
@@ -37,7 +68,7 @@ class EnderecoFornecedor extends Component {
 
     return (
       <div>
-          { this.criarConteudoVisualizar('CEP', endereco ? endereco.cep : '') }
+          { this.criarConteudoVisualizarCEP(endereco) }
           { this.criarConteudoVisualizar('Endereco', endereco ? endereco.logradouro : '') }
           { this.criarConteudoVisualizar('Número', endereco ? endereco.numero : '') }
           { this.criarConteudoVisualizar('Bairro', endereco ? endereco.bairro : '') }

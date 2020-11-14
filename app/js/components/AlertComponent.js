@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 
 import Alert from '@material-ui/lab/Alert';
 
@@ -11,20 +11,40 @@ class AlertComponent extends Component {
         super(props)
     }
 
+    getMensagemETipo() {
+        let { mensagemStore, erroStore } = this.props
+        let mensagem = ''
+        let tipo = ''
+
+        if(erroStore.mensagem) {
+            mensagem = erroStore.mensagem
+            tipo = 'error'
+        } else if (mensagemStore.mensagem) {
+            mensagem = mensagemStore.mensagem
+            tipo = 'success'
+        }
+
+        return { mensagem: mensagem, tipo: tipo }
+    }
+
     render() {
-        let { tipo, mensagem } = this.props
+        let mensagemETipo = this.getMensagemETipo()
         return (
-            <div className={mensagem ? 'alert-container show' : 'alert-container'}>
-                <Alert style={{backgroundColor: 'rgb(183, 28, 28)', fontSize: '16px' }} variant="filled" severity={tipo}> 
-                    { mensagem }
+            <div className={mensagemETipo.mensagem ? 'alert-container show' : 'alert-container'}>
+                <Alert style={{fontSize: '16px'}} variant="filled" severity={mensagemETipo.tipo}> 
+                    { mensagemETipo.mensagem }
                 </Alert>
             </div>
         )
     }
 }
-export default AlertComponent
 
-AlertComponent.propTypes = {
-    tipo: PropTypes.string.isRequired,
-    mensagem: PropTypes.string,
+const mapStateToProps = (state) => {
+    return {
+        mensagemStore: state.mensagem,
+        erroStore: state.erro
+    }
   }
+
+  
+export default connect(mapStateToProps)(AlertComponent)

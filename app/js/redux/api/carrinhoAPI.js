@@ -1,4 +1,6 @@
 import carrinhoActions from '../actions/creators/carrinhoActionCreators'
+import mensagemActions from '../actions/creators/mensagemActionCreators'
+
 import requisicoesAjax from './requisicoesAjax'
 import configs from '../configuracoes';
 
@@ -83,7 +85,10 @@ let carrinhoAPI = {
     },
 
     alterarStatusPedido(id, novoStatus) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => {
+            dispatch(mensagemActions.apresentarMensagemSucesso('O status do pedido ' + id + ', foi alterado com sucesso.'));
+            return response
+        }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}/${id}/status/${novoStatus}/alterar`
         return requisicoesAjax.put(getToken(), null, url, acao)
     }

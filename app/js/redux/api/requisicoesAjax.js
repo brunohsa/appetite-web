@@ -1,4 +1,5 @@
 import erroActions from '../actions/creators/erroActionCreators'
+import mensagemActions from '../actions/creators/mensagemActionCreators'
 import loginActions from '../actions/creators/loginActionCreators'
 
 const CODIGO_TOKEN_EXPIRADO = '001'
@@ -38,6 +39,7 @@ let requisicoesAjax = {
 
     fetch(token, body, url, acao, method, dispatch, customCatch) {
         dispatch(erroActions.limparErros())
+        dispatch(mensagemActions.limparMensagens())
         return fetch(url, {
                 method: method,
                 headers: {

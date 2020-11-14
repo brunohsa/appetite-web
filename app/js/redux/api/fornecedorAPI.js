@@ -19,6 +19,7 @@ let fornecedorAPI = {
         }
         let acao = (response, dispatch) => {
             localStorage.setItem('token', response.headers.get('token'));
+            localStorage.setItem('cadastroUUID', response.headers.get('cadastro_uuid'));
             dispatch(cadastroActions.stopLoaderTelaCadastro());
             dispatch(fornecedorActions.cadastroRealizado());
             return response

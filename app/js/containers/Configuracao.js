@@ -7,6 +7,7 @@ import ConfiguracaoComponent from '../components/ConfiguracaoComponent'
 
 import cadastroActions from '../redux/actions/creators/cadastroActionCreators'
 import cadastroAPI from '../redux/api/cadastroAPI'
+import cardapioAPI from '../redux/api/cardapioAPI'
 
 class Configuracao extends Component {
 	
@@ -16,22 +17,24 @@ class Configuracao extends Component {
 		this.props.buscarCadastro()
 		this.props.buscarHorariosFuncionamento()
 		this.props.buscarHorariosDiferenciados()
+		this.props.buscarSubcategorias()
 	}
 	
 	render() {
 		
-		let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado } = this.props
+		let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado, alterarImagemFornecedor} = this.props
 
 		return (
 			<div style={{height: '100%', width: '100%'}}>
-                <div> 
+                <div style={{height: '10%', maxHeight: '80px'}}> 
 					<MenuApp /> 
 				</div>
-                <div style={{height: '93.2%', overflowX: 'auto', position: 'relative'}}>
+                <div style={{maxHeight: '92%', overflowX: 'auto', position: 'relative'}}>
 					<ConfiguracaoComponent adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} 
 										   alterarHorariosFuncionamento={alterarHorariosFuncionamento}
 										   removerHorarioDiferenciado={removerHorarioDiferenciado}
-										   filtrarHorarioDiferenciado={filtrarHorarioDiferenciado}/>
+										   filtrarHorarioDiferenciado={filtrarHorarioDiferenciado}
+										   alterarImagemFornecedor={alterarImagemFornecedor} />
 				</div>
             </div>
 		)
@@ -65,6 +68,13 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
 			dispatch(cadastroAPI.filtrarHorarioDiferenciado(filtro));
 		},
+		alterarImagemFornecedor: (imagem) => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
+			dispatch(cadastroAPI.alterarImagemFornecedor(imagem));
+		},
+		buscarSubcategorias: () => {
+			dispatch(cardapioAPI.buscarSubcategorias());
+		}
     }
 }
 

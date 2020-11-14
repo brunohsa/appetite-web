@@ -6,6 +6,8 @@ import { erroReducers } from './erroReducer';
 import { cadastroReducers } from './cadastroReducer';
 import { carrinhoReducers } from './carrinhoReducer';
 import { localizacaoReducers } from './localizacaoReducer';
+import { mensagemReducers } from './mensagemReducer';
+
 
 
 export default combineReducers({
@@ -15,5 +17,6 @@ export default combineReducers({
     carrinho: carrinhoReducers,
     cadastro: cadastroReducers,
     localizacao: localizacaoReducers,
+    mensagem: mensagemReducers,
     erro: erroReducers
 });

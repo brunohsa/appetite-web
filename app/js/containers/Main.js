@@ -69,21 +69,14 @@ class Main extends Component {
       </div>
     )
   }
-
-  renderizarAlert() {
-    let { mensagem } = this.props.erroStore
-    return (
-      <AlertComponent tipo='error' mensagem={mensagem} />
-    )
-  }
-
+  
   render() {
     
     return (
       <div className='container'>
           <div className='content'>
             { this.renderizarMenu() }
-            { this.renderizarAlert() }
+            <AlertComponent />
             { this.renderizarCorpo() }
           </div>
       </div>

@@ -1,4 +1,6 @@
 import cardapioActions from '../actions/creators/cardapioActionCreators'
+import mensagemActions from '../actions/creators/mensagemActionCreators'
+
 import requisicoesAjax from './requisicoesAjax'
 import configs from '../configuracoes';
 
@@ -11,6 +13,7 @@ let carrinhoAPI = {
     criarCardapio(nomeCardapio) {
         let acao = (response, dispatch) => { 
             dispatch(cardapioActions.cardapioCriado(response.body));
+            dispatch(mensagemActions.apresentarMensagemSucesso('Cardápio criado com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -25,6 +28,7 @@ let carrinhoAPI = {
     alterarCardapio(idCardapio, cardapio) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            dispatch(mensagemActions.apresentarMensagemSucesso('Cardápio alterado com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -39,6 +43,7 @@ let carrinhoAPI = {
     removerCardapio(idCardapio) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.cardapioRemovido(response.body));
+            dispatch(mensagemActions.apresentarMensagemSucesso('Cardápio removido com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -78,6 +83,7 @@ let carrinhoAPI = {
     adicionarCategoria(cardapioId, nomeCategoria) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.categoriaCriada(response.body));
+            dispatch(mensagemActions.apresentarMensagemSucesso('Categoria adicionada com sucesso.'))
             return response.body
         }
         let customCatch = (dispatch) => {
@@ -92,6 +98,7 @@ let carrinhoAPI = {
     alterarCategoria(cardapioId, categoriaId, categoria) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            dispatch(mensagemActions.apresentarMensagemSucesso('Categoria alterada com sucesso.'));
             return response
         }
         let customCatch = (dispatch) => {
@@ -119,6 +126,7 @@ let carrinhoAPI = {
     removerCategoria(cardapioId, categoriaId) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.categoriaRemovida(response.body));
+            dispatch(mensagemActions.apresentarMensagemSucesso('Categoria removida com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -132,6 +140,7 @@ let carrinhoAPI = {
     adicionarProduto(idCardapio, idCategoria, produto) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.produtoCriado(response.body));
+            dispatch(mensagemActions.apresentarMensagemSucesso('Produto adicionado com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -146,6 +155,7 @@ let carrinhoAPI = {
     alterarProduto(idCardapio, idCategoria, idProduto, produto) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            dispatch(mensagemActions.apresentarMensagemSucesso('Produto alterado com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -165,6 +175,7 @@ let carrinhoAPI = {
     removerProduto(idCardapio, idCategoria, idProduto) {
         let acao = (response, dispatch) => {
             dispatch(cardapioActions.produtoRemovido(response.body));
+            dispatch(mensagemActions.apresentarMensagemSucesso('Produto removido com sucesso.'))
             return response
         }
         let customCatch = (dispatch) => {
@@ -176,7 +187,10 @@ let carrinhoAPI = {
     },
 
     alterarImagemProduto(idProduto, imagemBase64) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => {
+            dispatch(mensagemActions.apresentarMensagemSucesso('Imagem do produto alterada.'))
+            return response
+        }
         let body = JSON.stringify({imagem: imagemBase64 })
 
         let url = `${configs.URL_MS_CARDAPIO}${PRODUTOS_BASE_URL}/${idProduto}/alterar-imagem`

@@ -1,4 +1,6 @@
 import cadastroActions from '../actions/creators/cadastroActionCreators'
+import mensagemActions from '../actions/creators/mensagemActionCreators'
+
 import requisicoesAjax from './requisicoesAjax'
 import configs from '../configuracoes';
 
@@ -20,7 +22,11 @@ let cadastroAPI = {
     },
 
     alterarHorariosFuncionamento(horariosFuncionamento) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => {
+            dispatch(mensagemActions.apresentarMensagemSucesso('Horário alterado com sucesso.'))
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+            return response
+        }
         let customCatch = (dispatch) => {
             dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
         }
@@ -64,6 +70,7 @@ let cadastroAPI = {
 
     adicionarHorarioDiferenciado(horarioDiferenciado) {
         let acao = (response, dispatch) => {
+            dispatch(mensagemActions.apresentarMensagemSucesso('Horário diferenciado inserido'))
             dispatch(cadastroActions.horarioDiferenciadoAdicionado(response.body));
             return response
         }
@@ -80,7 +87,11 @@ let cadastroAPI = {
     },
 
     removerHorarioDiferenciado(idHorario) {
-        let acao = (response, dispatch) => response
+        let acao = (response, dispatch) => { 
+            dispatch(mensagemActions.apresentarMensagemSucesso('Horário(s) diferenciado(s) removido(s)'))
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+            return response
+        }
         let customCatch = (dispatch) => {
             dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
         }
@@ -90,6 +101,7 @@ let cadastroAPI = {
 
     filtrarHorarioDiferenciado(filtro) {
         let acao = (response, dispatch) => {
+            dispatch(mensagemActions.apresentarMensagemSucesso('Horários diferenciados filtrado.'))
             dispatch(cadastroActions.horariosDiferenciadoFiltrados(response.body));
             return response
         }
@@ -102,6 +114,7 @@ let cadastroAPI = {
 
     adicionarEndereco(endereco) {
         let acao = (response, dispatch) => {
+            dispatch(mensagemActions.apresentarMensagemSucesso('Usuário cadastrado com sucesso !'))
             dispatch(cadastroActions.enderecoCadastrado(response.body));
             return response
         }
@@ -117,6 +130,22 @@ let cadastroAPI = {
             numero: endereco.numero
         })
         let url = `${configs.URL_MS_CADASTRO}${CADASTRO_BASE_URL}/endereco/adicionar`
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
+    },
+
+    alterarImagemFornecedor(imagemBase64) {
+        let acao = (response, dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+            dispatch(mensagemActions.apresentarMensagemSucesso('Imagem alterada com sucesso !'))
+            dispatch(cadastroActions.imagemFornecedorAlterada(imagemBase64));
+            return response
+        }
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
+        let body = JSON.stringify({imagem: imagemBase64 })
+
+        let url = `${configs.URL_MS_CADASTRO}${PESSOA_JURIDICA_BASE_URL}/alterar-imagem`
         return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
     }
 }

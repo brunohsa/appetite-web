@@ -44,6 +44,13 @@ let cadastroActions = {
         }
     },
 
+    imagemFornecedorAlterada(imagem) {
+        return {
+            type: actionTypes.IMAGEM_FORNECEDOR_ALTERADA, 
+            imagem: imagem
+        }
+    },
+
     startLoaderTelaConfiguracoes() {
         return {
             type: actionTypes.LOADER_TELA_CONFIGURACOES, 

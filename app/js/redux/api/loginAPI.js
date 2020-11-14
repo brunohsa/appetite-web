@@ -15,6 +15,7 @@ let loginAPI = {
 
         let acao = (response, dispatch) => {
             localStorage.setItem('token', response.headers.get('token'));
+            localStorage.setItem('cadastroUUID', response.body.cadastro_uuid);
             localStorage.setItem('podeRedirecionar', true);
             dispatch(loginActions.stopLoaderTelaLogin());
             dispatch(loginActions.loginRealizado());
