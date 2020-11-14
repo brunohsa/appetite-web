@@ -108,17 +108,17 @@ class HorarioFuncionamento extends Component {
                     <TableCell align="center">
                       <TextField
                         type="time"
-                        defaultValue="--:--"
+                        defaultValue="00:00"
                         disabled={hf.fechado}
-                        value={hf.abertura ? hf.abertura : "--:--"}
+                        value={hf.abertura ? hf.abertura : "00:00"}
                         onChange={(e) => this.alterarHorarioFuncionamento(hf, 'abertura', e.target.value)}/>
                     </TableCell>
                     <TableCell align="center">
                       <TextField
                         type="time"
-                        defaultValue="--:--"
+                        defaultValue="00:00"
                         disabled={hf.fechado}
-                        value={hf.fechamento ? hf.fechamento : "--:--"} 
+                        value={hf.fechamento ? hf.fechamento : "00:00"} 
                         onChange={(e) => this.alterarHorarioFuncionamento(hf, 'fechamento', e.target.value)}/>
                     </TableCell>
                     <TableCell align="center">

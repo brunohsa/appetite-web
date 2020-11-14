@@ -17,7 +17,7 @@ let carrinhoAPI = {
             return response
         }
         let customCatch = (dispatch) => {
-            dispatch(cardapioActions.stopLoaderTelaEditarCardapio());
+            dispatch(cardapioActions.stopLoaderTelaCardapios());
         }
         
         let body = JSON.stringify({ nome: nomeCardapio })

@@ -114,6 +114,7 @@ let cadastroAPI = {
 
     adicionarEndereco(endereco) {
         let acao = (response, dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaCadastro());
             dispatch(mensagemActions.apresentarMensagemSucesso('Usuário cadastrado com sucesso !'))
             dispatch(cadastroActions.enderecoCadastrado(response.body));
             return response

@@ -86,7 +86,7 @@ let carrinhoAPI = {
 
     alterarStatusPedido(id, novoStatus) {
         let acao = (response, dispatch) => {
-            dispatch(mensagemActions.apresentarMensagemSucesso('O status do pedido ' + id + ', foi alterado com sucesso.'));
+            dispatch(mensagemActions.apresentarMensagemSucesso('O status do pedido, foi alterado com sucesso.'));
             return response
         }
         let url = `${configs.URL_MS_CARRINHO}${PEDIDOS_FORNECEDORES_BASE_URL}/${id}/status/${novoStatus}/alterar`

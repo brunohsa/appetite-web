@@ -55,8 +55,7 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		salvarFornecedor: (login, informacoes, endereco) => {
 			dispatch(cadastroActions.startLoaderTelaCadastro())
-			dispatch(fornecedorAPI.salvarFornecedor(login, informacoes));
-			dispatch(cadastroAPI.adicionarEndereco(endereco));
+			dispatch(fornecedorAPI.salvarFornecedor(login, informacoes, endereco));
 		},
 		adicionarEndereco: (endereco) => {
 			dispatch(cadastroAPI.adicionarEndereco(endereco));
