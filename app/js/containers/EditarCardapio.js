@@ -21,7 +21,7 @@ class EditarCardapio extends Component {
     }
 
     render() {
-        let { cardapioId, alterarCategoria, adicionarProduto, alterarProduto, alterarImagemProduto, removerCategoria, 
+        let { cardapioId, adicionarCategoria, alterarCategoria, adicionarProduto, alterarProduto, alterarImagemProduto, removerCategoria, 
               removerProduto, fazerDownloadImagem, buscarSubcategorias, alterarCardapio } = this.props
         
         return (
@@ -33,6 +33,7 @@ class EditarCardapio extends Component {
                     <CadastrarEditarCardapio 
                         cardapioId={cardapioId}
                         alterarCardapio={alterarCardapio}
+                        adicionarCategoria={adicionarCategoria}
                         alterarCategoria={alterarCategoria} 
                         removerCategoria={removerCategoria}  
                         adicionarProduto={adicionarProduto} 

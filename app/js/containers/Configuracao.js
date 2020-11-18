@@ -6,6 +6,7 @@ import MenuApp from '../components/MenuApp'
 import ConfiguracaoComponent from '../components/ConfiguracaoComponent'
 
 import cadastroActions from '../redux/actions/creators/cadastroActionCreators'
+import mensagemActions from '../redux/actions/creators/mensagemActionCreators'
 import cadastroAPI from '../redux/api/cadastroAPI'
 import cardapioAPI from '../redux/api/cardapioAPI'
 
@@ -22,7 +23,7 @@ class Configuracao extends Component {
 	
 	render() {
 		
-		let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado, alterarImagemFornecedor} = this.props
+		let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado, alterarImagemFornecedor, alterarCategoriaFornecedor} = this.props
 
 		return (
 			<div style={{height: '100%', width: '100%'}}>
@@ -34,7 +35,8 @@ class Configuracao extends Component {
 										   alterarHorariosFuncionamento={alterarHorariosFuncionamento}
 										   removerHorarioDiferenciado={removerHorarioDiferenciado}
 										   filtrarHorarioDiferenciado={filtrarHorarioDiferenciado}
-										   alterarImagemFornecedor={alterarImagemFornecedor} />
+										   alterarImagemFornecedor={alterarImagemFornecedor} 
+										   alterarCategoriaFornecedor={alterarCategoriaFornecedor}/>
 				</div>
             </div>
 		)
@@ -74,6 +76,14 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		buscarSubcategorias: () => {
 			dispatch(cardapioAPI.buscarSubcategorias());
+		},
+		alterarCategoriaFornecedor: () => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
+			dispatch(mensagemActions.limparMensagens());
+			setTimeout(() => {
+				dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+				dispatch(mensagemActions.apresentarMensagemSucesso("Categoria alterada com sucesso."));
+			}, 250)
 		}
     }
 }

@@ -52,7 +52,8 @@ class CadastrarEditarCardapio extends Component {
       subcategoria: null,
       editarNomeCardapio: false,
       abrirDialogCardapioAtivo: false,
-      cardapioAtivo: false
+      cardapioAtivo: false,
+      nomeCardapio: ''
     }
     
     this.alterarCardapioAtivo = this.alterarCardapioAtivo.bind(this)
@@ -97,8 +98,9 @@ class CadastrarEditarCardapio extends Component {
 
   confirmarEditacaoNomeCardapio() {
     let { cardapio } = this.props.cardapioStore
+    cardapio.nome = this.state.nomeCardapio
+
     this.props.alterarCardapio(cardapio.id, cardapio)
-    
     this.setState({ editarNomeCardapio: false })
   }
 
@@ -152,7 +154,7 @@ class CadastrarEditarCardapio extends Component {
 
   informacoesDoCardapio() {
     let { cardapio } = this.props.cardapioStore
-    let { editarNomeCardapio } = this.state
+    let { editarNomeCardapio, nomeCardapio } = this.state
 
     return (
       <div>
@@ -166,7 +168,8 @@ class CadastrarEditarCardapio extends Component {
                   label='Nome do cardápio'
                   variant="outlined"
                   disabled={!editarNomeCardapio}
-                  value={cardapio ? cardapio.nome : ''}
+                  value={nomeCardapio ? nomeCardapio : cardapio ? cardapio.nome : ''}
+                  onChange={(e) => this.handlerChange( e.target.value, 'nomeCardapio')}
                   autoFocus
                   InputProps={{endAdornment: this.renderizarBotoesNomeCardapio()}}
               />
@@ -268,7 +271,7 @@ class CadastrarEditarCardapio extends Component {
     let { abrirDialogCardapioAtivo } = this.state
     let { carregandoDadosTelaEditarCardapio } = this.props.cardapioStore
     return (
-      <div className='container-cadastrar-editar-cardapio'>
+      <div>
         { carregandoDadosTelaEditarCardapio ? <LoaderComponent /> : null }
         <div className='content-cadastrar-editar-cardapio'>
           { this.informacoesDoCardapio() }
@@ -290,6 +293,7 @@ export default connect(mapStateToProps)(CadastrarEditarCardapio);
 
 CadastrarEditarCardapio.propTypes = {
   cardapioId: PropTypes.number.isRequired,
+  adicionarCategoria: PropTypes.func.isRequired,
   alterarCardapio: PropTypes.func.isRequired,
   alterarCategoria: PropTypes.func.isRequired,
   removerCategoria: PropTypes.func.isRequired, 

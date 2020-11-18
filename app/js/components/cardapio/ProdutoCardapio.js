@@ -202,6 +202,13 @@ class ProdutoCardapio extends Component {
         )
     }
 
+    renderizarSemImagem() {
+        let { produto } = this.props
+        produto.url = semImagem
+
+        this.setState({ produto: produto })
+    }
+
     render() {
         let { editar, nome, valor, estoque, descricao } = this.state
         let { produto } = this.props
@@ -210,7 +217,7 @@ class ProdutoCardapio extends Component {
             <div className='div-conteudo-produtos-categoria'>
                 <div className='div-imagem-produto-cardapio'>
                     <label htmlFor={`inputImagemProduto-${produto.id}`} style={{cursor: 'pointer'}}>
-                        <img className='img-produto-cardapio' src={ produto.url ? produto.url : semImagem } />
+                        <img className='img-produto-cardapio' src={ produto.url ? produto.url : semImagem } onError={() => this.renderizarSemImagem()}/>
                     </label>
                     <input id={`inputImagemProduto-${produto.id}`} type="file" accept="image/jpeg" onChange={this.alterarImagem}/>
                 </div>

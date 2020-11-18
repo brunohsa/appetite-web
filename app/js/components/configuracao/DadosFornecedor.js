@@ -168,7 +168,7 @@ renderizarSubcategorias() {
             id="txt-subcategoria"
             value={this.state.subcategoria}
             onChange={(e) => this.atualizarSubcategoria(e)}
-            autoFocus
+            onBlur={() => this.props.alterarCategoriaFornecedor()}
           >
           { 
             subcategorias ? subcategorias.map(s => <MenuItem value={s.id}> { s.descricao } </MenuItem> ) : null

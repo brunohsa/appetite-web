@@ -30,10 +30,11 @@ class ConfiguracaoComponent extends Component {
   }
 
   renderizarConteudosConfiguracao() {
-    let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado, alterarImagemFornecedor } = this.props
+    let { adicionarHorarioDiferenciado, alterarHorariosFuncionamento, removerHorarioDiferenciado, filtrarHorarioDiferenciado, alterarImagemFornecedor, alterarCategoriaFornecedor } = this.props
     return (
       <div>
-        { this.criarConteudo('Dados do Fornecedor', <DadosFornecedor alterarImagemFornecedor={alterarImagemFornecedor}/>) }
+        { this.criarConteudo('Dados do Fornecedor', <DadosFornecedor alterarImagemFornecedor={alterarImagemFornecedor} 
+                                                                     alterarCategoriaFornecedor={alterarCategoriaFornecedor}/>) }
         { this.criarConteudo('Endereço', <EnderecoFornecedor />) }
         { this.criarConteudo('Horário de Funcionamento', <HorarioFuncionamento alterarHorariosFuncionamento={alterarHorariosFuncionamento}/>) }
         { this.criarConteudo('Horário Diferenciado', <HorarioEspecial adicionarHorarioDiferenciado={adicionarHorarioDiferenciado} 
@@ -69,5 +70,6 @@ ConfiguracaoComponent.propTypes = {
   adicionarHorarioDiferenciado: PropTypes.func.isRequired,
   alterarHorariosFuncionamento: PropTypes.func.isRequired,
   removerHorarioDiferenciado: PropTypes.func.isRequired,
-  alterarImagemFornecedor: PropTypes.func.isRequired
+  alterarImagemFornecedor: PropTypes.func.isRequired,
+  alterarCategoriaFornecedor: PropTypes.func.isRequired
 }
