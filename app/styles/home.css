@@ -2,12 +2,6 @@
     box-sizing: border-box;
 }
 
-#home-container {
-    margin: 0px auto;
-    height: 100%;
-    width: 100%;
-}
-
 #div-chart-bar {
     width: 50%;
     display: inline-block;
@@ -28,29 +22,13 @@
 
 #lista-de-pedidos {
     position: relative;
-}
-
-#header-home {
-    padding-bottom: 15px;
-}
-
-.title-header-home {
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-size: 25px;
-    font-weight: bold;
-    color: rgb(112, 123, 129);
-    position: relative;
-    left: 5px;
-}
-
-.home-menu-container {
-    padding-bottom: 20px;
+    height: 88%;
+    overflow: auto;
 }
 
 .home-charts-container {
     height: 400px;
     width: 85%;
-    margin: 0 auto;
 }
 
 .title-charts {
@@ -60,77 +38,62 @@
 }
 
 .home-content-container {
-    height:89%; 
-    width: 95%;
-    margin:0px auto;
+    width: 92%;
+    height: 100%;
+    margin: 0 auto;
+    padding-top: 10px;
 }
 
 .list-pedidos-container {
-    height: 60%; 
+    height: 42%;
+    min-height: 350px;
     width: 100%;
-    margin: 0px auto; 
-    padding-left: 45px;
+    margin: 0px auto;
     background-color: white;
     border-radius: 15px;
-    overflow: auto;
+    position: relative;
 }
 
 .list-pedidos-content {
     display: inline-block;
-    padding-right: 10px;
-    padding-top: 15px; 
+    padding-top: 15px;
     margin: 0px auto;
-}
-
-.div-informativos {
-    width: 90%;
-    padding: 20px 0 0 0;
-    height: 65px;
-    position: absolute;
-    z-index: 1;
-    background-color: white;
-}
-
-.lbl-informativos {
-    font-size: 22px;
-    font-weight: bold;
-    color: rgb(112, 123, 129);
-    position: relative;
-    left: 5px;
+    width: 210px;
+    max-width: 210px;
+    margin-right: 5px;
 }
 
 .div-teste {
     position: relative;
 }
 
-.div-informativos + #lista-de-pedidos {
-    padding-top: 50px;
-}
-
 .home-card {
     background-color: white; 
-    height: 31%;
+    height: 56%;
     width: 49.5%;
-    padding-bottom: 20px 20px 20px 20px;
+    padding: 20px;
     margin-top: 10px;
     display: inline-block;
     border-radius: 15px;
+    position: relative;
 }
 
-.div-home-cards {
-    width: 46.5%;
-    padding: 20px 0 0 0;
-    height: 65px;
-    position: absolute;
-    z-index: 1;
-    background-color: white;
-    padding-left: 45px;
-    border-radius: 15px;
+.home-card-loader {
+    width: 100%;
+    height: 95%;
+    position: relative;
 }
 
 .lbl-card {
-    font-size: 20px;
+    font-size: 130%;
     font-weight: bold;
     color: rgb(112, 123, 129);
     position: relative;
+}
+
+.sem-pedidos-recentes {
+    color: black;
+    font-size: 130%;
+    padding: 6.5%;
+    text-align: center;
 }

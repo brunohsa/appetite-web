@@ -1,0 +1,78 @@
+#btn-alterar-horario-funcionamento, #btn-cancelar-alteraracao-horario-funcionamento {
+    top: 9px;
+    background-color: rgb(183, 28, 28);
+    text-transform: capitalize;
+    width: 110px;
+    right: 20px;
+    color: white;
+    float: right;
+}
+
+.div-btns-horario-funcionamento {
+    padding: 14px;
+    display: inline-block;
+    position: relative;
+    float: right;
+}
+
+.container-configuracoes {
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    overflow: auto;
+    position: relative;
+}
+
+.container-conteudo {
+    width: 90%;
+    margin: 0px auto;
+    padding-top: 10px;
+}
+
+.conteudo-config {
+    margin-top: 10px;
+}
+
+.div-conteudo-config {
+    padding: 5px;
+    color: #282828;
+}
+
+.container-form-config {
+    width: 33%;
+    display: inline-block;
+}
+
+.input-forms-config {
+    width: 80%;
+}
+
+.imagem-fornecedor {
+    height: 170px;
+    width: 170px;
+    min-height: 150px;
+    min-width: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-imagem-fornecedor {
+    display: inline-block;
+    width: 10%;
+    float: left;
+    clear: both;
+    height: 180px;
+}
+
+.container-imagem-fornecedor > input {
+    display: none;
+}
+
+.container-informacoes-fornecedor {
+    display: inline-block;
+    width: 90%;
+    padding-left: 4%;
+    float: left;
+    position: relative;
+}

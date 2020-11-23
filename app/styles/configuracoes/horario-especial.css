@@ -1,0 +1,49 @@
+#btn-filtrar-horario-especial {
+    float: right;
+}
+
+#btn-adicionar-horario-especial, #btn-filtrar-horario-especial {
+    top: 9px;
+    background-color: rgb(183, 28, 28);
+    text-transform: capitalize;
+    width: 110px;
+    right: 20px;
+    color: white;
+}
+
+#date-picker-filtro {
+    width: 50%;
+}
+
+#date-picker-filtro-data-cadastro {
+    margin-right: 20px;
+}
+
+.container-hora-especial {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.div-data {
+    display: inline-block;
+    padding-right: 20px;
+}
+
+.container-horas {
+    display: inline-block;
+}
+
+.div-horas-inicio-termino {
+    display: inline-block;
+    position: relative;
+    padding-right: 20px;
+}
+
+.div-btn-adicionar-horario-especial {
+    position: relative;
+    float: right;
+}
+
+.div-filtrar-horario-especial {
+    float: right;
+}

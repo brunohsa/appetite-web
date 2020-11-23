@@ -1,7 +1,11 @@
+#card-pedido {
+  width: 100%;
+}
+
 .div-card-header {
-  height: 130px; 
+  height: 110px; 
+  line-height: 110px;
   text-align: center;
-  line-height: 130px;
 }
 
 .div-card-header-pendente {
@@ -25,11 +29,4 @@
   font-size: 25px;
   font-weight: bold;
   color: white;
-}
-
-.div-card-produtos {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  width: 100%;
 }

@@ -1,49 +1,94 @@
 import React, {Component} from 'react';
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+
+import Button from '@material-ui/core/Button';
+
+import AlertComponent from '../components/AlertComponent';
+
+import logoCardapio from '../../images/logo-cardapio.png';
 
 import '../../styles/main/main.css';
 import '../../styles/main/main-menu.css';
 
-import Button from '@material-ui/core/Button';
-import logoCardapio from '../../images/logo-cardapio.png';
-
 class Main extends Component {
 
-  render() {
+  constructor(props) {
+    super(props)
+
+    this.state = { }
+  }
+
+  navegar(path) {
+    this.props.history.push(path);
+  }
+
+  renderizarMenu() {
     return (
-      <div className='container'>
-        <div className='content'>
+      <div>
+        <ul className='ul-menu-principal'>
+            <li id='li-entrar' className='li'>
+              <div id='div-entrar'> <a id='link-entrar' href='/login'> Entrar </a> </div>
+            </li>
+            <li className='li'>
+              <div style={{color: 'white', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase', fontSize: '24px', paddingLeft: '20px', float: 'left'}}>
+                Appetito
+              </div>
+            </li>
+        </ul>
+      </div>
+    )
+  }
 
+  renderizarCorpo() {
+    return (
+      <div style={{height: '90%', width: '100%'}}>
+        <div style={{height: '50%', width: '100%',margin: 'auto', position: 'relative', display: 'flex', alignItems: 'center', paddingTop: '40px'}}>
+          <img src={logoCardapio} style={{maxWidth: '15%', maxHeight: '250px', margin: 'auto'}} />
+        </div>
+        <div style={{textAlign: 'center', position: 'relative',  height: '15%', width: '60%', margin: '0px auto'}}>
+          <span style={{fontSize: '200%', fontFamily: 'Arial', fontWeight: '700', lineHeight: '1', color: 'rgb(183, 28, 28)'}}> 
+            Não deixe para amanhã, o que você pode comer hoje.
+          </span>
           <div>
-            <ul style={{height: '80px', width: '100%',backgroundColor: '#b71c1c', textAlign: 'center'}}>
-                <li style = {{float: 'right'}}>
-                  <div> <a id='main' href='/login'>Entrar</a> </div>
-                </li>
-                <li>
-                  <div style={{color: 'white', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase', fontSize: '24px', paddingLeft: '20px'}}> Appetite </div>
-                </li>
-            </ul>
-          </div>
-
-          <div style={{height: '40%', width: '100%',margin: 'auto',position: 'relative', display: 'flex', alignItems: 'center'}}>
-            <img src={logoCardapio} style={{maxWidth: '230px', maxHeight: '200px', margin: 'auto'}} />
-          </div>
-
-          <div style={{textAlign: 'center', position: 'relative',  height: '15%', width: '100%', display: 'grid', alignItems: 'center'}}>
-            <span style={{fontSize: '48px', fontFamily: 'Roboto Condensed, sans-serif', fontWeight: '700', lineHeight: '1', textTransform: 'uppercase', color: 'rgb(183, 28, 28)'}}> 
-              ALGUM TEXTO CHAMATIVO 
+            <br/>
+            <span style={{fontSize: '200%', fontFamily: 'Arial', fontWeight: '700', lineHeight: '1', color: 'rgb(183, 28, 28)'}}> 
+              Buon Appetito !
             </span>
           </div>
-
-          <div style={{margin: 'auto', position: 'relative', height: '30%', width: '100%', display: 'flex', alignItems: 'center'}}>
-              <Button id="btn-cadastro" variant="contained" style={{margin: 'auto', height: '50px', backgroundColor: 'rgb(183, 28, 28)', color: 'white', borderRadius: '0px', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase'}}> 
-                Cadastre-se 
-              </Button>
-          </div>
         </div>
+        <div style={{margin: 'auto', position: 'relative', height: '20%', width: '100%', display: 'flex', alignItems: 'center'}}>
+            <Button 
+                id="btn-cadastro" 
+                variant="contained"  
+                style={{margin: 'auto', height: '50px', backgroundColor: 'rgb(183, 28, 28)', color: 'white', borderRadius: '0px', fontWeight: '700', lineHeight: '1.6', textTransform: 'uppercase'}} 
+                onClick={() => this.navegar('/cadastro')}> 
+              Cadastre-se 
+            </Button>
+        </div>
+      </div>
+    )
+  }
+  
+  render() {
+    
+    return (
+      <div className='container'>
+          <div className='content'>
+            { this.renderizarMenu() }
+            <AlertComponent />
+            { this.renderizarCorpo() }
+          </div>
       </div>
     );
   }
 
 }
 
-export default Main;
+const mapStateToProps = (state) => {
+	return {
+		erroStore: state.erro
+	}
+}
+
+export default withRouter(connect(mapStateToProps)(Main))

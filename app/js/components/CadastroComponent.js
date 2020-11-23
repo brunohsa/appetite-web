@@ -1,14 +1,20 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles, withTheme } from '@material-ui/core/styles';
+
+import { connect } from 'react-redux'
+
+import { withRouter } from "react-router-dom";
+
 import clsx from 'clsx';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import Check from '@material-ui/icons/Check';
 import StepConnector from '@material-ui/core/StepConnector';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+
+import LoaderComponent from './LoaderComponent'
+
 import FormAcesso from './cadastro/FormAcesso'
 import FormEndereco from './cadastro/FormEndereco'
 import FormInformacoes from './cadastro/FormInformacoes'
@@ -36,7 +42,8 @@ const QontoConnector = withStyles({
   },
 })(StepConnector);
 
-const useQontoStepIconStyles = makeStyles({
+
+const styles = theme => ({
   root: {
     color: '#eaeaf0',
     display: 'flex',
@@ -57,32 +64,6 @@ const useQontoStepIconStyles = makeStyles({
     zIndex: 1,
     fontSize: 18,
   },
-});
-
-function QontoStepIcon(props) {
-  const classes = useQontoStepIconStyles();
-  const { active, completed } = props;
-
-  return (
-    <div
-      className={clsx(classes.root, {
-        [classes.active]: active,
-      })}
-    >
-      {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-    </div>
-  );
-}
-
-QontoStepIcon.propTypes = {
-  active: PropTypes.bool,
-  completed: PropTypes.bool,
-};
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    width: '100%',
-  },
   button: {
     marginRight: theme.spacing(1),
   },
@@ -90,85 +71,130 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
   },
-}));
+    
+})
 
-function getSteps() {
-  return ['Acesso', 'Suas informações', 'Endereço'];
-}
+class CadastroComponent extends Component {
 
-export default function CadastroComponent() {
-  const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
-  
-  function renderForm() {
-    switch(activeStep) {
-      case 0 :
-        return <FormAcesso voltar={() => acaoVoltar()} proximo={() => acaoProximo()}  class={classes.button}/>
-      case 1 :
-        return <FormInformacoes voltar={() => acaoVoltar()} proximo={() => acaoProximo()}  class={classes.button}/>
-      case 2 :
-        return <FormEndereco voltar={() => acaoVoltar()} proximo={() => acaoProximo()}  class={classes.button}/>
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      activeStep: 0,
+      enderecoEnviadoParaPersistencia: false
+    }
+
+    this.QontoStepIcon = this.QontoStepIcon.bind(this)
+    this.acaoVoltar = this.acaoVoltar.bind(this)
+    this.acaoProximo = this.acaoProximo.bind(this)
+  }
+
+  componentDidUpdate() {
+    let { fornecedor, cadastroStore } = this.props
+    if(fornecedor.cadastroRealizado && cadastroStore.enderecoCadastrado) {
+      localStorage.setItem('podeRedirecionar', true);
+      this.props.history.push('/home');
     }
   }
 
-  function acaoVoltar() {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  renderForm() {
+    let { classes, loginFornecedor, informacoesFornecedor, enderecoFornecedor, buscarEnderecoPorCEP } = this.props;
+    switch(this.state.activeStep) {
+      case 0 :
+        return <FormAcesso loginFornecedor={loginFornecedor} voltar={this.acaoVoltar} proximo={this.acaoProximo} class={classes.button}/>
+      case 1 :
+        return <FormInformacoes informacoesFornecedor={informacoesFornecedor} voltar={this.acaoVoltar} proximo={this.acaoProximo}  class={classes.button}/>
+      case 2 :
+        return <FormEndereco enderecoFornecedor={enderecoFornecedor} buscarEnderecoPorCEP={buscarEnderecoPorCEP} voltar={this.acaoVoltar} proximo={this.acaoProximo} class={classes.button} />
+    }
   }
 
-  function acaoProximo() {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
+  acaoVoltar() {
+    let stepAtual = this.state.activeStep - 1;
+    this.setState({ activeStep: stepAtual })
   }
 
-  function renderButtons() {
-    return <div>
-      <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}> Voltar </Button>
-      <Button variant="contained" color="primary" onClick={handleNext} className={classes.button}>
-        {activeStep === steps.length - 1 ? 'Finalizar' : 'Próximo'}
-      </Button>
-    </div>
+  acaoProximo(endereco) {
+    let totaisSteps = this.getSteps().length
+    let stepAtual = this.state.activeStep + 1;
+    let step = stepAtual == totaisSteps ? totaisSteps - 1 : stepAtual
+    this.setState({ activeStep: step })
+
+    if(stepAtual != this.getSteps().length) {
+      return
+    }
+
+    let { fornecedor, cadastroStore } = this.props
+    if(!fornecedor.cadastroRealizado) {
+      this.props.salvarFornecedor(fornecedor.login, fornecedor.informacoes, endereco)
+    } else if(!cadastroStore.enderecoCadastrado) {
+      this.props.adicionarEndereco(endereco)
+    }
   }
 
-  function handleNext() {
-    setActiveStep(prevActiveStep => prevActiveStep + 1);
-  };
-
-  function handleBack() {
-    setActiveStep(prevActiveStep => prevActiveStep - 1);
-  };
-
-  function handleReset() {
-    setActiveStep(0);
-  };
-
-  function renderFormPreenchido() {
-    return <div>
-      <Typography className={classes.instructions}>
-        All steps completed - you&apos;re finished
-      </Typography>
-      <Button onClick={handleReset} className={classes.button}>
-        Reset
-      </Button>
-    </div>
+  handleReset() {
+    this.setState({ activeStep: 0 })
   }
 
-  return (
-      <div style={{height: '100%', width: '60%', margin: '0px auto', paddingTop: '30px'}}>
-        <Stepper style={{backgroundColor: '#F0F0F0'}} alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
-          {steps.map(label => (
-            <Step key={label}>
-              <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <div>
-          { activeStep === steps.length ? 
-            (renderFormPreenchido()) : 
-            (<div>
-              <div style={{textAlign: 'center'}}> { renderForm() } </div>                          
-            </div>)
-          }
-        </div>
+  QontoStepIcon(propsStep) {
+    let { active, completed } = propsStep;
+    let { classes } = this.props;
+
+    return (
+      <div className={clsx(classes.root, {[classes.active]: active })} >
+        { completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
       </div>
-  );
+    );
+  }
+
+  getSteps() {
+    return ['Acesso', 'Suas informações', 'Endereço'];
+  }
+
+  render() {
+    let { activeStep } = this.state
+    let { fornecedor, cadastroStore, erroStore } = this.props
+
+    let abrirLoader = ((!fornecedor.cadastroRealizado || !cadastroStore.enderecoCadastrado) && cadastroStore.fazendoCadastro && !erroStore.mensagem)
+    return (
+        <div  style={{height: '100%', width: '100%', position: 'relative'}}>
+          { 
+            abrirLoader ? <LoaderComponent /> : null 
+          }
+          <div style={{height: '100%', width: '60%', margin: '0px auto', paddingTop: '30px'}}>
+            <Stepper style={{backgroundColor: '#F0F0F0'}} alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
+              {
+                this.getSteps().map(label => (
+                  <Step key={label}>
+                    <StepLabel StepIconComponent={this.QontoStepIcon}> {label} </StepLabel>
+                  </Step>
+                ))
+              }
+            </Stepper>
+            <div style={{textAlign: 'center'}}> 
+              { this.renderForm() } 
+            </div>
+          </div>
+        </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+      fornecedor: state.fornecedor,
+      cadastroStore: state.cadastro,
+      erroStore: state.erro
+  }
+}
+
+export default withStyles(styles)(withTheme(withRouter(connect(mapStateToProps)(CadastroComponent))))
+
+CadastroComponent.propTypes = {
+  loginFornecedor: PropTypes.func.isRequired,
+  informacoesFornecedor: PropTypes.func.isRequired,
+  enderecoFornecedor: PropTypes.func.isRequired,
+  salvarFavorecido: PropTypes.func.isRequired,
+  buscarEnderecoPorCEP: PropTypes.func.isRequired,
+  adicionarEndereco: PropTypes.func.isRequired,
 }

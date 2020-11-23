@@ -32,13 +32,13 @@
 }
 
 .container-detalhes {
-  width: 30%;
-  min-height: 855px;
-  height: 91.5%;
+  width: 600px;
+  height: 100%;
+  min-height: 600px;
   background-color: #F0F0F0;
-  position: absolute;
+  position: fixed;
   float: right;
-  top: 80px;
+  top: 64px;
   right: 0;
   z-index: 1;
   box-shadow: 1.5px 0 8px -0.5px #888;
@@ -100,6 +100,7 @@
 .coluna-itens {
     position: relative;
     display: inline-block;
+    text-align: center;
 }
 
 .card-itens-pedido {

@@ -6,10 +6,12 @@ module.exports = {
         publicPath: '/'
     },
     devServer: {
-        inline: true,
         contentBase: './public',
+        host: 'localhost',
         port: 3000,
-        historyApiFallback: true
+        hot: true,
+        historyApiFallback: true,
+        inline: true,
     },
     module: {
         rules: [

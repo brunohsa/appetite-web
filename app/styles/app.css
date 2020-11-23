@@ -1,4 +1,8 @@
-body, html, #app {
+#app {
+  overflow: hidden;
+}
+
+body, html, #app, #root {
   height: 100%;
   width: 100%;
   background-color: #F0F0F0;

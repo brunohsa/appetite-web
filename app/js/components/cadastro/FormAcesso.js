@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+
+
+import { connect } from 'react-redux'
 
 const REGEX_CAMPO_EMAIL = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
 const REGEX_SENHA_FORTE = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/
@@ -15,15 +19,16 @@ class FormAcesso extends Component {
   constructor(props) {
     super(props)
 
+    let { login } = this.props.fornecedorStore
     this.state = {
       erros: {
         email: '',
         senha: '',
         confirmacaoSenha: ''
       },
-      email: '',
-      senha: '',
-      confirmarSenha: ''
+      email: login ? login.email : '',
+      senha: login ? login.senha : '',
+      confirmarSenha: login ? login.senha : ''
     }
   }
 
@@ -37,6 +42,12 @@ class FormAcesso extends Component {
     if(!this.camposValidos()) {
       return
     }
+    
+    let login = {
+      email: this.state.email, 
+      senha: this.state.senha
+    }
+    this.props.loginFornecedor(login)
     this.props.proximo();  
   }
 
@@ -101,6 +112,7 @@ class FormAcesso extends Component {
           <TextField id="txtEmail" 
                      label="Email"
                      margin="normal"
+                     required
                      value={state.email}
                      error={erros.email !== ''} 
                      helperText={erros.email}
@@ -112,6 +124,7 @@ class FormAcesso extends Component {
                      label="Senha"
                      type="password" 
                      margin="normal"
+                     required
                      value={state.senha}
                      error={erros.senha !== ''} 
                      helperText={erros.senha}
@@ -123,6 +136,7 @@ class FormAcesso extends Component {
                      label="Confirmar Senha"
                      type="password"
                      margin="normal"
+                     required
                      value={state.confirmarSenha}
                      error={erros.confirmacaoSenha !== ''} 
                      helperText={erros.confirmacaoSenha}
@@ -138,4 +152,17 @@ class FormAcesso extends Component {
   }
 }
 
-export default FormAcesso
+const mapStateToProps = (state) => {
+  return {
+      fornecedorStore: state.fornecedor
+  }
+}
+
+export default connect(mapStateToProps)(FormAcesso)
+
+FormAcesso.propTypes = {
+  loginFornecedor: PropTypes.func.isRequired,
+  voltar: PropTypes.func.isRequired,
+  proximo: PropTypes.func.isRequired,
+  class: PropTypes.string.isRequired
+}

@@ -1,156 +1,66 @@
 import React, {Component}from 'react';
+import { connect } from 'react-redux'
 
 import MenuApp from '../components/MenuApp';
-import CardPedido from '../components/CardPedido';
-import DetalhesPedido from '../components/DetalhesPedido';
+import HomeComponent from '../components/HomeComponent';
+
+import carrinhoAPI from '../redux/api/carrinhoAPI'
+import cardapioAPI from '../redux/api/cardapioAPI'
+
+import carrinhoActions from '../redux/actions/creators/carrinhoActionCreators'
+import cardapioActions from '../redux/actions/creators/cardapioActionCreators'
 
 import '../../styles/home.css';
-
-let pedidos = [
-  {
-    id: '1234',
-    numero: '00000001',
-    status: 'PENDENTE',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      },
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'Coca-Cola',
-        quantidade: 1,
-        valor: 2.50
-      }
-    ],
-    cliente: {
-      nome: 'Bruno Araujo',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000002',
-    status: 'PREPARANDO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      }
-    ],
-    cliente: {
-      nome: 'Bruno Araujo',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000003',
-    status: 'CONCLUIDO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00
-      }
-    ],
-    cliente: {
-      nome: 'Beatriz Carvalho',
-      telefone: '(19) 98356-2724'
-    }
-  },
-  {
-    id: '1234',
-    numero: '00000004',
-    status: 'CANCELADO',
-    produtos: [
-      {
-        id: '5dcc9cae11ca5339e8b762d5',
-        nome: 'X-Tudo',
-        quantidade: 2,
-        valor: 10.00,
-        observacao: 'Sem Tomate'
-      }
-    ],
-    cliente: {
-      nome: 'Beatriz Carvalho',
-      telefone: '(19) 98356-2724'
-    }
-  }
-]
+import '../../styles/common.css';
 
 class Home extends Component {
 
     constructor(props) {
       super(props)
-
-      this.state = {
-          abrirDetalhes: false,
-          pedido: null
-      }
     }
 
-    abrirDetalhesDoPedido(pedido) {
-      this.setState({
-        abrirDetalhes: true,
-        pedido: pedido
-      })
-    }
-
-    fecharDetalhesDoPedido() {
-      this.setState({
-        abrirDetalhes: false
-      })
+    componentDidMount() {
+      this.props.buscarUltimosPedidos()
+      this.props.buscarProdutosMelhoresAvaliados()
+      this.props.buscarProdutosMaisVendidos()
     }
 
     render() {
         return (
-          <div id='home-container'>
-            <div className='home-menu-container'>
+          <div style={{height: '100%', width: '100%'}}>
+            <div> 
               <MenuApp />
             </div>
-            <div className='home-content-container'>
-              <div id='header-home'> 
-                <span className='title-header-home'> Resumo </span> 
-              </div>
-              <div className='list-pedidos-container'>
-                <div className='div-informativos'>
-                  <span className='lbl-informativos'> Últimos Pedidos </span>
-                </div>
-                <div id='lista-de-pedidos'>
-                  { 
-                    pedidos.map(pedido => 
-                      <div id={pedido.id} className='list-pedidos-content' onClick={() => this.abrirDetalhesDoPedido(pedido)}> 
-                        <CardPedido pedido={pedido} /> 
-                      </div>
-                    )
-                  }
-                </div>
-              </div>
-              <div className='home-card'>
-                <div className='div-home-cards'>
-                  <span className='lbl-card'> Mais Vendidos </span>
-                </div>
-              </div>
-              <div className='home-card' style={{float: 'right'}}>
-                <div className='div-home-cards'>
-                  <span className='lbl-card'> Melhores Avalidados </span>
-                </div>
-              </div>
+            <div style={{height: '90%', overflow: 'auto'}}> 
+              <HomeComponent /> 
             </div>
-            { 
-              this.state.abrirDetalhes ? <DetalhesPedido pedido={this.state.pedido} fecharDetalhesDoPedido={() => this.fecharDetalhesDoPedido()}/> : null
-            }
           </div>
-        );
+        )
     }
 }
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+      carrinho: state.carrinho,
+      erro: state.erro
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      buscarUltimosPedidos: () => {
+          dispatch(carrinhoActions.startLoaderResumoPedidos());
+          dispatch(carrinhoAPI.buscarUltimosPedidos());
+      },
+      buscarProdutosMelhoresAvaliados: () => {
+        dispatch(cardapioActions.startLoaderBuscaProdutosMelhoresAvaliados());
+        dispatch(cardapioAPI.buscarProdutosMelhoresAvaliados());
+      },
+      buscarProdutosMaisVendidos: () => {
+        dispatch(cardapioActions.startLoaderBuscaPedidosMaisVendidos());
+        dispatch(cardapioAPI.buscarProdutosMaisVendidos());
+      }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

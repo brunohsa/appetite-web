@@ -1,0 +1,54 @@
+.titulo {
+  font-size: 16px;
+  color: rgb(112, 123, 129);
+  font-weight: bold;
+}
+
+.texto {
+  font-size: 15px;
+  font-weight: unset;
+  color: rgb(112, 123, 129);
+}
+
+.container-conteudos {
+  border-radius: 10px;
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.container-sem-itens {
+  height: 100px;
+  border: 1px solid rgb(214, 214, 214);
+  border-top: none;
+  background-color: #F8F8F8;
+  text-align: center;
+  margin: auto;
+  vertical-align: middle;
+  position: relative;
+  line-height: 100px;
+  height: 85%;
+}
+
+.ellipsis-texts{
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+}
+
+.alert-container {
+  opacity: 1;
+  width: 400px; 
+  padding: 10px;
+  position: absolute;
+  right: 0px;
+  z-index: 999999;
+  visibility: hidden;
+}
+
+.alert-container.show {
+  opacity: 0;
+  transition: all 10s;
+  visibility: visible;
+}

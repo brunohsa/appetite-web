@@ -21,7 +21,6 @@
     min-width: 300px;
     height: 100%;
     display: inline-block;
-    border-right: 1px solid #d6d6d6;
     position: relative;
     z-index: 2;
 }
@@ -31,6 +30,7 @@
     min-width: 300px;
     height: 100%;
     background-color: rgba(255, 255, 255, 0.9) ;
+    border-left: 1px solid #d6d6d6;
     display: inline-block;
     position: absolute;
     z-index: 1;

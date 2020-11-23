@@ -6,3 +6,8 @@ public/bundle.js
 public/images/
 
 package-lock.json
+
+public/*.json
+public/*.js
+
+v8-compile-cache-0/
