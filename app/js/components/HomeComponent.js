@@ -88,7 +88,7 @@ class HomeComponent extends Component {
 
     renderizarMaisPedidos() {
       let { buscandoPedidosMaisVendidos } = this.props.cardapioStore
-      let itensPorPagina = Math.trunc((window.screen.height * 0.30) / 53)
+      let itensPorPagina = Math.trunc((window.screen.height * 0.25) / 53)
       return (
         <div className='home-card'>
           <span className='titulo'> Mais Vendidos </span>
@@ -105,7 +105,7 @@ class HomeComponent extends Component {
 
     renderizarMelhoresAvaliados() {
       let { buscandoProdutosMelhoresAvaliados } = this.props.cardapioStore
-      let itensPorPagina =  Math.trunc((window.screen.height * 0.30) / 53)
+      let itensPorPagina =  Math.trunc((window.screen.height * 0.25) / 53)
       return (
         <div className='home-card' style={{float: 'right'}}>
           <span className='titulo'> Melhores Avalidados </span>

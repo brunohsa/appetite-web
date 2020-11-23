@@ -15,9 +15,26 @@ class Pedidos extends Component {
 	constructor(props) {
 		super(props)
 
-		this.buscarPedidos()
+		this.state = {
+			intervalId: null
+		}
 		
+		this.buscarPedidos()
 		this.alterarStatusPedido = this.alterarStatusPedido.bind(this)
+	}
+
+	componentDidMount() {
+		let intervalId = setInterval(() => this.buscarPedidosTimer(), 10000);
+		this.setState({intervalId: intervalId});
+	}
+
+	buscarPedidosTimer() {
+		this.props.buscarPedidosPendentePreparacaoTimer();
+		this.props.buscarPedidosEmPreparoTimer();
+	}
+
+	componentWillUnmount() {
+		clearInterval(this.state.intervalId);
 	}
 
 	alterarStatusPedido(id, novoStatus) {
@@ -33,7 +50,6 @@ class Pedidos extends Component {
 	}
 
 	render() {
-		let { alterarStatusPedido } = this.props
 		return (
 			<div style={{height: '100%', width: '100%'}}>
                 <div> <MenuApp /> </div>
@@ -73,7 +89,13 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		alterarStatusPedido: (id, novoStatus) => {
 			dispatch(carrinhoAPI.alterarStatusPedido(id, novoStatus));
-		}
+		},
+		buscarPedidosPendentePreparacaoTimer: () => {
+			dispatch(carrinhoAPI.buscarPedidosPendentePreparacao());
+		},
+		buscarPedidosEmPreparoTimer: () => {
+			dispatch(carrinhoAPI.buscarPedidosEmPreparo());
+		},
 	}
 }
   

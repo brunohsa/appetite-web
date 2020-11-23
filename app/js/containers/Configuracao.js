@@ -48,6 +48,10 @@ const mapDispatchToProps = (dispatch) => {
     	buscarCadastro: () => {
         	dispatch(cadastroAPI.buscarCadastro());
 		},
+		alterarCategoriaFornecedor: (Categoria) => {
+			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
+        	dispatch(cadastroAPI.alterarCategoriaFornecedor(Categoria));
+		},
 		buscarHorariosFuncionamento: () => {
 			dispatch(cadastroAPI.buscarHorariosFuncionamento());
 		},
@@ -76,14 +80,6 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		buscarSubcategorias: () => {
 			dispatch(cardapioAPI.buscarSubcategorias());
-		},
-		alterarCategoriaFornecedor: () => {
-			dispatch(cadastroActions.startLoaderTelaConfiguracoes());
-			dispatch(mensagemActions.limparMensagens());
-			setTimeout(() => {
-				dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
-				dispatch(mensagemActions.apresentarMensagemSucesso("Categoria alterada com sucesso."));
-			}, 250)
 		}
     }
 }

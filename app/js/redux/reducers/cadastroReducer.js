@@ -51,7 +51,12 @@ export function cadastroReducers(state = {}, action) {
             return { 
                 ...state, 
                 imagemFornecedor: action.imagem
-            };            
+            };
+        case actionTypes.CATEGORIA_FORNECEDOR_ATUALIZADA:
+            return { 
+                ...state, 
+                cadastro: action.cadastro,
+            }; 
         default:
             return state;
     }

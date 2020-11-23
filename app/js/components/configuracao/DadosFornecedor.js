@@ -16,6 +16,57 @@ import configs from '../../redux/configuracoes'
 import '../../../styles/configuracoes/configuracao.css';
 import '../../../styles/common.css';
 
+const categorias = [
+  {
+    id: 'LANCHES',
+    titulo: 'Lanches',
+  },
+  {
+    id: 'BOLO_E_DOCES',
+    titulo: 'Bolos e Doces',
+  },
+  {
+    id: 'PIZZA',
+    titulo: 'Pizza',
+  },
+  {
+    id: 'JAPONESA',
+    titulo: 'Comida Japonesa',
+  },
+  {
+    id: 'BRASILEIRA',
+    titulo: 'Comida Brasileira',
+  },
+  {
+    id: 'ITALIANA',
+    titulo: 'Comida Italiana',
+  },
+  {
+    id: 'CHINESA',
+    titulo: 'Comida Chinesa',
+  },
+  {
+    id: 'ARABE',
+    titulo: 'Comida Árabe',
+  },
+  {
+    id: 'COMBOS',
+    titulo: 'Combos',
+  },
+  {
+    id: 'BEBIDAS',
+    titulo: 'Bebidas',
+  },
+  {
+    id: 'CALDOS',
+    titulo: 'Caldos',
+  },
+  {
+    id: 'OUTROS',
+    titulo: 'Outros',
+  },
+];
+
 const CustomFormControl = withStyles({
   root: {
     '& .MuiSelect-root': {
@@ -33,7 +84,7 @@ class DadosFornecedor extends Component {
 
     this.state = {
       imagem: null,
-      subcategoria: ''
+      categoria: ''
     }
 
     this.alterarImagem = this.alterarImagem.bind(this)
@@ -152,12 +203,12 @@ renderizarImagem() {
   )
 }
 
-atualizarSubcategoria(event) {
-  this.setState({subcategoria: event.target.value})
+atualizarCategoria(event) {
+  this.setState({categoria: event.target.value})
 }
 
-renderizarSubcategorias() {
-  let { subcategorias } = this.props.cardapioStore
+renderizarCategoria() {
+  let { cadastro } = this.props.cadastroStore
   return (
     <div className='container-form-config'>
       <span className='texto'> Categoria </span>
@@ -166,12 +217,12 @@ renderizarSubcategorias() {
           <Select
             labelId="demo-simple-select-outlined-label"
             id="txt-subcategoria"
-            value={this.state.subcategoria}
-            onChange={(e) => this.atualizarSubcategoria(e)}
-            onBlur={() => this.props.alterarCategoriaFornecedor()}
+            value={this.state.categoria ? this.state.categoria : cadastro ? cadastro.categoria : null}
+            onChange={(e) => this.atualizarCategoria(e)}
+            onBlur={() => this.props.alterarCategoriaFornecedor(this.state.categoria)}
           >
           { 
-            subcategorias ? subcategorias.map(s => <MenuItem value={s.id}> { s.descricao } </MenuItem> ) : null
+            categorias.map(s => <MenuItem value={s.id}> { s.titulo } </MenuItem> )
           }
           </Select>
         </CustomFormControl>
@@ -191,7 +242,7 @@ render() {
           { this.criarConteudoVisualizar('Nome Fantasia', pessoa ? pessoa.nome_fantasia : '') }
           { this.criarConteudoVisualizarCNPJ(pessoa) }
           { this.criarConteudoVisualizarTelefone(pessoa) }
-          { this.renderizarSubcategorias() }
+          { this.renderizarCategoria() }
         </div>
       </div>
     )
@@ -200,8 +251,7 @@ render() {
 
 const mapStateToProps = (state) => {
   return {
-      cadastroStore: state.cadastro,
-      cardapioStore: state.cardapio,
+      cadastroStore: state.cadastro
   }
 }
 

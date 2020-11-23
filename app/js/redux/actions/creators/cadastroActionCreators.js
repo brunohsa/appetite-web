@@ -9,6 +9,13 @@ let cadastroActions = {
         }
     },
 
+    categoriaFornecedorAlterada(cadastro) {
+        return {
+            type: actionTypes.CATEGORIA_FORNECEDOR_ATUALIZADA, 
+            cadastro: cadastro
+        }
+    },
+
     horariosFuncionamentoEncontrados(horarios) {
         return {
             type: actionTypes.HORARIOS_FUNCIONAMENTO_ENCONTRADO, 

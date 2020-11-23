@@ -21,6 +21,22 @@ let cadastroAPI = {
         return requisicoesAjax.get(getToken(), url, acao, customCatch)
     },
 
+    alterarCategoriaFornecedor(categoria) {
+        let acao = (response, dispatch) => {
+            dispatch(cadastroActions.categoriaFornecedorAlterada(response.body));
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+            return response
+        }
+        let body = JSON.stringify({
+            categoria: categoria
+        })
+        let customCatch = (dispatch) => {
+            dispatch(cadastroActions.stopLoaderTelaConfiguracoes());
+        }
+        let url = `${configs.URL_MS_CADASTRO}${CADASTRO_BASE_URL}/alterar-categoria`
+        return requisicoesAjax.put(getToken(), body, url, acao, customCatch)
+    },
+
     alterarHorariosFuncionamento(horariosFuncionamento) {
         let acao = (response, dispatch) => {
             dispatch(mensagemActions.apresentarMensagemSucesso('Horário alterado com sucesso.'))
